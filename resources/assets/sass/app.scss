@@ -1,0 +1,54 @@
+
+// Fonts
+//@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
+
+// Variables
+// @import "variables";
+$custom-file-text: (
+    placeholder: (
+      en: "Choose file...",
+      es: "Seleccionar archivo...",
+      pt-br: "Selecione o arquivo"
+    ),
+    button-label: (
+      en: "Browse",
+      es: "Navegar",
+      pt-br: "Selecionar"
+    )
+);
+// Bootstrap
+@import "~bootstrap/scss/bootstrap";
+
+// font Awesome
+@import "~font-awesome/scss/font-awesome";
+
+body {
+    background-color: #ecf0f1;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+header {
+    nav {
+        padding-top: 5px;
+    }
+    a {
+        i {
+            //color: white;
+        }
+        span {
+            color: white;
+        }
+    }
+}
+
+#week-table {
+   thead.thead-inverse {
+       background-color: #4A5459;
+   }
+}
+
+.bg-custom-primary {
+    background-color: #4A5459; 
+    color: whitesmoke;
+}
