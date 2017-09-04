@@ -16,5 +16,8 @@ class WorkSchedule extends Model
 
     public function employee () {
         return $this->belongsTo('Horus\Models\Employee');
-    } 
+    }
+    
+    public function exchangeBetweenWorkingHours() {
+    }
 }

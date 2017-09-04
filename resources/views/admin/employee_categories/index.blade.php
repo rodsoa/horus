@@ -1,11 +1,36 @@
 @extends('layouts.base')
 
 @section('content')
+    @if( session('status') && session('type') == 'success' )
+        <div class="alert alert-success text-center" role="alert">
+            <strong>{{ session('status') }}</strong>
+        </div>
+    @endif
+
+    @if( session('status') && session('type') == 'error' )
+        <div class="alert alert-danger text-center" role="alert">
+            <strong>{{ session('status') }}</strong>
+        </div>
+    @endif
     <div class="row">
         <div class="col-sm-12 col-md-6 col-lg-6">
             <a role="button" class="btn btn-primary" href="{{ action('Admin\EmployeeCategoriesController@new') }}">
                 <i class="fa fa-plus-circle fa-fw"></i>Novo
             </a>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-6">
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <button class="btn btn-secondary" type="button">
+                        <i class="fa fa-cog fa-fw"></i>
+                    </button>
+                </span>
+                <input type="text" class="form-control" placeholder="Search for..." aria-label="Search for...">
+                <span class="input-group-btn">
+                    <button class="btn btn-secondary" type="button">Pesquisar</button>
+                </span>
+            </div>
         </div>
     </div>
 
@@ -13,24 +38,61 @@
     
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-12">
-            <table class="table table-sm table-bordered table-responsive">
+            <table class="table table-sm table-hover table-responsive">
                 <thead>
                     <tr>
                         <th>Status</th>
-                        <th>Nome</th>
-                        <th>Ações</th>
+                        <th colspan="2">Nome</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach( $categories as $category)
                     <tr>
-                        <td>{{ $category->status }}</td>
+                        <td>
+                        @if( $category->status )
+                            <i class="fa fa-check-circle-o" style="color: green;"></i>
+                        @endif
+
+                        @if( !$category->status )
+                            <i class="fa fa-times-circle" style="color: red;"></i>
+                        @endif
+                        </td>
                         <td>{{ $category->name }}</td>
-                        <td></td>
+                        <td class="text-right">
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                <a role="button" class="btn btn-secondary" href="{{ action('Admin\EmployeeCategoriesController@edit', ['id' => $category->id ]) }}"><i class="fa fa-pencil"></i> editar</a>
+                            </div>
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                <button id="delete-{{ $category->id }}" type="submit" class="btn btn-danger" onclick="deleteCategory({{ $category->id }})">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
     </div>
+@endsection
+
+@section('js')
+<script>
+    function deleteCategory ( id ) {
+        var url = window.location.href + '/' + id + '/deletar';
+
+        if( confirm("Tem certeza em realizar essa ação ?") ) {
+            // TODO: Fazer callback mais atraente para essa requisição
+            axios.delete(url)
+             .then( function (data) {
+                 alert('Registro apagado com sucesso.');
+             })
+             .catch( function (error) {
+                 alert('Ocorreu algum erro. Repita a operação.');
+             });
+
+            location.reload();
+        }
+    }
+</script>
 @endsection

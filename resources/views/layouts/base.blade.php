@@ -11,7 +11,7 @@
             @show()
     </head>
 
-    <body>
+    <body id="app">
 
         <header class="container">
             @include("includes.header")
@@ -20,7 +20,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-12 col-md-12 col-lg-12">
-                    <div class="card">
+                    <div class="card custom">
                         <div class="card-body">
                             @yield('content')
                         </div>
@@ -32,8 +32,8 @@
         <footer>
             @include("includes.footer")
         </footer>
-
-        <script src="/js/app.js"></script>
+        
+        <script src="{{ asset('js/app.js') }}"></script>
         
         @section('js')
             @show()

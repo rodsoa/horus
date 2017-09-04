@@ -58,9 +58,15 @@
 
             <div class="btn-group mr-2" role="group" aria-label="Second group">
                 @if( count($building->work_schedules) )
-                    <a role="button" class="btn btn-secondary" href="{{ action('Admin\WorkSchedulesController@editFromBuilding', ['id' => $building->id]) }}">
-                        <i class="fa fa-table fa-fw">&nbsp;</i>escala
-                    </a>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-table fa-fw"></i>Gerenciar escalas
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="{{ action('Admin\WorkSchedulesController@editFromBuilding', ['id' => $building->id]) }}"><i class="fa fa-pencil fa-fw"></i>editar escala</a>
+                            <a class="dropdown-item" href="{{ action('Admin\WorkSchedulesController@newFromBuilding', ['id' => $building->id]) }}"><i class="fa fa-plus fa-fw"></i>adicionar escala</a>
+                        </div>
+                    </div>
                 @else
                     <a role="button" class="btn btn-secondary" href="{{ action('Admin\WorkSchedulesController@newFromBuilding', ['id' => $building->id]) }}">
                         <i class="fa fa-table fa-fw">&nbsp;</i>escala

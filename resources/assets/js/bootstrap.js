@@ -6,13 +6,13 @@ window._ = require('lodash');
  * for JavaScript based Bootstrap features such as modals and tabs. This
  * code may be modified to fit the specific needs of your application.
  */
+window.$ = window.jQuery = require('jquery');
 
-try {
-    window.$ = window.jQuery = require('jquery');
+import Popper from 'popper.js';
 
-    require('popper.js');
-    require('bootstrap');
-} catch (e) {}
+window.Popper = Popper;
+
+require('bootstrap');
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests

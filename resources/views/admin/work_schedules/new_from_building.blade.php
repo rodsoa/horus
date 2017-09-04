@@ -1,6 +1,15 @@
 @extends('layouts.base')
 
 @section('content')
+
+@if( session('errors') )
+    @foreach( session('errors') as $error )
+        <div class="alert alert-danger text-center" role="alert">
+            <strong>{{ $error }}</strong>
+        </div>
+    @endforeach
+@endif
+
 <h3 class="card-title">Criar escala de <i>{{ $building->name }}</i></h3>
 
 <form action="{{ action('Admin\WorkSchedulesController@addFromBuilding', ['id' => $building->id]) }}" method="POST">
@@ -41,7 +50,7 @@
         </div>
     </div>
 
-    <a class="btn btn-danger" role="button" href="{{ action('Admin\BuildingsController@index') }}">Cancelar</a>
+    <a class="btn btn-danger" role="button" href="{{ action('Admin\BuildingsController@view', ['id' => $building->id]) }}">Cancelar</a>
     <button type="submit" class="btn btn-success">Cadastrar</button>
 </form>
 @endsection

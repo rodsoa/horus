@@ -27,11 +27,11 @@ Route::namespace('Admin')->prefix('admin')->group( function () {
         Route::get('/', 'EmployeesController@index');
         Route::get('/{matricula}/exibir', 'EmployeesController@view');
         
-        Route::get('/cadastrar', 'EmployeesController@new');
-        Route::post('/', 'EmployeesController@add');
+        Route::get('/novo', 'EmployeesController@new');
+        Route::post('/adicionar', 'EmployeesController@add');
         
         Route::get('/{matricula}/editar', 'EmployeesController@edit');
-        Route::post('/{matricula}', 'EmployeesController@update');
+        Route::post('/{matricula}/atualizar', 'EmployeesController@update');
     
         Route::delete('/{matricula}/deletar', 'EmployeesController@delete');
 
@@ -40,8 +40,13 @@ Route::namespace('Admin')->prefix('admin')->group( function () {
         Route::prefix('categorias')->group( function () {
             Route::get('/', 'EmployeeCategoriesController@index');
 
-            Route::get('cadastrar', 'EmployeeCategoriesController@new');
-            Route::post('/', 'EmployeeCategoriesController@add');
+            Route::get('/nova', 'EmployeeCategoriesController@new');
+            Route::post('/adicionar', 'EmployeeCategoriesController@add');
+
+            Route::get('/{id}/editar', 'EmployeeCategoriesController@edit');
+            Route::post('/{id}/atualizar', 'EmployeeCategoriesController@update');    
+            
+            Route::delete('/{id}/deletar', 'EmployeeCategoriesController@delete');
         });
 
         // ANOTHER ACTIONS
@@ -53,11 +58,11 @@ Route::namespace('Admin')->prefix('admin')->group( function () {
         Route::get('/', 'BuildingsController@index');
         Route::get('/{id}/exibir', 'BuildingsController@view');
 
-        Route::get('/cadastrar', 'BuildingsController@new');
-        Route::post('/', 'BuildingsController@add');
+        Route::get('/nova', 'BuildingsController@new');
+        Route::post('/adicionar', 'BuildingsController@add');
 
         Route::get('/{id}/editar', 'BuildingsController@edit');
-        Route::post('/{id}', 'BuildingsController@update');
+        Route::post('/{id}/atualizar', 'BuildingsController@update');
     
         Route::delete('/{id}/deletar', 'BuildingsController@delete');
 
@@ -72,11 +77,11 @@ Route::namespace('Admin')->prefix('admin')->group( function () {
 
         Route::get('/{id}/exibir', 'SchedulesController@view');
         
-        Route::get('/cadastrar', 'SchedulesController@new');
-        Route::post('/', 'SchedulesController@add');
+        Route::get('/novo', 'SchedulesController@new');
+        Route::post('/adicionar', 'SchedulesController@add');
         
         Route::get('/{id}/editar', 'SchedulesController@edit');
-        Route::post('/{id}', 'SchedulesController@update');
+        Route::post('/{id}/atualizar', 'SchedulesController@update');
             
         Route::delete('/{id}/deletar', 'SchedulesController@delete');
 
@@ -85,11 +90,16 @@ Route::namespace('Admin')->prefix('admin')->group( function () {
     // Work Schedules
     Route::prefix('escalas')->group( function () {
         Route::get('/adicionar','WorkSchedulesController@new');
+
+        Route::delete('/{id}/deletar', 'WorkSchedulesController@delete');
         
-        Route::get('/unidade/{id}/adicionar', 'WorkSchedulesController@newFromBuilding');
+        Route::get('/unidade/{id}/novo', 'WorkSchedulesController@newFromBuilding');
         Route::post('/unidade/{id}/adicionar', 'WorkSchedulesController@addFromBuilding');
         
-        Route::get('/unidade/{id}/gerenciar', 'WorkSchedulesController@editFromBuilding');
+        Route::get('/unidade/{id}/editar', 'WorkSchedulesController@editFromBuilding');
+        Route::get('/unidade/{id}/atualizar', 'WorkSchedulesController@updateFromBuilding');
+
+
     });
 
 });

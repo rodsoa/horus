@@ -48,7 +48,19 @@ header {
    }
 }
 
+.card.custom {
+    border-radius: 0px;
+}
+
 .bg-custom-primary {
     background-color: #4A5459; 
     color: whitesmoke;
+
+    a.nav-item.nav-link {
+        color: whitesmoke;
+
+        &.active, &:hover {
+            background-color: lighten(#4A5459, 5%);
+        }
+    }
 }
