@@ -1,9 +1,6 @@
-@extends("layouts.base")
+@extends('layouts.base')
 
-@section("content")
-
-<h3 class="card-title">Exibindo Empregado #{{ $employee->registration_number }}</h3>
-
+@section('content')
 <div class="row">
     <div class="col-sm-12 col-md-4 col-lg-4">
         <div class="card card-body">
@@ -19,7 +16,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                         <tr>
+                        <tr>
                             <th scope="row">Status: </th>
                             <td class="text-right">
                                 <strong>
@@ -100,7 +97,7 @@
                 @endif
             </div>
         </div>
-  
+
         <br />
 
         <div id="week-table">
@@ -144,24 +141,7 @@
             </div>
 
         <div class="row">
-            <div class="col-sm-12 col-md-6 col-lg-6">
-                 <div class="card card-body">
-                    RELATORIOS DE SERVIÇO
-                </div>
-
-                <br />
-            </div>
-            <div class="col-sm-12 col-md-6 col-lg-6">
-                 <div class="card card-body">
-                    INFOS COMPLEMENTARES
-                </div>
-
-                <br />
-            </div>
-        </div>
-
-        <div class="card card-body">
-            REGISTROS DE PROTOCOLOS DE ENTREGA/RECEBIMENTO DE CHAVES
+            
         </div>
     </div>
 </div>

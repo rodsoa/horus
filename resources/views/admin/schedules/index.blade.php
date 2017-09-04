@@ -16,23 +16,9 @@
 
 <div class="row">
     <div class="col-sm-12 col-md-6 col-lg-6">
-        <a role="button" class="btn btn-primary" href="#">
+        <a role="button" class="btn btn-primary" href="{{ action('Admin\SchedulesController@new') }}">
             <i class="fa fa-plus-circle fa-fw"></i>Novo horário
         </a>    
-    </div>
-    
-    <div class="col-sm-12 col-md-6 col-lg-6">
-        <div class="input-group">
-            <span class="input-group-btn">
-                <button class="btn btn-secondary" type="button">
-                    <i class="fa fa-cog fa-fw"></i>
-                </button>
-            </span>
-            <input type="text" class="form-control" placeholder="Search for..." aria-label="Search for...">
-            <span class="input-group-btn">
-                <button class="btn btn-secondary" type="button">Pesquisar</button>
-            </span>
-        </div>
     </div>
 </div>
 
@@ -56,7 +42,7 @@
                     <a role="button" class="btn btn-secondary" href="#"><i class="fa fa-pencil"></i> editar</a>
                 </div>
                 <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                    <button id="delete-{{ $schedule->id }}" type="submit" class="btn btn-danger" onclick="deleteBuilding({{ $schedule->id }})">
+                    <button id="delete-{{ $schedule->id }}" type="submit" class="btn btn-danger" onclick="deleteSchedule({{ $schedule->id }})">
                         <i class="fa fa-trash"></i>
                     </button>
                 </div>

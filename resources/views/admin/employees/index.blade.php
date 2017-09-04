@@ -26,17 +26,19 @@
     </div>
     
     <div class="col-sm-12 col-md-6 col-lg-6">
-        <div class="input-group">
-            <span class="input-group-btn">
-                <button class="btn btn-secondary" type="button">
-                    <i class="fa fa-cog fa-fw"></i>
-                </button>
-            </span>
-            <input type="text" class="form-control" placeholder="Search for..." aria-label="Search for...">
-            <span class="input-group-btn">
-                <button class="btn btn-secondary" type="button">Pesquisar</button>
-            </span>
-        </div>
+        <form>
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <button class="btn btn-secondary" type="button">
+                        <i class="fa fa-cog fa-fw"></i>
+                    </button>
+                </span>
+                <input type="text" class="form-control" placeholder="Search for..." aria-label="Search for..." name="search">
+                <span class="input-group-btn">
+                    <button class="btn btn-secondary" type="submit">Pesquisar</button>
+                </span>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -81,32 +83,13 @@
         @endforeach
     </tbody>
 </table>
-
-<nav aria-label="...">
-    <ul class="pagination pagination-sm justify-content-center">
-        <li class="page-item disabled">
-            <span class="page-link">Anterior</span>
-        </li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item active">
-            <span class="page-link">
-            2
-            <span class="sr-only">(current)</span>
-            </span>
-        </li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item">
-            <a class="page-link" href="#">Próximo</a>
-        </li>
-    </ul>
-</nav>
 @endsection
 
 @section('js')
 <script>
     function deleteEmployee(registration_number) {
         var url = window.location.href + '/' + registration_number + '/deletar';
-
+        alert(url);
         if( confirm("Tem certeza em realizar essa ação ?") ) {
             // TODO: Fazer callback mais atraente para essa requisição
             axios.delete(url)
@@ -114,7 +97,7 @@
                 alert("Deletando registros");
              })
              .catch( function (error) {
-                 alert("Algum erro ocorreu");
+                 alert(error);
              });
 
             location.reload();

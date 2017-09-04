@@ -15,11 +15,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::namespace('Employee')->prefix('empregado')->group( function () {
+    Route::get('/', 'EmployeeController@index');
+});
 /* 
  | ADMIN ROUTES 
 */
 Route::namespace('Admin')->prefix('admin')->group( function () {
-
+    Route::get('/', 'AdminController@index');
     // Employees
     Route::prefix('empregados')->group( function ()  {
 
@@ -99,7 +102,15 @@ Route::namespace('Admin')->prefix('admin')->group( function () {
         Route::get('/unidade/{id}/editar', 'WorkSchedulesController@editFromBuilding');
         Route::get('/unidade/{id}/atualizar', 'WorkSchedulesController@updateFromBuilding');
 
-
+        Route::get('/empregado/{id}/novo', 'WorkSchedulesController@newFromEmployee');
+        Route::post('/empregado/{id}/adicionar', 'WorkSchedulesController@addFromEmployee');
+        
+        Route::get('/empregado/{id}/editar', 'WorkSchedulesController@editFromEmployee');
+        Route::get('/empregado/{id}/atualizar', 'WorkSchedulesController@updateFromEmployee');
     });
 
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

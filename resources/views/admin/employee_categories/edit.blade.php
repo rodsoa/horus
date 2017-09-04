@@ -3,7 +3,7 @@
 @section('content')
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-12">
-            <form id="needs-validation" action="{{ action('Admin\EmployeeCategoriesController@add') }}" method="POST">
+            <form id="needs-validation" action="{{ action('Admin\EmployeeCategoriesController@update', ['id' => $category->id]) }}" method="POST">
                 {{ csrf_field() }}
                 <div class="form-row">
                     <div class="form-group col-sm-12 col-md-12 col-lg-12">

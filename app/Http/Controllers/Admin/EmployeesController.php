@@ -14,18 +14,38 @@ use Horus\Models\WorkSchedule;
 
 class EmployeesController extends Controller
 {
-    public function index () {
-        $employees = Employee::orderBy('id', 'desc')->get();
+    public function index (Request $request) {
+        // Realizando filtro
+        if ($request->input('search')) {
+            $employees = Employee::where('name', 'like','%'.$request->input('search').'%')
+                                   ->orWhere('registration_number', 'like','%'.$request->input('search').'%')
+                                   ->orderBy('id', 'desc')->get();
+            
+            if ( count($employees) )                       
+                return view('admin.employees.index', [ 'employees' => $employees ]);
+        }
+        
+        $employees = Employee::orderBy('id', 'desc')->paginate(5);
+
         return view('admin.employees.index', [ 'employees' => $employees ]);
     }
 
     public function view ( $registration_number ) {
         $employee = Employee::where('registration_number', $registration_number)->first();
-        $schedules = WorkSchedule::all();
+
+        //return $employee;
+
+        $schedules = Schedule::all();
+
+        $days = [1, 2, 3, 4, 5, 6, 7];
+
+        $workschedules = WorkSchedule::where('employee_id', $employee->id)->get();
         
         return view('admin.employees.view', [
             'employee' => $employee,
-            'schedules' => $schedules
+            'schedules' => $schedules,
+            'workschedules' => $workschedules,
+            'days' => $days
         ]);
     }
 
@@ -56,6 +76,15 @@ class EmployeesController extends Controller
 
 
         if ( $employee->save() ) {
+
+            // Criando usuario para esse empregado
+            $user = new \Horus\User();
+            $user->name                = $employee->name;
+            $user->employee_id         = $employee->id;
+            $user->email               = $employee->email;
+            $user->password            = bcrypt($employee->registration_number);
+            $user->save();
+
             return redirect()->action('Admin\EmployeesController@index')->with([
                 'status' => 'Empregado criado com sucesso!',
                 'type' => 'success'
@@ -145,6 +174,11 @@ class EmployeesController extends Controller
         // Deletando imagem correspondente
         Storage::delete( "/public"."/".$employee->photo );
 
+        // Apaga todos os registros da agenda pertencentes a essa unidade
+        foreach($employee->work_schedules as $ws)
+            $ws->delete(); 
+
+        // Apaga registro desse empregado
         $employee->delete();   
 
     }

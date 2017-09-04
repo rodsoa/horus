@@ -43,10 +43,29 @@ class EmployeeCategoriesController extends Controller
 
     public function update(Request $request, $id) {
         $category = EmployeeCategory::findOrFail($id);
+
+        $category->name = $request->input('name');
+
+        if ($category->save()) {
+            return redirect()->action('Admin\EmployeeCategoriesController@index')->with([
+                'status' => 'Categoria atualizada com sucesso!',
+                'type' => 'success'
+            ]);
+        } else {
+            return redirect()->action('Admin\EmployeeCategoriesController@index')->with([
+                'status' => 'Ocorreu algum erro!',
+                'type' => 'error'
+            ]);
+        }
     }
 
     public function delete($id) {
         $category = EmployeeCategory::findOrFail($id);
-        $category->delete();
+
+        if (  count($category->employees) )  {
+            return response('Existem dados vinculados a esse registro', 500);
+        } else {
+            $category->delete();
+        }
     }
 }

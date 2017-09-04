@@ -111,7 +111,7 @@
                         <td class="text-center">
                             @foreach($workschedules as $workschedule)
                                 @if( ($workschedule->weekday == $day) && ($workschedule->schedule_id == $schedule->id) )  
-                                    <small><strong>{{ $workschedule->employee->name }}</strong></small>                           
+                                    <small><strong><a class="custom-link" href="{{ action('Admin\EmployeesController@view', ['registration_number' => $workschedule->employee->registration_number]) }}">{{ $workschedule->employee->name }}</strong></small>                           
                                 @endif
                             @endforeach
                         </td>

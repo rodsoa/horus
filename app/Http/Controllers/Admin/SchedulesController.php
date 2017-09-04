@@ -14,4 +14,12 @@ class SchedulesController extends Controller
         $schedules = Schedule::orderBy('id', 'desc')->get();
         return view('admin.schedules.index',['schedules' => $schedules]);
     }
+
+    public function new () {
+        return view('admin.schedules.new');
+    }
+
+    public function add (Request $request) {
+        
+    }
 }

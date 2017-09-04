@@ -13,8 +13,17 @@ use Horus\Models\WorkSchedule;
 
 class BuildingsController extends Controller
 {
-    public function index() {
-        $buildings = Building::orderBy('id', 'desc')->paginate(5);
+    public function index(Request $request) {
+        // Realizando filtro
+        if ($request->input('search')) {
+            $buildings = Building::where('name', 'like','%'.$request->input('search').'%')
+                                   ->orderBy('id', 'desc')->get();
+            
+            if ( count($buildings) )                       
+                return view('admin.buildings.index', [ 'buildings' => $buildings ]);
+        }
+
+        $buildings = Building::orderBy('id', 'desc')->get();
         
         return view('admin.buildings.index', ['buildings' => $buildings]);
     }
@@ -90,7 +99,10 @@ class BuildingsController extends Controller
     }
 
     public function delete($id) {
-        $building = Building::findOrFail($id); 
+        $building = Building::findOrFail($id);
+        // Apaga todos os registros da agenda pertencentes a essa unidade
+        foreach($building->work_schedules as $ws)
+            $ws->delete(); 
         $building->delete();
     }
 

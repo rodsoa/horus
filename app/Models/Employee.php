@@ -20,6 +20,14 @@ class Employee extends Model
         return $this->belongsTo('Horus\Models\EmployeeCategory');
     }
 
+    public function work_schedules() {
+        return $this->hasMany('Horus\Models\WorkSchedule');
+    }
+
+    public function user() {
+        return $this->hasOne('Horus\User');
+    }
+
     public function generateRegistrationNumber() {
         if ( isset($this->registration_number) )
             return $this->registraion_number;

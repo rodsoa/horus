@@ -18,20 +18,6 @@
                 <i class="fa fa-plus-circle fa-fw"></i>Novo
             </a>
         </div>
-
-        <div class="col-sm-12 col-md-6 col-lg-6">
-            <div class="input-group">
-                <span class="input-group-btn">
-                    <button class="btn btn-secondary" type="button">
-                        <i class="fa fa-cog fa-fw"></i>
-                    </button>
-                </span>
-                <input type="text" class="form-control" placeholder="Search for..." aria-label="Search for...">
-                <span class="input-group-btn">
-                    <button class="btn btn-secondary" type="button">Pesquisar</button>
-                </span>
-            </div>
-        </div>
     </div>
 
     <br />
