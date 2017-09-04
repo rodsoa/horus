@@ -22,7 +22,7 @@
             <div class="card-body">
                 <h3 class="card-title">Empregados</h3>
                 <p>
-                    <h3>{{ $buildings }}</h3>
+                    <h3>{{ $employees }}</h3>
                 </p>
                 <a role="button" class="btn btn-sm btn-info btn-block" href="{{ action('Admin\EmployeesController@new') }}">Adicionar</a>
             </div>
