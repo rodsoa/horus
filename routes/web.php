@@ -109,6 +109,10 @@ Route::namespace('Admin')->prefix('admin')->group( function () {
         Route::get('/empregado/{id}/atualizar', 'WorkSchedulesController@updateFromEmployee');
     });
 
+    Route::prefix('usuarios')->group( function () {
+        Route::get('/', 'UsersController@index');
+    });
+
 });
 
 Auth::routes();
