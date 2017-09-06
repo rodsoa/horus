@@ -15,7 +15,7 @@ Route::get('/', function () {
     return redirect('/admin');
 });
 
-Route::namespace('Employee')->prefix('empregado')->group( function () {
+Route::namespace('Employee')->prefix('empregado')->middleware('auth')->group( function () {
     Route::get('/', 'EmployeeController@index');
 
     Route::get('/{employee_id}/{building_id}/receber-chaves', 'ProtocolsController@receivingKey');
@@ -29,7 +29,7 @@ Route::namespace('Employee')->prefix('empregado')->group( function () {
 /* 
  | ADMIN ROUTES 
 */
-Route::namespace('Admin')->prefix('admin')->group( function () {
+Route::namespace('Admin')->prefix('admin')->middleware('auth')->group( function () {
     Route::get('/', 'AdminController@index');
     // Employees
     Route::prefix('empregados')->group( function ()  {
