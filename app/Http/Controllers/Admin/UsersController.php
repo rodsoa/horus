@@ -25,27 +25,60 @@ class UsersController extends Controller
         return view('admin.users.index', [ 'users' => $users ]);
     }
 
-    public function view () {
+    public function view ($id) {
+        $user = User::findOrFail($id);
+        return view('admin.users.view', ['user' => $user]);
+    }
+
+    public function edit ($id) {
+        $user = User::findOrFail($id);
+        return view('admin.users.edit', ['user' => $user]);
+    }
+
+    public function update (Request $request, $id) {
+        $user = User::findOrFail($id);
         
-    }
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->password = bcryp($request->input('password'));
 
-    public function edit () {
-
-    }
-
-    public function update () {
-
+        if ( $user->save() ) {
+            return redirect()->action('Admin\UsersController@index')->with([
+                'status' => 'Usuario atualizado com sucesso!',
+                'type' => 'success'
+            ]);
+        } else {
+            return redirect()->action('Admin\UsersController@new')->with([
+                'status' => 'Ocorreu algum erro. Tente novamente',
+                'type' => 'error'
+            ]);
+        }
     }
 
     public function new () {
-
+        return view('admin.users.new');
     }
 
-    public function add () {
+    public function add (Request $request) {
+        $user = new User( $request->all() );
+        $user->password = bcrypt( $user->password );
 
+        if ( $user->save() ) {
+            return redirect()->action('Admin\UsersController@index')->with([
+                'status' => 'Usuario criado com sucesso!',
+                'type' => 'success'
+            ]);
+        } else {
+            return redirect()->action('Admin\UsersController@new')->with([
+                'status' => 'Ocorreu algum erro. Tente novamente',
+                'type' => 'error'
+            ]);
+        }
     }
 
-    public function delete() {
-
+    public function delete($id) {
+        $user = User::findOrFail($id);
+        $user->delete();
+        return response(null, 200);
     }
 }

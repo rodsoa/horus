@@ -70,7 +70,7 @@ class EmployeesController extends Controller
         // Saving photo
         $path = null;
         if( $request->hasFile('photo') && $request->file('photo')->isValid() && ( ($request->file('photo')->extension() == 'jpg') || ($request->file('photo')->extension() == 'jpeg')) ){
-            $path = $request->photo->storeAs('images/employees', $employee->registration_number . '.' .$request->photo->extension(), 'public');
+            $path = $request->photo->storeAs('images/employees', $employee->registration_number . '.' .$request->photo->extension(), 'upload');
             $employee->photo = $path;
         }
 
@@ -128,12 +128,12 @@ class EmployeesController extends Controller
             $photo = explode('/', $employee->photo)[2];
             $photo = "images/employees/".$photo;
 
-            if ( Storage::disk('public')->exists($photo) ) {
-                Storage::delete( "/public"."/".$employee->photo );
+            if ( Storage::disk('upload')->exists($photo) ) {
+                Storage::delete( "/upload"."/".$employee->photo );
 
                 // Salvando nova foto carregada
                 $path = null;
-                $path = $request->photo->storeAs('images/employees', $employee->registration_number . '.' .$request->photo->extension(), 'public');
+                $path = $request->photo->storeAs('images/employees', $employee->registration_number . '.' .$request->photo->extension(), 'upload');
                 $employee->photo = $path;
             }
         }

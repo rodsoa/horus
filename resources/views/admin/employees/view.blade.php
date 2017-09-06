@@ -8,7 +8,7 @@
     <div class="col-sm-12 col-md-4 col-lg-4">
         <div class="card card-body">
             <figure class="figure">
-                <img src="/storage/{{ $employee->photo }}" class="figure-img img-fluid rounded" alt="A generic square placeholder image with rounded corners in a figure.">
+                <img src="/upload/{{ $employee->photo }}" class="figure-img img-fluid rounded" alt="A generic square placeholder image with rounded corners in a figure.">
                 <figcaption class="figure-caption text-center">*Imagem de perfil do empregado</figcaption>
             </figure>
             <p class="card-text">

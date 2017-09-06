@@ -16,13 +16,9 @@
 
 <div class="row">
     <div class="col-sm-12 col-md-6 col-lg-6">
-        <a role="button" class="btn btn-primary" href="{{ action('Admin\EmployeesController@new') }}">
-            <i class="fa fa-plus-circle fa-fw"></i>Novo empregado
-        </a>
-
-         <a role="button" class="btn btn-secondary" href="{{ action('Admin\EmployeeCategoriesController@index') }}">
-             Categorias
-        </a>       
+        <a role="button" class="btn btn-primary" href="{{ action('Admin\UsersController@new') }}">
+            <i class="fa fa-plus-circle fa-fw"></i>Novo usuário
+        </a>   
     </div>
     
     <div class="col-sm-12 col-md-6 col-lg-6">
@@ -61,13 +57,13 @@
                 @if( $user->employee )
                     {{ $user->employee->employee_category->name }}
                 @else
-
+                    ADMINISTRADOR
                 @endif
             </td>
             <td class="text-right">
                 <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                    <a role="button" class="btn btn-secondary" href=""><i class="fa fa-eye"></i> ver</a>
-                    <a role="button" class="btn btn-secondary" href=""><i class="fa fa-pencil"></i> editar</a>
+                    <a role="button" class="btn btn-secondary" href="{{ action('Admin\UsersController@view', ['id' => $user->id]) }}"><i class="fa fa-eye"></i> ver</a>
+                    <a role="button" class="btn btn-secondary" href="{{ action('Admin\UsersController@edit', ['id' => $user->id]) }}"><i class="fa fa-pencil"></i> editar</a>
                 </div>
                 <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                     <button id="delete-{{ $user->id }}" type="submit" class="btn btn-danger" onclick="deleteUser('{{ $user->id }}')">
@@ -83,9 +79,8 @@
 
 @section('js')
 <script>
-    function deleteEmployee(registration_number) {
-        var url = window.location.href + '/' + registration_number + '/deletar';
-        alert(url);
+    function deleteUser(id) {
+        var url = window.location.href + '/' + id + '/deletar';
         if( confirm("Tem certeza em realizar essa ação ?") ) {
             // TODO: Fazer callback mais atraente para essa requisição
             axios.delete(url)

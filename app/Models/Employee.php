@@ -28,6 +28,10 @@ class Employee extends Model
         return $this->hasOne('Horus\User');
     }
 
+    public function protocols() {
+        return $this->hasMany('Horus\Models\Protocol');
+    }
+
     public function generateRegistrationNumber() {
         if ( isset($this->registration_number) )
             return $this->registraion_number;

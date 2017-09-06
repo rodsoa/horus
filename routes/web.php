@@ -17,6 +17,14 @@ Route::get('/', function () {
 
 Route::namespace('Employee')->prefix('empregado')->group( function () {
     Route::get('/', 'EmployeeController@index');
+
+    Route::get('/{employee_id}/{building_id}/receber-chaves', 'ProtocolsController@receivingKey');
+    Route::get('/{employee_id}/{building_id}/entregar-chaves','ProtocolsController@deliveringKey');
+
+    Route::prefix('relatorios')->group( function () {
+        Route::get('/new', 'ReportsController@new');
+        Route::post('/', 'ReportsController@update');
+    });
 });
 /* 
  | ADMIN ROUTES 
@@ -111,6 +119,16 @@ Route::namespace('Admin')->prefix('admin')->group( function () {
 
     Route::prefix('usuarios')->group( function () {
         Route::get('/', 'UsersController@index');
+
+        Route::get('/{id}/exibir', 'UsersController@view');
+        
+        Route::get('/novo', 'UsersController@new');
+        Route::post('/adicionar', 'UsersController@add');
+        
+        Route::get('/{id}/editar', 'UsersController@edit');
+        Route::post('/{id}/atualizar', 'UsersController@update');
+            
+        Route::delete('/{id}/deletar', 'UsersController@delete');
     });
 
 });

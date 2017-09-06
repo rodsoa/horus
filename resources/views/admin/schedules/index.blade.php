@@ -38,8 +38,8 @@
             <td><i>{{ $schedule->time_range }}</i></td>
             <td class="text-right">
                 <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                    <a role="button" class="btn btn-secondary" href="#"><i class="fa fa-eye"></i> ver</a>
-                    <a role="button" class="btn btn-secondary" href="#"><i class="fa fa-pencil"></i> editar</a>
+                    <a role="button" class="btn btn-secondary" href="{{ action('Admin\SchedulesController@view', ['id' => $schedule->id]) }}"><i class="fa fa-eye"></i> ver</a>
+                    <a role="button" class="btn btn-secondary" href="{{ action('Admin\SchedulesController@edit', ['id' => $schedule->id]) }}"><i class="fa fa-pencil"></i> editar</a>
                 </div>
                 <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                     <button id="delete-{{ $schedule->id }}" type="submit" class="btn btn-danger" onclick="deleteSchedule({{ $schedule->id }})">
@@ -74,7 +74,7 @@
 
 @section('js')
 <script>
-    function deleteBuilding(id) {
+    function deleteSchedule(id) {
         var url = window.location.href + '/' + id + '/deletar';
 
         if( confirm("Tem certeza em realizar essa ação ?") ) {
@@ -84,7 +84,7 @@
                  alert('Registro apagado com sucesso.');
              })
              .catch( function (error) {
-                 alert('Ocorreu algum erro. Repita a operação.');
+                 alert(error);
              });
 
             location.reload();

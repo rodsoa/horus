@@ -20,6 +20,53 @@ class SchedulesController extends Controller
     }
 
     public function add (Request $request) {
-        
+        $schedule = new Schedule($request->all());
+
+        if ( $schedule->save() ) {
+            return redirect()->action('Admin\SchedulesController@index')->with([
+                'status' => 'Horário criado com sucesso!',
+                'type' => 'success'
+            ]);
+        } else {
+            return redirect()->action('Admin\SchedulesController@new')->with([
+                'status' => 'Ocorreu algum erro. Tente novamente',
+                'type' => 'error'
+            ]);
+        }
+    }
+
+    public function edit ($id) {
+        $schedule = Schedule::findOrFail($id);
+        return view('admin.schedules.edit', ['schedule' => $schedule]);
+    }
+
+    public function update (Request $request, $id) {
+        $schedule = Schedule::findOrFail($id);
+
+        $schedule->time_range = $request->input('time_range');
+        $schedule->letter = $request->input('letter');
+
+        if ( $schedule->save() ) {
+            return redirect()->action('Admin\SchedulesController@index')->with([
+                'status' => 'Horário atualizado com sucesso!',
+                'type' => 'success'
+            ]);
+        } else {
+            return redirect()->action('Admin\SchedulesController@edit', ['id' => $schedule->id])->with([
+                'status' => 'Ocorreu algum erro. Tente novamente',
+                'type' => 'error'
+            ]);
+        }
+    }
+
+    public function delete ($id) {
+        $schedule = Schedule::findOrFail($id);
+
+        if ( count($schedule->work_schedules) ) {
+            return response('Não pode deletar esses registro', 500);
+        } else {
+            $schedule->delete();
+            return response('Resgistro apagado com sucesso', 200);
+        }
     }
 }

@@ -1,15 +1,22 @@
 @extends('layouts.base')
 
 @section('content')
+
+@if( session('status') )
+    <div class="alert alert-success text-center" role="alert">
+        <strong>{{ session('status') }}</strong>
+    </div>
+@endif
+{{ $employee->actual_workschedule }}
 <div class="row">
     <div class="col-sm-12 col-md-4 col-lg-4">
         <div class="card card-body">
             <figure class="figure">
-                <img src="/storage/{{ $employee->photo }}" class="figure-img img-fluid rounded" alt="A generic square placeholder image with rounded corners in a figure.">
+                <img src="/upload/{{ $employee->photo }}" class="figure-img img-fluid rounded" alt="A generic square placeholder image with rounded corners in a figure.">
                 <figcaption class="figure-caption text-center">*Imagem de perfil do empregado</figcaption>
             </figure>
             <p class="card-text">
-                <table class="table table-sm table-hover">
+                <table class="table table-sm table-hover table-responsive">
                     <thead class="bg-custom-primary">
                         <tr class="text-center">
                             <th colspan="2">Informações</th>
@@ -40,7 +47,7 @@
                         </tr>
                         <tr>
                             <th scope="row">Função: </th>
-                            <td class="text-right">{{ $employee->name }}</td>
+                            <td class="text-right">{{ $employee->employee_category->name }}</td>
                         </tr>
                         <tr>
                             <th scope="row">Email: </th>
@@ -56,92 +63,118 @@
                         </tr>
                     </tbody>
                 </table>
-
-                <a role="button" class="btn btn-info btn-block" href="{{ action('Admin\EmployeesController@edit', ['registration_number' => $employee->registration_number]) }}">Atualizar Empregado</a>
-                <a role="button" class="btn btn-secondary btn-block" href="{{ action('Admin\EmployeesController@index') }}">Voltar</a>
             </p>
         </div>
         <br />
     </div>
+
     <div class="col-sm-12 col-md-8 col-lg-8">
 
-        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups" style="margin-bottom: 6px;">
             <div class="btn-group mr-2" role="group" aria-label="Second group">
-                <button type="button" class="btn btn-secondary">pdf</button>
-                <button type="button" class="btn btn-secondary">excel</button>
+                <a role="button" class="btn btn-primary" href="{{ action('Employee\ReportsController@new') }}">Adionar Relatório</a>
             </div>
 
             <div class="btn-group mr-2" role="group" aria-label="Second group">
-                @if( count($employee->work_schedules) )
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-table fa-fw"></i>Gerenciar escalas
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="{{ action('Admin\WorkSchedulesController@editFromEmployee', ['id' => $employee->id]) }}"><i class="fa fa-pencil fa-fw"></i>editar escala</a>
-                            <a class="dropdown-item" href="{{ action('Admin\WorkSchedulesController@newFromEmployee', ['id' => $employee->id]) }}"><i class="fa fa-plus fa-fw"></i>adicionar escala</a>
-                        </div>
-                    </div>
-                @else
-                    <a role="button" class="btn btn-secondary" href="{{ action('Admin\WorkSchedulesController@newFromEmployee', ['id' => $employee->id]) }}">
-                        <i class="fa fa-table fa-fw">&nbsp;</i>escala
-                    </a>
-                @endif
-            </div>
+                <a role="button" class="btn btn-secondary" href="{{ action('Employee\ProtocolsController@receivingKey', ['employee_id' => $employee->id, 'building_id' => $employee->actual_workschedule->building->id]) }}">Receber Chave</a>
+            </div>     
 
-            <div class="btn-group" role="group" aria-label="Third group">
-                @if($employee->status)
-                    <a role="button" class="btn btn-danger" href="{{ action('Admin\EmployeesController@toggleStatus', ['registration_number' => $employee->registration_number]) }}">Inativar</a>
-                @else
-                    <a role="button" class="btn btn-success" href="{{ action('Admin\EmployeesController@toggleStatus', ['registration_number' => $employee->registration_number]) }}">Ativar</a>
-                @endif
+            <div class="btn-group mr-2" role="group" aria-label="Second group">
+                <a role="button" class="btn btn-secondary" href="{{ action('Employee\ProtocolsController@deliveringKey', ['employee_id' => $employee->id, 'building_id' => $employee->actual_workschedule->building->id]) }}">Entregar Chave</a>
             </div>
         </div>
 
-        <br />
-
         <div id="week-table">
+            <table class="table table-sm table-bordered table-responsive">
+                <thead>
+                    <tr class="bg-custom-primary">
+                        <th colspan=8 class="text-center">
+                            Agenda Semanal Eletrônica
+                        </th>
+                    </tr>
+                    <tr class="bg-custom-primary text-center">
+                        <th>Hora</th>
+                        <th>Segunda</th>
+                        <th>Terça</th>
+                        <th>Quarta</th>
+                        <th>Quinta</th>
+                        <th>Sexta</th>
+                        <th>Sábado</th>
+                        <th>Domingo</th>
+                    </tr>
+                </thread>  
 
+                <tbody>
+                    @foreach($schedules as $schedule)
+                        <tr>
+                            <th class="bg-custom-primary text-center">{{ $schedule->time_range }}</th>
+                            @foreach($days as $day)
+                            <td class="text-center">
+                                @foreach($workschedules as $workschedule)
+                                    @if( ($workschedule->weekday == $day) && ($workschedule->schedule_id == $schedule->id) )  
+                                        <small><strong><a class="custom-link" href="{{ action('Admin\BuildingsController@view', ['id' => $workschedule->building->id]) }}">{{ $workschedule->building->name }}</a></strong></small>                           
+                                    @endif
+                                @endforeach
+                            </td>
+                            @endforeach
+                         </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="row">
+            <div class="col-sm-12 col-md-6 col-lg-6">
                 <table class="table table-sm table-bordered table-responsive">
                     <thead>
                         <tr class="bg-custom-primary">
-                            <th colspan=8 class="text-center">
-                                Agenda Semanal Eletrônica
+                            <th colspan="2" class="text-center">
+                                Ultimos Relatórios
                             </th>
-                        </tr>
-                        <tr class="bg-custom-primary text-center">
-                            <th>Hora</th>
-                            <th>Segunda</th>
-                            <th>Terça</th>
-                            <th>Quarta</th>
-                            <th>Quinta</th>
-                            <th>Sexta</th>
-                            <th>Sábado</th>
-                            <th>Domingo</th>
                         </tr>
                     </thread>  
 
                     <tbody>
-                        @foreach($schedules as $schedule)
-                            <tr>
-                                <th class="bg-custom-primary text-center">{{ $schedule->time_range }}</th>
-                                @foreach($days as $day)
-                                <td class="text-center">
-                                    @foreach($workschedules as $workschedule)
-                                        @if( ($workschedule->weekday == $day) && ($workschedule->schedule_id == $schedule->id) )  
-                                            <small><strong><a class="custom-link" href="{{ action('Admin\BuildingsController@view', ['id' => $workschedule->building->id]) }}">{{ $workschedule->building->name }}</a></strong></small>                           
-                                        @endif
-                                    @endforeach
-                                </td>
-                                @endforeach
-                            </tr>
-                        @endforeach
+                        
                     </tbody>
                 </table>
             </div>
 
-        <div class="row">
-            
+            <div class="col-sm-12 col-md-6 col-lg-6">
+                <table class="table table-sm table-bordered table-responsive">
+                    <thead>
+                        <tr class="bg-custom-primary">
+                            <th colspan=3 class="text-center">
+                                Ultimos Protocolos
+                            </th>
+                        </tr>
+                    </thread>  
+
+                    <tbody>
+                        @if( $employee->protocols )
+                            @foreach($protocols as $protocol)
+                                @if( $protocol->category == 'R')
+                                    <tr class="bg-success"  style="color:white">
+                                        <td>RECEBEU</td>
+                                        <td class="text-center"><i>{{ $protocol->building->name }}</i></td>
+                                        <td class="text-right"><i>{{ $protocol->created_at->format('d-m-Y H:i:s') }}</i></td>
+                                    </tr>
+                                @else
+                                    <tr class="bg-warning">
+                                        <td>ENTREGOU</td>
+                                        <td class="text-center"><i>{{ $protocol->building->name }}</i></td>
+                                        <td class="text-right"><i>{{ $protocol->created_at->format('d-m-Y H:i:s') }}</i></td>
+                                    </tr>
+                                @endif
+                            @endforeach
+                        @else
+                            <tr class="text-center">
+                                <td colspan="2"> SEM REGISTROS </td>
+                            </tr>
+                        @endif
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
