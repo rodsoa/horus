@@ -846,6 +846,7 @@ class ComposerStaticInitd431e697c538a7ed7b7a50dfc3f6cd6a
         'Horus\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'Horus\\Http\\Middleware\\EncryptCookies' => __DIR__ . '/../..' . '/app/Http/Middleware/EncryptCookies.php',
         'Horus\\Http\\Middleware\\RedirectIfAuthenticated' => __DIR__ . '/../..' . '/app/Http/Middleware/RedirectIfAuthenticated.php',
+        'Horus\\Http\\Middleware\\RedirectIfNotAdmin' => __DIR__ . '/../..' . '/app/Http/Middleware/RedirectIfNotAdmin.php',
         'Horus\\Http\\Middleware\\TrimStrings' => __DIR__ . '/../..' . '/app/Http/Middleware/TrimStrings.php',
         'Horus\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
         'Horus\\Models\\Building' => __DIR__ . '/../..' . '/app/Models/Building.php',

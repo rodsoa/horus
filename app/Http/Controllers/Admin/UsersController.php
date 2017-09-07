@@ -3,13 +3,18 @@
 namespace Horus\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 use Horus\Http\Controllers\Controller;
 
 use Horus\User;
 
 class UsersController extends Controller
 {
+    
     public function index (Request $request) {
+        if ( isset( Auth::user()->employee ) ) return redirect('/empregado');
+
         // Realizando filtro
         if ($request->input('search')) {
             $users= User::where('name', 'like','%'.$request->input('search').'%')
@@ -26,16 +31,22 @@ class UsersController extends Controller
     }
 
     public function view ($id) {
+        if ( isset( Auth::user()->employee ) ) return redirect('/empregado');
+
         $user = User::findOrFail($id);
         return view('admin.users.view', ['user' => $user]);
     }
 
     public function edit ($id) {
+        if ( isset( Auth::user()->employee ) ) return redirect('/empregado');
+
         $user = User::findOrFail($id);
         return view('admin.users.edit', ['user' => $user]);
     }
 
     public function update (Request $request, $id) {
+        if ( isset( Auth::user()->employee ) ) return redirect('/empregado');
+
         $user = User::findOrFail($id);
         
         $user->name = $request->input('name');
@@ -56,10 +67,14 @@ class UsersController extends Controller
     }
 
     public function new () {
+        if ( isset( Auth::user()->employee ) ) return redirect('/empregado');
+
         return view('admin.users.new');
     }
 
     public function add (Request $request) {
+        if ( isset( Auth::user()->employee ) ) return redirect('/empregado');
+
         $user = new User( $request->all() );
         $user->password = bcrypt( $user->password );
 
@@ -77,6 +92,8 @@ class UsersController extends Controller
     }
 
     public function delete($id) {
+        if ( isset( Auth::user()->employee ) ) return redirect('/empregado');
+        
         $user = User::findOrFail($id);
         $user->delete();
         return response(null, 200);

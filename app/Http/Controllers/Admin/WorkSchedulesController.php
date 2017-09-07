@@ -3,6 +3,7 @@
 namespace Horus\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 use Horus\Http\Controllers\Controller;
 
@@ -16,19 +17,25 @@ class WorkSchedulesController extends Controller
 {
 
     public function new() {
+        if ( isset( Auth::user()->employee ) ) return redirect('/empregado');
 
     }
 
     public function add (Request $request) {
+        if ( isset( Auth::user()->employee ) ) return redirect('/empregado');
+
         return $request->all();
     }
 
     public function delete($work_schedule_id) {
+        if ( isset( Auth::user()->employee ) ) return redirect('/empregado');
+
         $work_schedule = WorkSchedule::findOrFail($work_schedule_id);
         $work_schedule->delete();
     }
 
     public function newFromBuilding ($id) {
+        if ( isset( Auth::user()->employee ) ) return redirect('/empregado');
 
         $building  = Building::findOrFail($id);
         $schedules = Schedule::all();
@@ -63,6 +70,7 @@ class WorkSchedulesController extends Controller
      * weekdays[]  -> lista 
      */
     public function addFromBuilding (Request $request, $id) {
+        if ( isset( Auth::user()->employee ) ) return redirect('/empregado');
 
         $building = Building::find($id);
 
@@ -138,6 +146,7 @@ class WorkSchedulesController extends Controller
     }
 
     public function editFromBuilding($id) {
+        if ( isset( Auth::user()->employee ) ) return redirect('/empregado');
 
         $building  = Building::findOrFail($id);
         $schedules = Schedule::all();
@@ -164,6 +173,7 @@ class WorkSchedulesController extends Controller
      *        caso contrário realizar permuta de de horário.
      */
     public function updateFromBuilding(Request $request, $id) {
+        if ( isset( Auth::user()->employee ) ) return redirect('/empregado');
 
         $building_id       = $request->input('building_id');
         $work_schedules_id = $request->input('work_schedules_id');
@@ -181,6 +191,8 @@ class WorkSchedulesController extends Controller
     }
 
     public function newFromEmployee($id) {
+        if ( isset( Auth::user()->employee ) ) return redirect('/empregado');
+
         $employee = Employee::findOrFail($id);
         $buildings  = Building::all();
         $schedules = Schedule::all();
@@ -209,6 +221,8 @@ class WorkSchedulesController extends Controller
     }
 
     public function addFromEmployee(Request $request, $id) {
+        if ( isset( Auth::user()->employee ) ) return redirect('/empregado');
+
         //return $request->all();
         $employee = Employee::find($id);
 
@@ -284,6 +298,7 @@ class WorkSchedulesController extends Controller
     }
 
     public function editFromEmployee($id) {
+        if ( isset( Auth::user()->employee ) ) return redirect('/empregado');
 
         $employee  = Employee::findOrFail($id);
         $schedules = Schedule::all();
@@ -310,6 +325,7 @@ class WorkSchedulesController extends Controller
      *        caso contrário realizar permuta de de horário.
      */
     public function updateFromEmployee(Request $request, $id) {
+        if ( isset( Auth::user()->employee ) ) return redirect('/empregado');
 
         $employee_id       = $request->input('employee_id');
         $work_schedules_id = $request->input('work_schedules_id');

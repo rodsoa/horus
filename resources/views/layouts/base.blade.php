@@ -40,6 +40,15 @@
 
         <script>
             $(function () {
+                // Logout do sistema
+                $("#logout").click(function () {
+                    axios.post('/logout', {})
+                         .then(function () {
+                             alert('teste');
+                         });
+                    location.reload()
+                });
+                
                 /**
                  * Setando valores corretos para classe 'active' nos menus
                  */

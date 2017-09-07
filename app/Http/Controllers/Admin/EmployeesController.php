@@ -4,6 +4,7 @@ namespace Horus\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 use Horus\Http\Controllers\Controller;
 
@@ -14,7 +15,10 @@ use Horus\Models\WorkSchedule;
 
 class EmployeesController extends Controller
 {
+    
     public function index (Request $request) {
+        if ( isset( Auth::user()->employee ) ) return redirect('/empregado');
+
         // Realizando filtro
         if ($request->input('search')) {
             $employees = Employee::where('name', 'like','%'.$request->input('search').'%')
@@ -31,6 +35,8 @@ class EmployeesController extends Controller
     }
 
     public function view ( $registration_number ) {
+        if ( isset( Auth::user()->employee ) ) return redirect('/empregado');
+
         $employee = Employee::where('registration_number', $registration_number)->first();
 
         //return $employee;
@@ -50,6 +56,8 @@ class EmployeesController extends Controller
     }
 
     public function new () {
+        if ( isset( Auth::user()->employee ) ) return redirect('/empregado');
+
         $categories = EmployeeCategory::all();
         
         return view("admin.employees.new", [
@@ -58,6 +66,8 @@ class EmployeesController extends Controller
     }
 
     public function add (Request $request) {
+        if ( isset( Auth::user()->employee ) ) return redirect('/empregado');
+
         $employee = new Employee( $request->all() );
 
         $employee->created_at = (new \DateTime('NOW'))->format('Y-m-d h:i:s');
@@ -99,6 +109,8 @@ class EmployeesController extends Controller
     }
 
     public function edit ( $registration_number ) {
+        if ( isset( Auth::user()->employee ) ) return redirect('/empregado');
+
         $employee = Employee::where('registration_number', $registration_number)->first();
         $categories = EmployeeCategory::all();
 
@@ -113,6 +125,7 @@ class EmployeesController extends Controller
     }
 
     public function update (Request $request, $registration_number) {
+        if ( isset( Auth::user()->employee ) ) return redirect('/empregado');
 
         // Verificando se existe
         $employee = Employee::where('registration_number', $registration_number)->first();
@@ -161,6 +174,8 @@ class EmployeesController extends Controller
     }
 
     public function delete ( $registration_number ) {
+        if ( isset( Auth::user()->employee ) ) return redirect('/empregado');
+
         // Verificando se existe
         $employee = Employee::where('registration_number', $registration_number)->first();
         
@@ -184,6 +199,8 @@ class EmployeesController extends Controller
     }
 
     public function toggleStatus( $registration_number ) {
+        if ( isset( Auth::user()->employee ) ) return redirect('/empregado');
+
         // Verificando se existe
         $employee = Employee::where('registration_number', $registration_number)->first();
         if( !$employee ) {

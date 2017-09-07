@@ -3,6 +3,7 @@
 namespace Horus\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 use Horus\Http\Controllers\Controller;
 
@@ -13,7 +14,9 @@ use Horus\Models\WorkSchedule;
 
 class BuildingsController extends Controller
 {
+   
     public function index(Request $request) {
+        if ( isset( Auth::user()->employee ) ) return redirect('/empregado');
         // Realizando filtro
         if ($request->input('search')) {
             $buildings = Building::where('name', 'like','%'.$request->input('search').'%')
@@ -29,6 +32,8 @@ class BuildingsController extends Controller
     }
 
     public function view($id) {
+        if ( isset( Auth::user()->employee ) ) return redirect('/empregado');
+
         $building = Building::findOrFail($id);
         $employees = Employee::all(); // TODO: selecionar apenas os que tem escala para aquela unidade
         $schedules = Schedule::all();
@@ -48,10 +53,12 @@ class BuildingsController extends Controller
     }
 
     public function new(){
+        if ( isset( Auth::user()->employee ) ) return redirect('/empregado');
         return view('admin.buildings.new');
     }
 
     public function add(Request $request) {
+        if ( isset( Auth::user()->employee ) ) return redirect('/empregado');
         $building = new Building( $request->all() );
 
         $building->created_at = (new \DateTime('NOW'))->format('Y-m-d h:i:s');
@@ -72,11 +79,13 @@ class BuildingsController extends Controller
     }
 
     public function edit($id){
+        if ( isset( Auth::user()->employee ) ) return redirect('/empregado');
         $building = Building::findOrFail($id);
         return view('admin.buildings.edit', ['building' => $building]);
     }
 
     public function update(Request $request, $id){
+        if ( isset( Auth::user()->employee ) ) return redirect('/empregado');
         $building = Building::find($id);
         if ($building) {
             foreach ($request->all() as $param => $value) {
@@ -99,6 +108,7 @@ class BuildingsController extends Controller
     }
 
     public function delete($id) {
+        if ( isset( Auth::user()->employee ) ) return redirect('/empregado');
         $building = Building::findOrFail($id);
         // Apaga todos os registros da agenda pertencentes a essa unidade
         foreach($building->work_schedules as $ws)
@@ -107,6 +117,7 @@ class BuildingsController extends Controller
     }
 
     public function toggleStatus($id) {
+        if ( isset( Auth::user()->employee ) ) return redirect('/empregado');
         // Verificando se existe
         $building = Building::findOrFail($id);
         if( !$building ) {

@@ -582,6 +582,7 @@ return array(
     'Horus\\Http\\Kernel' => $baseDir . '/app/Http/Kernel.php',
     'Horus\\Http\\Middleware\\EncryptCookies' => $baseDir . '/app/Http/Middleware/EncryptCookies.php',
     'Horus\\Http\\Middleware\\RedirectIfAuthenticated' => $baseDir . '/app/Http/Middleware/RedirectIfAuthenticated.php',
+    'Horus\\Http\\Middleware\\RedirectIfNotAdmin' => $baseDir . '/app/Http/Middleware/RedirectIfNotAdmin.php',
     'Horus\\Http\\Middleware\\TrimStrings' => $baseDir . '/app/Http/Middleware/TrimStrings.php',
     'Horus\\Http\\Middleware\\VerifyCsrfToken' => $baseDir . '/app/Http/Middleware/VerifyCsrfToken.php',
     'Horus\\Models\\Building' => $baseDir . '/app/Models/Building.php',

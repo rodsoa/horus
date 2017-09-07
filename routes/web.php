@@ -10,9 +10,10 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Auth::routes();
 
 Route::get('/', function () {
-    return redirect('/admin');
+    return redirect('/home');
 });
 
 Route::namespace('Employee')->prefix('empregado')->middleware('auth')->group( function () {
@@ -30,6 +31,7 @@ Route::namespace('Employee')->prefix('empregado')->middleware('auth')->group( fu
  | ADMIN ROUTES 
 */
 Route::namespace('Admin')->prefix('admin')->middleware('auth')->group( function () {
+
     Route::get('/', 'AdminController@index');
     // Employees
     Route::prefix('empregados')->group( function ()  {
@@ -130,9 +132,6 @@ Route::namespace('Admin')->prefix('admin')->middleware('auth')->group( function 
             
         Route::delete('/{id}/deletar', 'UsersController@delete');
     });
-
 });
-
-Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
