@@ -7,7 +7,6 @@
         <strong>{{ session('status') }}</strong>
     </div>
 @endif
-{{ $employee->actual_workschedule }}
 <div class="row">
     <div class="col-sm-12 col-md-4 col-lg-4">
         <div class="card card-body">
@@ -76,11 +75,11 @@
             </div>
 
             <div class="btn-group mr-2" role="group" aria-label="Second group">
-                <a role="button" class="btn btn-secondary" href="{{ action('Employee\ProtocolsController@receivingKey', ['employee_id' => $employee->id, 'building_id' => $actual_workschedule->building->id]) }}">Receber Chave</a>
+                <a role="button" class="btn btn-secondary" href="{{ action('Employee\ProtocolsController@receivingKey', ['employee_id' => $employee->id, 'building_id' => $employee->actual_workschedule->building->id]) }}">Receber Chave</a>
             </div>     
 
             <div class="btn-group mr-2" role="group" aria-label="Second group">
-                <a role="button" class="btn btn-secondary" href="{{ action('Employee\ProtocolsController@deliveringKey', ['employee_id' => $employee->id, 'building_id' => $actual_workschedule->building->id]) }}">Entregar Chave</a>
+                <a role="button" class="btn btn-secondary" href="{{ action('Employee\ProtocolsController@deliveringKey', ['employee_id' => $employee->id, 'building_id' => $employee->actual_workschedule->building->id]) }}">Entregar Chave</a>
             </div>
         </div>
 
