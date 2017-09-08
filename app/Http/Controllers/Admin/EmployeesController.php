@@ -129,9 +129,8 @@ class EmployeesController extends Controller
             $photo = explode('/', $employee->photo)[2];
             $photo = "images/employees/".$photo;
 
-            return [ Storage::disk('upload')->exists($photo) ];
             if ( Storage::disk('upload')->exists($photo) ) {
-                Storage::delete( "/upload"."/".$employee->photo );
+                Storage::disk('upload')->delete( $employee->photo );
 
                 // Salvando nova foto carregada
                 $path = null;
