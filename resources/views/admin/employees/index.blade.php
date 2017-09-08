@@ -74,9 +74,13 @@
                     <a role="button" class="btn btn-secondary" href="{{ action('Admin\EmployeesController@edit', ['registration_number' => $employee->registration_number]) }}"><i class="fa fa-pencil"></i> editar</a>
                 </div>
                 <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                    <button id="delete-{{ $employee->registration_number }}" type="submit" class="btn btn-danger" onclick="deleteEmployee('{{ $employee->registration_number }}')">
-                        <i class="fa fa-trash"></i>
-                    </button>
+                    <form method="POST" action="{{ action('Admin\EmployeesController@delete', ['registration_number' => $employee->registration_number]) }}">
+                        {{ csrf_field () }}
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button id="delete-{{ $employee->id }}" type="submit" class="btn btn-danger btn-sm">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </form>
                 </div>
             </td>
         </tr>

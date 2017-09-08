@@ -34,10 +34,6 @@
         </footer>
         
         <script src="{{ asset('js/app.js') }}"></script>
-        
-        @section('js')
-            @show()
-
         <script>
             $(function () {
                 // Logout do sistema
@@ -80,5 +76,7 @@
                 }
             });
         </script>
+        @section('js')
+            @show()
     </body>
 </html>

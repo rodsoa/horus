@@ -184,8 +184,12 @@ class EmployeesController extends Controller
             $ws->delete(); 
 
         // Apaga registro desse empregado
-        $employee->delete();   
-
+        $employee->delete();
+          
+        return redirect()->action('Admin\EmployeesController@index')->with([
+            'status' => 'Empregado deletado com sucesso',
+            'type' => 'success'
+        ]);
     }
 
     public function toggleStatus( $registration_number ) {
