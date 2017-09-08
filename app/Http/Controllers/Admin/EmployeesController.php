@@ -136,6 +136,10 @@ class EmployeesController extends Controller
                 $path = null;
                 $path = $request->photo->storeAs('images/employees', $employee->registration_number . '.' .$request->photo->extension(), 'upload');
                 $employee->photo = $path;
+            } else {
+                $path = null;
+                $path = $request->photo->storeAs('images/employees', $employee->registration_number . '.' .$request->photo->extension(), 'upload');
+                $employee->photo = $path;
             }
         }
         
