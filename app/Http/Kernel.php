@@ -31,7 +31,6 @@ class Kernel extends HttpKernel
             \Horus\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
-            // \Illuminate\Session\Middleware\AuthenticateSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \Horus\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
@@ -41,6 +40,9 @@ class Kernel extends HttpKernel
             'throttle:60,1',
             'bindings',
         ],
+        
+        'auth.admin' => [\Horus\Http\Middleware\RedirectIfNotAdmin::class],
+        'auth.employee' => [\Horus\Http\Middleware\RedirectIfNotEmployee::class],
     ];
 
     /**

@@ -59,4 +59,8 @@ class EmployeeController extends Controller
             'days' => $days
         ]);
     }
+
+    public function profile() {
+        return view('employee.profile');
+    }
 }

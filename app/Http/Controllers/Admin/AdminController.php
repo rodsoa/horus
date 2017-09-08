@@ -12,8 +12,6 @@ use Horus\Models\Employee;
 class AdminController extends Controller
 {
     public function index () {
-        if ( isset( Auth::user()->employee ) ) return redirect('/empregado');
-        
         return view('admin.index',[
             'buildings' => count(Building::all()),
             'employees' => count(Employee::all()),

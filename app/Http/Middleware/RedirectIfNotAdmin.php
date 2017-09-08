@@ -18,8 +18,7 @@ class RedirectIfNotAdmin
      */
     public function handle($request, Closure $next)
     {
-        $user = $request->user();
-        dd(  $user );
+        if ( Auth::user()->employee ) return redirect('/');
         return $next($request);
     }
 }

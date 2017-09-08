@@ -16,21 +16,34 @@ Route::get('/', function () {
     return redirect('/home');
 });
 
-Route::namespace('Employee')->prefix('empregado')->middleware('auth')->group( function () {
+Route::get('/home', 'HomeController@index')->name('home');
+
+// Users Routes
+Route::namespace('Employee')->prefix('empregado')->middleware(['auth', 'auth.employee'])->group( function () {
     Route::get('/', 'EmployeeController@index');
+    Route::get('/perfil', 'EmployeeController@profile');
 
     Route::get('/{employee_id}/{building_id}/receber-chaves', 'ProtocolsController@receivingKey');
     Route::get('/{employee_id}/{building_id}/entregar-chaves','ProtocolsController@deliveringKey');
 
+    // Reports
     Route::prefix('relatorios')->group( function () {
-        Route::get('/new', 'ReportsController@new');
-        Route::post('/', 'ReportsController@update');
+        Route::get('/', 'ReportsController@index');
+        Route::get('/{id}/exibir', 'ReportsController@view');
+
+        Route::get('/{id}/editar', 'ReportsController@edit');
+        Route::post('/{id}/atualizar', 'ReportsController@update');
+
+        Route::get('/novo', 'ReportsController@new');
+        Route::post('/cadastrar', 'ReportsController@add');
+
+        Route::delete('/{id}/deletar', 'ReportsController@delete');
     });
 });
 /* 
  | ADMIN ROUTES 
 */
-Route::namespace('Admin')->prefix('admin')->middleware('auth')->group( function () {
+Route::namespace('Admin')->middleware(['auth', 'auth.admin'])->prefix('admin')->group( function () {
 
     Route::get('/', 'AdminController@index');
     // Employees
@@ -119,6 +132,7 @@ Route::namespace('Admin')->prefix('admin')->middleware('auth')->group( function 
         Route::get('/empregado/{id}/atualizar', 'WorkSchedulesController@updateFromEmployee');
     });
 
+    // Users
     Route::prefix('usuarios')->group( function () {
         Route::get('/', 'UsersController@index');
 
@@ -133,5 +147,3 @@ Route::namespace('Admin')->prefix('admin')->middleware('auth')->group( function 
         Route::delete('/{id}/deletar', 'UsersController@delete');
     });
 });
-
-Route::get('/home', 'HomeController@index')->name('home');

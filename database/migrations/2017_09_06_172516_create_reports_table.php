@@ -13,7 +13,15 @@ class CreateReportsTable extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('reports', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('employee_id');
+            $table->integer('building_id');
+            $table->integer('work_schedule_id');
+            $table->string('title', 50);
+            $table->text('description');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -23,6 +31,6 @@ class CreateReportsTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('reports');
     }
 }

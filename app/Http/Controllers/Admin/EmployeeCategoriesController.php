@@ -12,19 +12,15 @@ use Horus\Models\EmployeeCategory;
 class EmployeeCategoriesController extends Controller
 {
     
-    public function index () {
-        if ( isset( Auth::user()->employee ) ) return redirect('/empregado');
+    public function index () {      
         return view('admin.employee_categories.index', ['categories' => EmployeeCategory::all()]);
     }
 
-    public function new () {
-        if ( isset( Auth::user()->employee ) ) return redirect('/empregado');
+    public function new () {       
         return view('admin.employee_categories.new');
     } 
 
-    public function add (Request $request) {
-        if ( isset( Auth::user()->employee ) ) return redirect('/empregado');
-        
+    public function add (Request $request) {             
         $category = new EmployeeCategory( $request->all() );
         $category->status = true;
         
@@ -41,14 +37,12 @@ class EmployeeCategoriesController extends Controller
         }
     }
 
-    public function edit($id) {
-        if ( isset( Auth::user()->employee ) ) return redirect('/empregado');
+    public function edit($id) {    
         $category = EmployeeCategory::findOrFail($id);
         return view('admin.employee_categories.edit',['category' => $category]);
     }
 
-    public function update(Request $request, $id) {
-        if ( isset( Auth::user()->employee ) ) return redirect('/empregado');
+    public function update(Request $request, $id) {       
         $category = EmployeeCategory::findOrFail($id);
 
         $category->name = $request->input('name');
@@ -66,8 +60,7 @@ class EmployeeCategoriesController extends Controller
         }
     }
 
-    public function delete($id) {
-        if ( isset( Auth::user()->employee ) ) return redirect('/empregado');
+    public function delete($id) {       
         $category = EmployeeCategory::findOrFail($id);
 
         if (  count($category->employees) )  {
