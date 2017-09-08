@@ -32,7 +32,7 @@
         <div class="form-group col-sm-12 col-md-4 col-lg-4">
             <label for="photo">Foto</label>
             <label class="custom-file">
-                <input type="file" id="photo" class="custom-file-input form-control" name="photo" value="{{ $employee->photo }}">
+                <input type="file" id="photo" class="custom-file-input form-control" name="photo">
                 <span id="photo-location" class="custom-file-control"></span>
             </label>
         </div>
