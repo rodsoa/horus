@@ -12,7 +12,7 @@
             @show()
     </head>
 
-    <body id="app" style="padding-top: 8%;">
+    <body id="app" style="padding-top: 7%;">
 
         <div class="container">
             <div class="row justify-content-center">
