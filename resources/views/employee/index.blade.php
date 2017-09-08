@@ -74,7 +74,7 @@
                 <a role="button" class="btn btn-primary" href="{{ action('Employee\ReportsController@new') }}">Adionar Relatório</a>
             </div>
 
-            @if( $empregado->actual_workschedule )
+            @if( $employee->actual_workschedule )
             <div class="btn-group mr-2" role="group" aria-label="Second group">
                 <a role="button" class="btn btn-secondary" href="{{ action('Employee\ProtocolsController@receivingKey', ['employee_id' => $employee->id, 'building_id' => $employee->actual_workschedule->building->id]) }}">Receber Chave</a>
             </div>     
