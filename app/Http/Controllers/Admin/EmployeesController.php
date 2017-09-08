@@ -130,7 +130,7 @@ class EmployeesController extends Controller
             $photo = "images/employees/".$photo;
 
             if ( Storage::disk('upload')->exists($photo) ) {
-                Storage::disk('upload')->delete( $employee->photo );
+                Storage::delete( $employee->photo );
 
                 // Salvando nova foto carregada
                 $path = null;
