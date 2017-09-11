@@ -17,10 +17,10 @@
                 <li class="nav-item" id="menu-item-buildings">
                     <a class="nav-link" href="{{ action('Admin\BuildingsController@index') }}">Unidades</a>
                 </li>
-                <li class="nav-item" id="menu-item-buildings">
+                <li class="nav-item" id="menu-item-users">
                     <a class="nav-link" href="{{ action('Admin\UsersController@index') }}">Usuários</a>
                 </li>
-                <li class="nav-item" id="menu-item-buildings">
+                <li class="nav-item" id="menu-item-schedules">
                     <a class="nav-link" href="{{ action('Admin\SchedulesController@index') }}">Horários</a>
                 </li>
                 <li class="nav-item" id="menu-item-reports">
@@ -28,9 +28,9 @@
                 </li>
             @else
                 <li class="nav-item" id="menu-item-reports">
-                    <a class="nav-link" href="#">Relatórios</a>
+                    <a class="nav-link" href="{{ action('Employee\ReportsController@index') }}">Relatórios</a>
                 </li>
-                <li class="nav-item" id="menu-item-reports">
+                <li class="nav-item" id="menu-item-protocols">
                     <a class="nav-link" href="#">Protocolos</a>
                 </li>
             @endif

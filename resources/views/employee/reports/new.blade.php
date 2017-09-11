@@ -33,7 +33,7 @@
 
         <div class="form-group col-sm-12 col-md-4 col-lg-4">
             <label class="custom-file">
-                <input type="file" id="photos" class="custom-file-input form-control" name="photos[]" required>
+                <input type="file" id="photos" class="custom-file-input form-control" name="photos[]">
                 <span id="photo-location" class="custom-file-control"></span>
             </label>
             <div class="invalid-feedback">
@@ -64,7 +64,7 @@ $(document).ready(function() {
       x++; //text box increment
 
       var html  = '<div class="form-group col-sm-12 col-md-4 col-lg-4"><label class="custom-file">';
-          html += '<input type="file" id="photo" class="custom-file-input form-control" name="photos[]" required><span id="photo-location" class="custom-file-control"></span></label>';
+          html += '<input type="file" id="photo" class="custom-file-input form-control" name="photos[]"><span id="photo-location" class="custom-file-control"></span></label>';
           html += '<div class="invalid-feedback">Por favor, escolha uma imagem.</div></div>';
           
       $(wrapper).append(html); //add input box

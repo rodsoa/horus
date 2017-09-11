@@ -4,6 +4,7 @@ namespace Horus\Http\Controllers\Employee;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use PDF;
 
 use Horus\Http\Controllers\Controller;
 
@@ -15,7 +16,8 @@ use Horus\Models\ReportImage;
 class ReportsController extends Controller
 {
     public function index() {
-        return view('employee.reports.index');
+        $reports = Report::where('employee_id', Auth::user()->employee->id)->orderBy('id', 'desc')->get();
+        return view('employee.reports.index', ['reports' => $reports]);
     }
 
     public function view($id) {
@@ -48,18 +50,43 @@ class ReportsController extends Controller
     }
 
     public function edit($id) {
-        return view('employee.reports.edit');
+        $report = Report::findOrFail($id);
+        return view('employee.reports.edit', ['report' => $report]);
     }
 
-    public function update($id) {
+    public function update(Request $request, $id) {
+        $report = Report::findOrFail($id);
+        $report->title = $request->input('title');
+        $report->description = $request->input('description');
+        $report->updated_at = (new \DateTime('NOW'))->format('Y-m-d H:i:s');
 
+        if ($report->save()) {
+            return redirect()->action('Employee\EmployeeController@index')->with([
+                'status' => 'Relatório de ocorrência atualizado com sucesso!',
+                'type' => 'success'
+                ]);
+        } else { 
+            return redirect()->action('Employee\ReportsController@edit', ['id' => $report->id])->with([
+                'status' => 'Ocorreu algum erro! Tente novamente',
+                'type' => 'error'
+            ]);
+        }
     }
 
     public function delete($id) {
-        
+        $report = Report::findOrFail($id);
+
+        $report->delete();
+
+        return redirect()->action('Employee\EmployeeController@index')->with([
+            'status' => 'Relatório de ocorrência deletado com sucesso!',
+            'type' => 'success'
+            ]);
     }
 
+    /* Função para gerar PDF e disponibilizá-lo para download */
     public function print($report_id) {
-
+        $pdf = PDF::loadHTML('<h3>TESTE PDF DOMPDF!</h3>');
+        return $pdf->download('invoice.pdf');
     }
 }

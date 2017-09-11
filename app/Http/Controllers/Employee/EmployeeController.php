@@ -44,7 +44,7 @@ class EmployeeController extends Controller
         
         $protocols = Protocol::where('employee_id', $request->user()->employee->id)->limit(5)->orderBy('id', 'desc')->get();
 
-        $reports   = Report::orderBy('id', 'desc')->limit(6)->get();
+        $reports   = Report::where('employee_id', $employee->id)->orderBy('id', 'desc')->limit(6)->get();
 
         return view('employee.index', [
             'employee'      => $employee,

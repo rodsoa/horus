@@ -29,6 +29,7 @@ Route::namespace('Employee')->prefix('empregado')->middleware(['auth', 'auth.emp
     // Reports
     Route::prefix('relatorios')->group( function () {
         Route::get('/', 'ReportsController@index');
+        Route::get('/{id}/gerar-pdf', 'ReportsController@print');
         Route::get('/{id}/exibir', 'ReportsController@view');
 
         Route::get('/{id}/editar', 'ReportsController@edit');
