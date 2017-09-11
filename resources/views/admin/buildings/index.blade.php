@@ -81,24 +81,3 @@
     </tbody>
 </table>
 @endsection
-
-@section('js')
-<script>
-    function deleteBuilding(id) {
-        var url = window.location.href + '/' + id + '/deletar';
-
-        if( confirm("Tem certeza em realizar essa ação ?") ) {
-            // TODO: Fazer callback mais atraente para essa requisição
-            axios.delete(url)
-             .then( function (data) {
-                 alert('Registro apagado com sucesso.');
-             })
-             .catch( function (error) {
-                 alert('Ocorreu algum erro. Repita a operação.');
-             });
-
-            location.reload();
-        }
-    }
-</script>
-@endsection

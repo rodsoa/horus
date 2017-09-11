@@ -21,7 +21,8 @@ class ReportsController extends Controller
     }
 
     public function view($id) {
-        return view('employee.reports.view');
+        $report = Report::findOrFail($id);
+        return view('employee.reports.view', ['report' => $report]);
     }
 
     public function new($work_schedule_id) {

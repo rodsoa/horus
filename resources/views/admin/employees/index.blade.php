@@ -88,24 +88,3 @@
     </tbody>
 </table>
 @endsection
-
-@section('js')
-<script>
-    function deleteEmployee(registration_number) {
-        var url = window.location.href + '/' + registration_number + '/deletar';
-        alert(url);
-        if( confirm("Tem certeza em realizar essa ação ?") ) {
-            // TODO: Fazer callback mais atraente para essa requisição
-            axios.delete(url)
-             .then( function (data) {
-                alert("Deletando registros");
-             })
-             .catch( function (error) {
-                 alert(error);
-             });
-
-            location.reload();
-        }
-    }
-</script>
-@endsection

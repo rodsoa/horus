@@ -13,7 +13,8 @@ class SchedulesController extends Controller
 {
     
     public function index () {
-        $schedules = Schedule::orderBy('id', 'desc')->get();
+        $schedules = Schedule::orderBy('id', 'desc')->paginate(7);
+        //dd( $schedules );
         return view('admin.schedules.index',['schedules' => $schedules]);
     }
 
@@ -65,10 +66,16 @@ class SchedulesController extends Controller
         $schedule = Schedule::findOrFail($id);
 
         if ( count($schedule->work_schedules) ) {
-            return response('Não pode deletar esses registro', 500);
+             return redirect()->action('Admin\SchedulesController@index')->with([
+                'status' => 'Existem dados vinculados a esse registro',
+                'type' => 'error'
+            ]);
         } else {
             $schedule->delete();
-            return response('Resgistro apagado com sucesso', 200);
+            return redirect()->action('Admin\SchedulesController@index')->with([
+                'status' => 'Horário apagado com sucesso.',
+                'type' => 'success'
+            ]);
         }
     }
 }

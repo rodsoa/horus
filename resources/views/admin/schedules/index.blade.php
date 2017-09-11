@@ -42,9 +42,13 @@
                     <a role="button" class="btn btn-secondary" href="{{ action('Admin\SchedulesController@edit', ['id' => $schedule->id]) }}"><i class="fa fa-pencil"></i> editar</a>
                 </div>
                 <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                    <button id="delete-{{ $schedule->id }}" type="submit" class="btn btn-danger" onclick="deleteSchedule({{ $schedule->id }})">
-                        <i class="fa fa-trash"></i>
-                    </button>
+                    <form method="POST" action="{{ action('Admin\SchedulesController@delete', ['id' => $schedule->id]) }}">
+                        {{ csrf_field () }}
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button id="delete-{{ $schedule->id }}" type="submit" class="btn btn-sm btn-danger">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </form>
                 </div>
             </td>
         </tr>
@@ -54,41 +58,34 @@
 
 <nav aria-label="...">
     <ul class="pagination pagination-sm justify-content-center">
-        <li class="page-item disabled">
-            <span class="page-link">Anterior</span>
-        </li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item active">
-            <span class="page-link">
-            2
-            <span class="sr-only">(current)</span>
-            </span>
-        </li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item">
-            <a class="page-link" href="#">Próximo</a>
-        </li>
+        
+        @if( $schedules->currentPage() > 1)
+            <li class="page-item">
+                <a class="page-link" href="{{ $schedules->prevPage() }}">Anterior</a>
+            </li>
+        @else
+            <li class="page-item disabled">
+                <span class="page-link">Anterior</span>
+            </li>
+        @endif
+
+        @for( $cont = 0; $cont < $schedules->lastPage(); $cont++ )
+            @if( $schedules->currentPage() == $cont)
+                <li class="page-item active"><a class="page-link" href="#">{{ $cont + 1 }}</a></li>
+            @else
+                <li class="page-item active"><a class="page-link" href="#">{{ $cont + 1 }}</a></li>
+            @endif
+        @endfor
+
+        @if( ($schedules->currentPage() < $schedules->lastPage()) && ($schedules->currentPage() > 1) )
+            <li class="page-item">
+                <a class="page-link" href="{{ $schedules->nextPage() }}">Próximo</a>
+            </li>
+        @else
+            <li class="page-item disabled">
+                <span class="page-link">Próximo</span>
+            </li>
+        @endif
     </ul>
 </nav>
-@endsection
-
-@section('js')
-<script>
-    function deleteSchedule(id) {
-        var url = window.location.href + '/' + id + '/deletar';
-
-        if( confirm("Tem certeza em realizar essa ação ?") ) {
-            // TODO: Fazer callback mais atraente para essa requisição
-            axios.delete(url)
-             .then( function (data) {
-                 alert('Registro apagado com sucesso.');
-             })
-             .catch( function (error) {
-                 alert(error);
-             });
-
-            location.reload();
-        }
-    }
-</script>
 @endsection
