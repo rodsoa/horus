@@ -60,6 +60,7 @@ class EmployeesController extends Controller
     }
 
     public function add (Request $request) {
+        
         $employee = new Employee( $request->all() );
 
         $employee->created_at = (new \DateTime('NOW'))->format('Y-m-d h:i:s');
@@ -177,7 +178,7 @@ class EmployeesController extends Controller
         }
 
         // Deletando imagem correspondente
-        Storage::delete( "/public"."/".$employee->photo );
+        Storage::disk('upload')->delete( $employee->photo );
 
         // Apaga todos os registros da agenda pertencentes a essa unidade
         foreach($employee->work_schedules as $ws)

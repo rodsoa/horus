@@ -110,6 +110,11 @@ class BuildingsController extends Controller
         foreach($building->work_schedules as $ws)
             $ws->delete(); 
         $building->delete();
+
+        return redirect()->action('Admin\BuildingsController@index')->with([
+            'status' => 'Unidade apagada com sucesso.',
+            'type' => 'success'
+        ]);
     }
 
     public function toggleStatus($id) {

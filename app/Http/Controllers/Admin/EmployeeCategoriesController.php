@@ -64,9 +64,16 @@ class EmployeeCategoriesController extends Controller
         $category = EmployeeCategory::findOrFail($id);
 
         if (  count($category->employees) )  {
-            return response('Existem dados vinculados a esse registro', 500);
+            return redirect()->action('Admin\EmployeeCategoriesController@index')->with([
+                'status' => 'Existem dados vinculados a esse registro!',
+                'type' => 'error'
+            ]);
         } else {
             $category->delete();
+            return redirect()->action('Admin\EmployeeCategoriesController@index')->with([
+                'status' => 'Categoria atualizada com sucesso!',
+                'type' => 'success'
+            ]);
         }
     }
 }

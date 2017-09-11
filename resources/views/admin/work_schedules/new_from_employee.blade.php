@@ -29,7 +29,7 @@
     <div class="form-group row">
         <label class="col-sm-12 col-md-2 col-lg-2 col-form-label">Horários</label>
         <div class="col-sm-12 col-md-4 col-lg-4">
-        <select class="form-control" id="workschedule-schedules" name="schedules[]" multiple required>
+        <select class="form-control" id="workschedule-schedules" name="schedules[]" required>
                 <option value=""></option>
                 @foreach($schedules as $schedule)
                     <option value="{{ $schedule->id }}">{{ $schedule->time_range }}</option>

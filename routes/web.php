@@ -34,7 +34,7 @@ Route::namespace('Employee')->prefix('empregado')->middleware(['auth', 'auth.emp
         Route::get('/{id}/editar', 'ReportsController@edit');
         Route::post('/{id}/atualizar', 'ReportsController@update');
 
-        Route::get('/novo', 'ReportsController@new');
+        Route::get('/{work_schedule_id}/novo', 'ReportsController@new');
         Route::post('/cadastrar', 'ReportsController@add');
 
         Route::delete('/{id}/deletar', 'ReportsController@delete');

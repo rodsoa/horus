@@ -71,7 +71,7 @@
 
         <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups" style="margin-bottom: 6px;">
             <div class="btn-group mr-2" role="group" aria-label="Second group">
-                <a role="button" class="btn btn-primary" href="{{ action('Employee\ReportsController@new') }}">Adionar Relatório</a>
+                <a role="button" class="btn btn-primary" href="{{ action('Employee\ReportsController@new', ['work_schedule_id' => $employee->actual_workschedule->id]) }}">Adionar Relatório</a>
             </div>
 
             @if( count($employee->actual_workschedule) )
@@ -129,14 +129,20 @@
                 <table class="table table-sm table-bordered table-responsive">
                     <thead>
                         <tr class="bg-custom-primary">
-                            <th colspan="2" class="text-center">
+                            <th colspan="3" class="text-center">
                                 Ultimos Relatórios
                             </th>
                         </tr>
                     </thread>  
 
                     <tbody>
-                        
+                        @foreach( $reports as $report )
+                            <tr>    
+                                <td><a href="{{ action('Employee\ReportsController@view', ['id' => $report->id]) }}">{{ $report->title }}</a></td>
+                                <td>{{ $report->building->name }}</td>
+                                <td>{{ $report->created_at->format('d-m') }}</td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -158,13 +164,13 @@
                                     <tr class="bg-success"  style="color:white">
                                         <td>RECEBEU</td>
                                         <td class="text-center"><i>{{ $protocol->building->name }}</i></td>
-                                        <td class="text-right"><i>{{ $protocol->created_at->format('d-m-Y H:i:s') }}</i></td>
+                                        <td class="text-right"><i>{{ $protocol->created_at->format('d-m H:i:s') }}</i></td>
                                     </tr>
                                 @else
                                     <tr class="bg-warning">
                                         <td>ENTREGOU</td>
                                         <td class="text-center"><i>{{ $protocol->building->name }}</i></td>
-                                        <td class="text-right"><i>{{ $protocol->created_at->format('d-m-Y H:i:s') }}</i></td>
+                                        <td class="text-right"><i>{{ $protocol->created_at->format('d-m H:i:s') }}</i></td>
                                     </tr>
                                 @endif
                             @endforeach

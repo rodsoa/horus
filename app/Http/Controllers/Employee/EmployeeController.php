@@ -10,6 +10,7 @@ use Horus\Models\EmployeeCategory;
 use Horus\Models\Schedule;
 use Horus\Models\WorkSchedule;
 use Horus\Models\Protocol;
+use Horus\Models\Report;
 
 class EmployeeController extends Controller
 {
@@ -39,24 +40,19 @@ class EmployeeController extends Controller
             'weekday' => $weekday[(new \DateTime('NOW'))->format('D')]
         ];
 
-        $employee->actual_workschedule = WorkSchedule::where($query)->get();
-        if ( count($employee->actual_workschedule) ) {
-            foreach ( $employee->actual_workschedule as $aws ) {
-                $time_1 = explode(" ", explode("-", $aws->schedule->time_range)[0])[1];
-                $time_2 = explode(" ", explode("-", $aws->schedule->time_range)[1])[1];
-                if(((new \DateTime($time_1))->format('H:i') <= (new \DateTime('NOW'))->format('H:i'))&& ((new \DateTime($time_2))->format('H:i') >= (new \DateTime('NOW'))->format('H:i')))
-                    $employee->actual_workschedule = $aws;
-            } 
-        }
-
+        $employee->actual_workschedule = WorkSchedule::where($query)->get()->first();
+        
         $protocols = Protocol::where('employee_id', $request->user()->employee->id)->limit(5)->orderBy('id', 'desc')->get();
 
+        $reports   = Report::orderBy('id', 'desc')->limit(6)->get();
+
         return view('employee.index', [
-            'employee' => $employee,
-            'schedules' => $schedules,
+            'employee'      => $employee,
+            'schedules'     => $schedules,
             'workschedules' => $workschedules,
-            'protocols' => $protocols,
-            'days' => $days
+            'protocols'     => $protocols,
+            'reports'       => $reports,    
+            'days'          => $days
         ]);
     }
 

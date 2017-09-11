@@ -9,52 +9,46 @@ use Horus\Http\Controllers\Controller;
 
 use Horus\Models\WorkSchedule;
 use Horus\Models\Employee;
+use Horus\Models\Report;
+use Horus\Models\ReportImage;
 
 class ReportsController extends Controller
 {
     public function index() {
-
+        return view('employee.reports.index');
     }
 
     public function view($id) {
-
+        return view('employee.reports.view');
     }
 
-    public function new() {
-        $weekday = [
-            'Sun' => 1,
-            'Mon' => 2,
-            'Tue' => 3, 
-            'Wed' => 4,
-            'Thu' => 5,
-            'Fri' => 6,
-            'Sat' => 7
-        ];
-
-        $query = [
-            'employee_id' => Auth::user()->id,
-            'weekday' => $weekday[(new \DateTime('NOW'))->format('D')]
-        ];
-
-        $actual_workschedule = WorkSchedule::where($query)->get();
-        if ( count($actual_workschedule) ) {
-            foreach ( $actual_workschedule as $aws ) {
-                $time_1 = explode(" ", explode("-", $aws->schedule->time_range)[0])[1];
-                $time_2 = explode(" ", explode("-", $aws->schedule->time_range)[1])[1];
-                if(((new \DateTime($time_1))->format('H:i') <= (new \DateTime('NOW'))->format('H:i'))&& ((new \DateTime($time_2))->format('H:i') >= (new \DateTime('NOW'))->format('H:i')))
-                    $actual_workschedule = $aws;
-            } 
-        }
-        
-        return view('employee.reports.new', ['actual_workschedule' => $actual_workschedule]);
+    public function new($work_schedule_id) {
+            
+        return view('employee.reports.new', ['work_schedule' => WorkSchedule::findOrFail($work_schedule_id)]);
     }
 
+    /*
+     * TODO: SALVAR IMAGENS
+     */
     public function add(Request $request) {
-
+        $ws     = WorkSchedule::findOrFail($request->input('work_schedule_id'));
+        $report = new Report($request->all());
+        
+        if ($report->save()) {
+            return redirect()->action('Employee\EmployeeController@index')->with([
+                'status' => 'Relatório de ocorrência criado com sucesso!',
+                'type' => 'success'
+                ]);
+        } else { 
+            return redirect()->action('Employee\ReportsController@new', ['work_schedule_id' => $ws->id])->with([
+                'status' => 'Ocorreu algum erro! Tente novamente',
+                'type' => 'error'
+            ]);
+        }
     }
 
     public function edit($id) {
-
+        return view('employee.reports.edit');
     }
 
     public function update($id) {
@@ -63,5 +57,9 @@ class ReportsController extends Controller
 
     public function delete($id) {
         
+    }
+
+    public function print($report_id) {
+
     }
 }

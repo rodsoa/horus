@@ -81,7 +81,18 @@ class UsersController extends Controller
 
     public function delete($id) {       
         $user = User::findOrFail($id);
-        $user->delete();
-        return response(null, 200);
+
+        if ( $user->employee ) {          
+            return redirect()->action('Admin\UsersController@index')->with([
+                'status' => 'Usuário vinculado a um empregado.',
+                'type' => 'error'
+            ]);
+        } else {
+            $user->delete();
+            return redirect()->action('Admin\UsersController@index')->with([
+                'status' => 'Usuario atualizado apagado sucesso!',
+                'type' => 'success'
+            ]);
+        }
     }
 }

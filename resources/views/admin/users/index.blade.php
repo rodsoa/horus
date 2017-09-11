@@ -66,33 +66,17 @@
                     <a role="button" class="btn btn-secondary" href="{{ action('Admin\UsersController@edit', ['id' => $user->id]) }}"><i class="fa fa-pencil"></i> editar</a>
                 </div>
                 <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                    <button id="delete-{{ $user->id }}" type="submit" class="btn btn-danger" onclick="deleteUser('{{ $user->id }}')">
-                        <i class="fa fa-trash"></i>
-                    </button>
+                    <form method="POST" action="{{ action('Admin\UsersController@delete', ['id' => $user->id]) }}">
+                        {{ csrf_field () }}
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button id="delete-{{ $user->id }}" type="submit" class="btn btn-danger btn-sm">
+                             <i class="fa fa-trash"></i>
+                        </button>
+                    </form>
                 </div>
             </td>
         </tr>
         @endforeach
     </tbody>
 </table>
-@endsection
-
-@section('js')
-<script>
-    function deleteUser(id) {
-        var url = window.location.href + '/' + id + '/deletar';
-        if( confirm("Tem certeza em realizar essa ação ?") ) {
-            // TODO: Fazer callback mais atraente para essa requisição
-            axios.delete(url)
-             .then( function (data) {
-                alert("Deletando registros");
-             })
-             .catch( function (error) {
-                 alert(error);
-             });
-
-            location.reload();
-        }
-    }
-</script>
 @endsection

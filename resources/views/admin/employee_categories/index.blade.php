@@ -49,9 +49,13 @@
                                 <a role="button" class="btn btn-secondary" href="{{ action('Admin\EmployeeCategoriesController@edit', ['id' => $category->id ]) }}"><i class="fa fa-pencil"></i> editar</a>
                             </div>
                             <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                                <button id="delete-{{ $category->id }}" type="submit" class="btn btn-danger" onclick="deleteCategory({{ $category->id }})">
-                                    <i class="fa fa-trash"></i>
-                                </button>
+                                <form method="POST" action="{{ action('Admin\EmployeeCategoriesController@delete', ['id' => $category->id]) }}">
+                                    {{ csrf_field () }}
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <button id="delete-{{ $category->id }}" type="submit" class="btn btn-danger btn-sm">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </form>
                             </div>
                         </td>
                     </tr>
@@ -60,25 +64,4 @@
             </table>
         </div>
     </div>
-@endsection
-
-@section('js')
-<script>
-    function deleteCategory ( id ) {
-        var url = window.location.href + '/' + id + '/deletar';
-
-        if( confirm("Tem certeza em realizar essa ação ?") ) {
-            // TODO: Fazer callback mais atraente para essa requisição
-            axios.delete(url)
-             .then( function (data) {
-                 alert('Registro apagado com sucesso.');
-             })
-             .catch( function (error) {
-                 alert('Ocorreu algum erro. Repita a operação.');
-             });
-
-            location.reload();
-        }
-    }
-</script>
 @endsection
