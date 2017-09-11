@@ -71,7 +71,7 @@
 
         <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups" style="margin-bottom: 6px;">
             <div class="btn-group mr-2" role="group" aria-label="Second group">
-                <a role="button" class="btn btn-primary" href="{{ action('Employee\ReportsController@new', ['work_schedule_id' => $employee->actual_workschedule->id]) }}">Adionar Relatório</a>
+                <a role="button" class="btn btn-primary" href="{{ action('Employee\ReportsController@new', ['work_schedule_id' => $employee->actual_workschedule->id]) }}">Adicionar Relatório</a>
             </div>
 
             @if( count($employee->actual_workschedule) )
