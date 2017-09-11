@@ -16,9 +16,7 @@
 
 <div class="row">
     <div class="col-sm-12 col-md-6 col-lg-6">
-        <a role="button" class="btn btn-primary" href="{{ action('Admin\UsersController@new') }}">
-            <i class="fa fa-plus-circle fa-fw"></i>Novo usuário
-        </a>   
+             
     </div>
     
     <div class="col-sm-12 col-md-6 col-lg-6">
@@ -29,7 +27,7 @@
                         <i class="fa fa-cog fa-fw"></i>
                     </button>
                 </span>
-                <input type="text" class="form-control" placeholder="Search for..." aria-label="Search for..." name="search">
+                <input type="text" class="form-control" placeholder="Filtro por Título ou Unidade" aria-label="Filtro por Título ou Unidade" name="search">
                 <span class="input-group-btn">
                     <button class="btn btn-secondary" type="submit">Pesquisar</button>
                 </span>
@@ -43,34 +41,32 @@
 <table class="table table-sm table-responsive">
     <thead>
         <tr>
-            <th>Nome</th>
-            <th>Email</th>
-            <th colspan="2">Tipo</th>
+            <th>Titulo</th>
+            <th>Unidade</th>
+            <th>Criado</th>
+            <th colspan="3">Atualizado</th>
         </tr>
     </thead>
     <tbody>
-        @foreach( $users as $user )
+        @foreach( $reports as $report )
         <tr>
-            <td>{{ $user->name }}</td>
-            <td><i>{{ $user->email }}</i></td>
-            <td>
-                @if( $user->employee )
-                    {{ $user->employee->employee_category->name }}
-                @else
-                    ADMINISTRADOR
-                @endif
-            </td>
+            <td>{{ $report->title }}</td>
+            <td>{{ $report->building->name }}</td>
+            <td>{{ $report->created_at->format('Y-m-d') }}</td>
+            <td>{{ $report->updated_at->format('Y-m-d') }}</td>
             <td class="text-right">
                 <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                    <a role="button" class="btn btn-secondary" href="{{ action('Admin\UsersController@view', ['id' => $user->id]) }}"><i class="fa fa-eye"></i> ver</a>
-                    <a role="button" class="btn btn-secondary" href="{{ action('Admin\UsersController@edit', ['id' => $user->id]) }}"><i class="fa fa-pencil"></i> editar</a>
+                    <a role="button" class="btn btn-secondary" href="{{ action('Admin\ReportsController@view', ['id' => $report->id]) }}"><i class="fa fa-eye"></i> ver</a>
                 </div>
                 <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                    <form method="POST" action="{{ action('Admin\UsersController@delete', ['id' => $user->id]) }}">
+                    <a role="button" class="btn btn-warning" href="{{ action('Admin\ReportsController@print', ['id' => $report->id]) }}"><i class="fa fa-file-pdf-o"></i></a>
+                </div>
+                <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                    <form method="POST" action="{{ action('Admin\ReportsController@delete', ['id' => $report->id]) }}">
                         {{ csrf_field () }}
                         <input type="hidden" name="_method" value="DELETE">
-                        <button id="delete-{{ $user->id }}" type="submit" class="btn btn-danger btn-sm">
-                             <i class="fa fa-trash"></i>
+                        <button id="delete-{{ $report->id }}" type="submit" class="btn btn-danger btn-sm">
+                            <i class="fa fa-trash"></i>
                         </button>
                     </form>
                 </div>
@@ -82,9 +78,9 @@
 
 <nav aria-label="...">
     <ul class="pagination pagination-sm justify-content-center">      
-        @if( $users->currentPage() > 1)
+        @if( $reports->currentPage() > 1)
             <li class="page-item">
-                <a class="page-link" href="{{ action('Admin\UsersController@index') }}?page={{ $users->currentPage() - 1 }}">Anterior</a>
+                <a class="page-link" href="{{ action('Admin\ReportsController@index') }}?page={{ $reports->currentPage() - 1 }}">Anterior</a>
             </li>
         @else
             <li class="page-item disabled">
@@ -92,17 +88,17 @@
             </li>
         @endif
 
-        @for( $cont = 0; $cont < $users->lastPage(); $cont++ )
-            @if( $users->currentPage() == $cont + 1)
+        @for( $cont = 0; $cont < $reports->lastPage(); $cont++ )
+            @if( $reports->currentPage() == $cont + 1)
                 <li class="page-item active"><a class="page-link" href="">{{ $cont + 1 }}</a></li>
             @else
-                <li class="page-item"><a class="page-link" href="{{ action('Admin\UsersController@index') }}?page={{ $cont + 1 }}">{{ $cont + 1 }}</a></li>
+                <li class="page-item"><a class="page-link" href="{{ action('Admin\ReportsController@index') }}?page={{ $cont + 1 }}">{{ $cont + 1 }}</a></li>
             @endif
         @endfor
 
-        @if( $users->currentPage() < $users->lastPage() )
+        @if( $reports->currentPage() < $reports->lastPage() )
             <li class="page-item">
-                <a class="page-link" href="{{ action('Admin\UsersController@index') }}?page={{ $users->currentPage() + 1 }}">Próximo</a>
+                <a class="page-link" href="{{ action('Admin\ReportsController@index') }}?page={{ $reports->currentPage() + 1 }}">Próximo</a>
             </li>
         @else
             <li class="page-item disabled">

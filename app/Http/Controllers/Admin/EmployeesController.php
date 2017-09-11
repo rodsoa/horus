@@ -21,13 +21,13 @@ class EmployeesController extends Controller
         if ($request->input('search')) {
             $employees = Employee::where('name', 'like','%'.$request->input('search').'%')
                                    ->orWhere('registration_number', 'like','%'.$request->input('search').'%')
-                                   ->orderBy('id', 'desc')->get();
+                                   ->orderBy('id', 'desc')->paginate(7);
             
             if ( count($employees) )                       
                 return view('admin.employees.index', [ 'employees' => $employees ]);
         }
         
-        $employees = Employee::orderBy('id', 'desc')->paginate(5);
+        $employees = Employee::orderBy('id', 'desc')->paginate(7);
 
         return view('admin.employees.index', [ 'employees' => $employees ]);
     }

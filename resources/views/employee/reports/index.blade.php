@@ -27,7 +27,7 @@
                         <i class="fa fa-cog fa-fw"></i>
                     </button>
                 </span>
-                <input type="text" class="form-control" placeholder="Search for..." aria-label="Search for..." name="search">
+                <input type="text" class="form-control" placeholder="Filtro por Título ou Unidade" aria-label="Filtro por Título ou Unidade" name="search">
                 <span class="input-group-btn">
                     <button class="btn btn-secondary" type="submit">Pesquisar</button>
                 </span>
@@ -76,4 +76,36 @@
         @endforeach
     </tbody>
 </table>
+
+<nav aria-label="...">
+    <ul class="pagination pagination-sm justify-content-center">      
+        @if( $reports->currentPage() > 1)
+            <li class="page-item">
+                <a class="page-link" href="{{ action('Employee\ReportsController@index') }}?page={{ $reports->currentPage() - 1 }}">Anterior</a>
+            </li>
+        @else
+            <li class="page-item disabled">
+                <span class="page-link">Anterior</span>
+            </li>
+        @endif
+
+        @for( $cont = 0; $cont < $reports->lastPage(); $cont++ )
+            @if( $reports->currentPage() == $cont + 1)
+                <li class="page-item active"><a class="page-link" href="">{{ $cont + 1 }}</a></li>
+            @else
+                <li class="page-item"><a class="page-link" href="{{ action('Employee\ReportsController@index') }}?page={{ $cont + 1 }}">{{ $cont + 1 }}</a></li>
+            @endif
+        @endfor
+
+        @if( $reports->currentPage() < $reports->lastPage() )
+            <li class="page-item">
+                <a class="page-link" href="{{ action('Employee\ReportsController@index') }}?page={{ $reports->currentPage() + 1 }}">Próximo</a>
+            </li>
+        @else
+            <li class="page-item disabled">
+                <span class="page-link">Próximo</span>
+            </li>
+        @endif
+    </ul>
+</nav>
 @endsection

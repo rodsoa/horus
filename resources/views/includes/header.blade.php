@@ -24,14 +24,11 @@
                     <a class="nav-link" href="{{ action('Admin\SchedulesController@index') }}">Horários</a>
                 </li>
                 <li class="nav-item" id="menu-item-reports">
-                    <a class="nav-link" href="#">Relatórios</a>
+                    <a class="nav-link" href="{{ action('Admin\ReportsController@index') }}">Relatórios</a>
                 </li>
             @else
                 <li class="nav-item" id="menu-item-reports">
                     <a class="nav-link" href="{{ action('Employee\ReportsController@index') }}">Relatórios</a>
-                </li>
-                <li class="nav-item" id="menu-item-protocols">
-                    <a class="nav-link" href="#">Protocolos</a>
                 </li>
             @endif
         </ul>

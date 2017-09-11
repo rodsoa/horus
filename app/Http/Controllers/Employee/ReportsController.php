@@ -15,8 +15,21 @@ use Horus\Models\ReportImage;
 
 class ReportsController extends Controller
 {
-    public function index() {
-        $reports = Report::where('employee_id', Auth::user()->employee->id)->orderBy('id', 'desc')->get();
+    public function index(Request $request) {
+
+        if ($request->input('search')) {
+            $reports = Report::where([
+                                        ['title', 'like','%'.$request->input('search').'%'],
+                                        ['employee_id','=', Auth::user()->employee->id]
+                                    ])
+                                   ->orderBy('id', 'desc')->paginate(7);
+            
+            if ( count($reports) )                       
+                return view('employee.reports.index', [ 'reports' => $reports ]);
+        }
+
+        $reports = Report::where('employee_id', Auth::user()->employee->id)->orderBy('id', 'desc')->paginate(7);
+        
         return view('employee.reports.index', ['reports' => $reports]);
     }
 

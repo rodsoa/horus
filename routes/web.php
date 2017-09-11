@@ -147,4 +147,11 @@ Route::namespace('Admin')->middleware(['auth', 'auth.admin'])->prefix('admin')->
             
         Route::delete('/{id}/deletar', 'UsersController@delete');
     });
+
+    Route::prefix('relatorios')->group( function() {
+        Route::get('/', 'ReportsController@index');  
+        Route::get('/{id}/gerar-pdf', 'ReportsController@print');
+        Route::get('/{id}/exibir', 'ReportsController@view');
+        Route::delete('/{id}/deletar', 'ReportsController@delete');
+    });
 });

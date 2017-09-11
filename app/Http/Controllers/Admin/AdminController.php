@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 use Horus\Models\Building;
 use Horus\Models\Employee;
+use Horus\Models\Report;
 
 class AdminController extends Controller
 {
@@ -15,7 +16,7 @@ class AdminController extends Controller
         return view('admin.index',[
             'buildings' => count(Building::all()),
             'employees' => count(Employee::all()),
-            'reports'   => 0
+            'reports'   => count(Report::all()),
         ]);
     }
 }
