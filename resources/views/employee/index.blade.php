@@ -138,7 +138,7 @@
                     <tbody>
                         @foreach( $reports as $report )
                             <tr>    
-                                <td><a href="{{ action('Employee\ReportsController@view', ['id' => $report->id]) }}">{{ $report->title }}</a></td>
+                                <td><a href="{{ action('Employee\ReportsController@print', ['id' => $report->id]) }}">{{ $report->title }}</a></td>
                                 <td>{{ $report->building->name }}</td>
                                 <td>{{ $report->created_at->format('d-m') }}</td>
                             </tr>
