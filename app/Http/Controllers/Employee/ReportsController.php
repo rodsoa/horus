@@ -86,7 +86,8 @@ class ReportsController extends Controller
 
     /* Função para gerar PDF e disponibilizá-lo para download */
     public function print($report_id) {
-        $pdf = PDF::loadHTML('<h3>TESTE PDF DOMPDF!</h3>');
-        return $pdf->download('invoice.pdf');
+        $report = Report::findOrFail($report_id);
+        $pdf = PDF::loadView('employee.reports.pdf.report-pdf', ['report' => $report]);
+        return $pdf->download('relatorio-ocorrencia.pdf');
     }
 }

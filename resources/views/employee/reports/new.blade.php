@@ -49,8 +49,10 @@
 
 @section('js')
 <script src="/js/jquery.mask.min.js"></script>
+<script src="//cdn.ckeditor.com/4.7.2/basic/ckeditor.js"></script>
 <script>
 $(document).ready(function() {
+  CKEDITOR.replace('report-description');
   var max_fields = 5; //maximum input boxes allowed
   var wrapper = $(".input_fields_wrap"); //Fields wrapper
   var add_button = $(".add_field_button"); //Add button ID
