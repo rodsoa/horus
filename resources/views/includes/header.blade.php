@@ -45,7 +45,7 @@
                 @endif
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="logout" href="#">
+                <a class="nav-link" id="logout" href="">
                     <i class="fa fa-sign-out fa-fw">&nbsp;</i>Sair do sistema
                 </a>
             </li>
