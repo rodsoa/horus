@@ -19,13 +19,13 @@ class BuildingsController extends Controller
         // Realizando filtro
         if ($request->input('search')) {
             $buildings = Building::where('name', 'like','%'.$request->input('search').'%')
-                                   ->orderBy('id', 'desc')->get();
+                                   ->orderBy('id', 'desc')->paginate(7);
             
             if ( count($buildings) )                       
                 return view('admin.buildings.index', [ 'buildings' => $buildings ]);
         }
 
-        $buildings = Building::orderBy('id', 'desc')->get();
+        $buildings = Building::orderBy('id', 'desc')->paginate(7);
         
         return view('admin.buildings.index', ['buildings' => $buildings]);
     }

@@ -80,4 +80,36 @@
         @endforeach
     </tbody>
 </table>
+
+<nav aria-label="...">
+    <ul class="pagination pagination-sm justify-content-center">      
+        @if( $buildings->currentPage() > 1)
+            <li class="page-item">
+                <a class="page-link" href="{{ action('Admin\BuildingsController@index') }}?page={{ $buildings->currentPage() - 1 }}">Anterior</a>
+            </li>
+        @else
+            <li class="page-item disabled">
+                <span class="page-link">Anterior</span>
+            </li>
+        @endif
+
+        @for( $cont = 0; $cont < $buildings->lastPage(); $cont++ )
+            @if( $buildings->currentPage() == $cont + 1)
+                <li class="page-item active"><a class="page-link" href="">{{ $cont + 1 }}</a></li>
+            @else
+                <li class="page-item"><a class="page-link" href="{{ action('Admin\BuildingsController@index') }}?page={{ $cont + 1 }}">{{ $cont + 1 }}</a></li>
+            @endif
+        @endfor
+
+        @if( $buildings->currentPage() < $buildings->lastPage() )
+            <li class="page-item">
+                <a class="page-link" href="{{ action('Admin\BuildingsController@index') }}?page={{ $buildings->currentPage() + 1 }}">Próximo</a>
+            </li>
+        @else
+            <li class="page-item disabled">
+                <span class="page-link">Próximo</span>
+            </li>
+        @endif
+    </ul>
+</nav>
 @endsection

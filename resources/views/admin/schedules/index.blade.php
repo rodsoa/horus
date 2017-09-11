@@ -57,11 +57,10 @@
 </table>
 
 <nav aria-label="...">
-    <ul class="pagination pagination-sm justify-content-center">
-        
+    <ul class="pagination pagination-sm justify-content-center">      
         @if( $schedules->currentPage() > 1)
             <li class="page-item">
-                <a class="page-link" href="{{ $schedules->prevPage() }}">Anterior</a>
+                <a class="page-link" href="{{ action('Admin\SchedulesController@index') }}?page={{ $schedules->currentPage() - 1 }}">Anterior</a>
             </li>
         @else
             <li class="page-item disabled">
@@ -70,16 +69,16 @@
         @endif
 
         @for( $cont = 0; $cont < $schedules->lastPage(); $cont++ )
-            @if( $schedules->currentPage() == $cont)
-                <li class="page-item active"><a class="page-link" href="#">{{ $cont + 1 }}</a></li>
+            @if( $schedules->currentPage() == $cont + 1)
+                <li class="page-item active"><a class="page-link" href="">{{ $cont + 1 }}</a></li>
             @else
-                <li class="page-item active"><a class="page-link" href="#">{{ $cont + 1 }}</a></li>
+                <li class="page-item"><a class="page-link" href="{{ action('Admin\SchedulesController@index') }}?page={{ $cont + 1 }}">{{ $cont + 1 }}</a></li>
             @endif
         @endfor
 
-        @if( ($schedules->currentPage() < $schedules->lastPage()) && ($schedules->currentPage() > 1) )
+        @if( $schedules->currentPage() < $schedules->lastPage() )
             <li class="page-item">
-                <a class="page-link" href="{{ $schedules->nextPage() }}">Próximo</a>
+                <a class="page-link" href="{{ action('Admin\SchedulesController@index') }}?page={{ $schedules->currentPage() + 1 }}">Próximo</a>
             </li>
         @else
             <li class="page-item disabled">

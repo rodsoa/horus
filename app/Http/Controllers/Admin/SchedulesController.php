@@ -13,8 +13,9 @@ class SchedulesController extends Controller
 {
     
     public function index () {
-        $schedules = Schedule::orderBy('id', 'desc')->paginate(7);
-        //dd( $schedules );
+        $schedules = Schedule::orderBy('id', 'desc')->paginate(2);
+        //return $schedules;
+        //dd($schedules);
         return view('admin.schedules.index',['schedules' => $schedules]);
     }
 
