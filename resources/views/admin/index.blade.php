@@ -36,7 +36,7 @@
                 <p>
                     <h3>{{ $reports }}</h3>
                 </p>
-                <a role="button" class="btn btn-sm btn-info btn-block" href="href="{{ action('Admin\ReportsController@index') }}"">Visualizar</a>
+                <a role="button" class="btn btn-sm btn-info btn-block" href="{{ action('Admin\ReportsController@index') }}">Visualizar</a>
             </div>
         </div>
         <br />
