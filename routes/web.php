@@ -19,7 +19,7 @@ Route::get('/', function () {
 Route::get('/home', 'HomeController@index')->name('home');
 
 // Users Routes
-Route::namespace('Employee')->prefix('empregado')->middleware(['auth', 'auth.employee'])->group( function () {
+Route::namespace('Employee')->prefix('agente')->middleware(['auth', 'auth.employee'])->group( function () {
     Route::get('/', 'EmployeeController@index');
     Route::get('/perfil', 'EmployeeController@profile');
 
@@ -48,7 +48,7 @@ Route::namespace('Admin')->middleware(['auth', 'auth.admin'])->prefix('admin')->
 
     Route::get('/', 'AdminController@index');
     // Employees
-    Route::prefix('empregados')->group( function ()  {
+    Route::prefix('agentes')->group( function ()  {
 
         // CRUD ACTIONS
         Route::get('/', 'EmployeesController@index');
