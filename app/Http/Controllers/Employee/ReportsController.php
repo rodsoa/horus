@@ -87,7 +87,6 @@ class ReportsController extends Controller
     /* Função para gerar PDF e disponibilizá-lo para download */
     public function print($report_id) {
         $report = Report::findOrFail($report_id);
-        PDF::setOptions(['tempDir' => '/home/horus.samhost.info/public/temp']);
         $pdf = PDF::loadView('employee.reports.pdf.report-pdf', ['report' => $report]);
         return $pdf->download('relatorio-ocorrencia.pdf');
     }
