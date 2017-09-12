@@ -8,6 +8,9 @@ window._ = require('lodash');
  */
 window.$ = window.jQuery = require('jquery');
 
+require('moment');
+require('fullcalendar');
+
 import Popper from 'popper.js';
 
 window.Popper = Popper;

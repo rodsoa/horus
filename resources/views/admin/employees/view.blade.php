@@ -103,45 +103,7 @@
   
         <br />
 
-        <div id="week-table">
-
-                <table class="table table-sm table-bordered table-responsive">
-                    <thead>
-                        <tr class="bg-custom-primary">
-                            <th colspan=8 class="text-center">
-                                Agenda Semanal Eletrônica
-                            </th>
-                        </tr>
-                        <tr class="bg-custom-primary text-center">
-                            <th>Hora</th>
-                            <th>Segunda</th>
-                            <th>Terça</th>
-                            <th>Quarta</th>
-                            <th>Quinta</th>
-                            <th>Sexta</th>
-                            <th>Sábado</th>
-                            <th>Domingo</th>
-                        </tr>
-                    </thread>  
-
-                    <tbody>
-                        @foreach($schedules as $schedule)
-                            <tr>
-                                <th class="bg-custom-primary text-center">{{ $schedule->time_range }}</th>
-                                @foreach($days as $day)
-                                <td class="text-center">
-                                    @foreach($workschedules as $workschedule)
-                                        @if( ($workschedule->weekday == $day) && ($workschedule->schedule_id == $schedule->id) )  
-                                            <small><strong><a class="custom-link" href="{{ action('Admin\BuildingsController@view', ['id' => $workschedule->building->id]) }}">{{ $workschedule->building->name }}</a></strong></small>                           
-                                        @endif
-                                    @endforeach
-                                </td>
-                                @endforeach
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+        <div id="employee-calendar" style="margin-bottom: 20px;"></div>
 
         <div class="row">
             <div class="col-sm-12 col-md-6 col-lg-6">
@@ -165,4 +127,68 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('js')
+<script>
+    $('#employee-calendar').fullCalendar({
+        events: [
+						{
+							title: 'All Day Event',
+							start: '2017-09-01'
+						},
+						{
+							title: 'Long Event',
+							start: '2017-09-07',
+							end: '2017-09-10'
+						},
+						{
+							id: 999,
+							title: 'Repeating Event',
+							start: '2017-09-09T16:00:00'
+						},
+						{
+							id: 999,
+							title: 'Repeating Event',
+							start: '2017-09-16T16:00:00'
+						},
+						{
+							title: 'Conference',
+							start: '2017-09-11',
+							end: '2017-09-13'
+						},
+						{
+							title: 'Meeting',
+							start: '2017-09-12T10:30:00',
+							end: '2017-09-12T12:30:00'
+						},
+						{
+							title: 'Lunch',
+							start: '2017-09-12T12:00:00'
+						},
+						{
+							title: 'Meeting',
+							start: '2017-09-12T14:30:00'
+						},
+						{
+							title: 'Happy Hour',
+							start: '2017-09-12T17:30:00'
+						},
+						{
+							title: 'Dinner',
+							start: '2017-09-12T20:00:00'
+						},
+						{
+							title: 'Birthday Party',
+							start: '2017-09-13T07:00:00'
+						},
+						{
+							title: 'Click for Google',
+							url: 'http://google.com/',
+							start: '2017-09-28'
+						}
+					]
+
+    });
+</script>
 @endsection
