@@ -16,3 +16,8 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// Employees | Agentes
+Route::namespace('Rest')->prefix('employees')->group(function () {
+    Route::get('/{registration_number}/get-all-workschedules', 'RestEmployeesController@getAllWorkSchedules');
+});
