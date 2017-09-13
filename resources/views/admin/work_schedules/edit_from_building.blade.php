@@ -39,7 +39,7 @@
                                             <select class="form-control" id="workschedule-schedule" name="schedules_id[]" required>
                                                 <option value=""></option>
                                                 @foreach($schedules as $schedule)
-                                                    <option value="{{ $schedule->id }}" @if($workschedule->schedule_id == $schedule->id) selected @endif>{{ $schedule->time_range }}</option>
+                                                    <option value="{{ $schedule->id }}" @if($workschedule->schedule_id == $schedule->id) selected @endif>{{ $schedule->time_range }} {{ (\DateTime::createFromFormat('Y-m-d', $workschedule->date))->format('d-m-Y') }}</option>
                                                 @endforeach
                                             </select>
                                         </div>

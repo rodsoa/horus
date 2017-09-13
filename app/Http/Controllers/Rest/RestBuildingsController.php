@@ -6,17 +6,17 @@ use Illuminate\Http\Request;
 use Horus\Http\Controllers\Controller;
 
 use Horus\Models\WorkSchedule;
-use Horus\Models\Employee;
+use Horus\Models\Building;
 
-class RestEmployeesController extends Controller
+class RestBuildingsController extends Controller
 {
-    public function getAllWorkSchedules($registration_number) {
-        $employee = Employee::where('registration_number', $registration_number)->get()->first();
+    public function getAllWorkSchedules($building_id) {
+        $building = Building::where('id', $building_id)->get()->first();
         // TODO: ADICIONAR DATA NO WORKSCHEDULE
         $events = [];
 
-        foreach ($employee->work_schedules as $key => $ws) {
-            $events[$key]['title'] = $ws->building->name ;
+        foreach ($building->work_schedules as $key => $ws) {
+            $events[$key]['title'] = $ws->employee->name ;
             $events[$key]['start'] = $ws->date .' '. explode(" ", explode("-",$ws->schedule->time_range)[0])[0];
             $events[$key]['end'] = $ws->date .' '. explode(" ", explode("-",$ws->schedule->time_range)[1])[1];
         }

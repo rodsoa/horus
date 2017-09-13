@@ -107,7 +107,7 @@
                     <th colspan="2">Agenda Eletrônica</th>
                 </tr>
             </thead>
-        </table>
+        </table>     
         <div id="employee-calendar" style="margin-bottom: 20px;"></div>
 
         <div class="row">
@@ -138,8 +138,7 @@
 <script>
     $('#employee-calendar').fullCalendar({
         locale: 'pt-br',
-        events: '/api/employees/13092017120438EM/get-all-workschedules'
-
+        events: '/api/employees/{{ $employee->registration_number }}/get-all-workschedules'
     });
 </script>
 @endsection

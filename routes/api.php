@@ -21,3 +21,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::namespace('Rest')->prefix('employees')->group(function () {
     Route::get('/{registration_number}/get-all-workschedules', 'RestEmployeesController@getAllWorkSchedules');
 });
+
+// Employees | Agentes
+Route::namespace('Rest')->prefix('buildings')->group(function () {
+    Route::get('/{buildin_id}/get-all-workschedules', 'RestBuildingsController@getAllWorkSchedules');
+});

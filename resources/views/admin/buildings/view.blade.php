@@ -83,43 +83,14 @@
             </div>
         </div>
   
-        <br />
-
-        <div id="week-table">
-            <table align="center" class="table table-sm table-bordered table-responsive">
-                <thead>
-                    <tr class="bg-custom-primary">
-                        <th colspan=8 class="text-center">
-                            Agenda Semanal Eletrônica
-                        </th>
-                    </tr>
-                    <tr class="bg-custom-primary text-center">
-                        <th>Hora</th>
-                        <th>Domingo</th>
-                        <th>Segunda</th>
-                        <th>Terça</th>
-                        <th>Quarta</th>
-                        <th>Quinta</th>
-                        <th>Sexta</th>
-                        <th>Sábado</th>
-                    </tr>
-                </thead> 
-                @foreach($schedules as $schedule)
-                    <tr>
-                        <th class="bg-custom-primary text-center">{{ $schedule->time_range }}</th>
-                        @foreach($days as $day)
-                        <td class="text-center">
-                            @foreach($workschedules as $workschedule)
-                                @if( ($workschedule->weekday == $day) && ($workschedule->schedule_id == $schedule->id) )  
-                                    <small><strong><a class="custom-link" href="{{ action('Admin\EmployeesController@view', ['registration_number' => $workschedule->employee->registration_number]) }}">{{ $workschedule->employee->name }}</strong></small>                           
-                                @endif
-                            @endforeach
-                        </td>
-                        @endforeach
-                    </tr>
-                @endforeach
-            </table>
-        </div>
+        <table class="table table-sm table-hover" style="margin-top: 15px;">
+            <thead class="bg-custom-primary">
+                <tr class="text-center">
+                    <th colspan="2">Agenda Eletrônica</th>
+                </tr>
+            </thead>
+        </table>
+        <div id="building-calendar" style="margin-bottom: 20px;"></div>
 
         <div class="row">
             <div class="col-sm-12 col-md-6 col-lg-6">
@@ -145,4 +116,13 @@
 </div>
 
 <br />
+@endsection
+
+@section('js')
+<script>
+    $('#building-calendar').fullCalendar({
+        locale: 'pt-br',
+        events: '/api/buildings/{{ $building->id }}/get-all-workschedules'
+    });
+</script>
 @endsection
