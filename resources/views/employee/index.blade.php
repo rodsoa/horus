@@ -69,7 +69,7 @@
 
     <div class="col-sm-12 col-md-8 col-lg-8">
 
-        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups" style="margin-bottom: 6px;">
+        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
             <div class="btn-group mr-2" role="group" aria-label="Second group">
                 <a role="button" class="btn btn-primary" href="{{ action('Employee\ReportsController@new', ['work_schedule_id' => $employee->actual_workschedule->id]) }}">Adicionar Relatório</a>
             </div>
@@ -85,44 +85,14 @@
             @endif
         </div>
 
-        <div id="week-table">
-            <table class="table table-sm table-bordered table-responsive">
-                <thead>
-                    <tr class="bg-custom-primary">
-                        <th colspan=8 class="text-center">
-                            Agenda Semanal Eletrônica
-                        </th>
-                    </tr>
-                    <tr class="bg-custom-primary text-center">
-                        <th>Hora</th>
-                        <th>Segunda</th>
-                        <th>Terça</th>
-                        <th>Quarta</th>
-                        <th>Quinta</th>
-                        <th>Sexta</th>
-                        <th>Sábado</th>
-                        <th>Domingo</th>
-                    </tr>
-                </thread>  
-
-                <tbody>
-                    @foreach($schedules as $schedule)
-                        <tr>
-                            <th class="bg-custom-primary text-center">{{ $schedule->time_range }}</th>
-                            @foreach($days as $day)
-                            <td class="text-center">
-                                @foreach($workschedules as $workschedule)
-                                    @if( ($workschedule->weekday == $day) && ($workschedule->schedule_id == $schedule->id) )  
-                                        <small><strong>{{ $workschedule->building->name }}</strong></small>                           
-                                    @endif
-                                @endforeach
-                            </td>
-                            @endforeach
-                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+        <table class="table table-sm table-hover" style="margin-top: 15px;">
+            <thead class="bg-custom-primary">
+                <tr class="text-center">
+                    <th colspan="2">Agenda Eletrônica</th>
+                </tr>
+            </thead>
+        </table>     
+        <div id="employee-calendar" style="margin-bottom: 20px;"></div>
         
         <div class="row">
             <div class="col-sm-12 col-md-6 col-lg-6">
@@ -185,4 +155,13 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('js')
+<script>
+    $('#employee-calendar').fullCalendar({
+        locale: 'pt-br',
+        events: '/api/employees/{{ $employee->registration_number }}/get-all-workschedules'
+    });
+</script>
 @endsection
