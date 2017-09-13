@@ -13,6 +13,13 @@ class RestEmployeesController extends Controller
     public function getAllWorkSchedules($registration_number) {
         $employee = Employee::where('registration_number', $registration_number)->get()->first();
         // TODO: ADICIONAR DATA NO WORKSCHEDULE
-        return $employee->work_schedules;
+        $events = [];
+
+        foreach ($employee->work_schedules as $key => $ws) {
+            $events[$key]['title'] = $ws->building->name . $ws->schedule->time_range;
+            $events[$key]['start'] = $ws->date;
+        }
+
+        return $events;
     }
 }

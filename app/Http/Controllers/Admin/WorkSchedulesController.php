@@ -63,28 +63,41 @@ class WorkSchedulesController extends Controller
      * weekdays[]  -> lista 
      */
     public function addFromBuilding (Request $request, $id) {
+        //return $request->all();
         $building = Building::find($id);
 
         $errors = [];
 
+        $weekdays = [
+            'Sun' => 1,
+            'Mon' => 2,
+            'Tue' => 3,
+            'Wed' => 4,
+            'Thu' => 5,
+            'Fri' => 6,
+            'Sat' => 7 
+        ];
+
         if ($building) {
-            $days = $request->input('weekdays');
-            $schedules = $request->input('schedules');
+            $dates       = $request->input('dates');
+            $schedules   = $request->input('schedules');
             $employee_id = $request->input('employee');
 
             // Salvando Horários dos dias da semana
             // TODO: Verificar disponibilidade do horário na semana [FEITO]
-            foreach ($days as $day) {
+            foreach ($dates as $date) {
                 foreach ($schedules as $schedule_id) {
+                    $day = $weekdays[(\DateTime::createFromFormat('d/m/Y', $date))->format('D')];
                     $query = [
                         ['building_id', '=', $id],
                         ['schedule_id', '=', $schedule_id],
-                        ['weekday', '=', $day]
+                        ['date', '=', (\DateTime::createFromFormat('d/m/Y', $date))->format('Y-m-d')]
                     ];
 
                     if ( !( count(WorkSchedule::where($query)->get()) ) ) {
                         $workingSchedule = new WorkSchedule();
-                        $workingSchedule->weekday = $day;
+                        $workingSchedule->weekday     = $day;
+                        $workingSchedule->date        = (\DateTime::createFromFormat('d/m/Y', $date))->format('Y-m-d');
                         $workingSchedule->schedule_id = $schedule_id;
                         $workingSchedule->building_id = $building->id;
                         $workingSchedule->employee_id = $employee_id;
@@ -93,25 +106,25 @@ class WorkSchedulesController extends Controller
                         $schedule = (Schedule::find($schedule_id))->time_range;
                         switch ($day) {
                             case 1:
-                                $errors [] = "Domingo $schedule não disponível";
+                                $errors [] = "Domingo $date $schedule não disponível";
                                 break;
                             case 2:
-                                $errors [] = "Segunda-feira $schedule não disponível";
+                                $errors [] = "Segunda-feira $date $schedule não disponível";
                                 break;
                             case 3:
-                                $errors [] = "Terça-feira $schedule não disponível";
+                                $errors [] = "Terça-feira $date $schedule não disponível";
                                 break;
                             case 4:
-                                $errors [] = "Quarta-feira $schedule não disponível";
+                                $errors [] = "Quarta-feira $date $schedule não disponível";
                                 break;
                             case 5:
-                                $errors [] = "Quinta-feira $schedule não disponível";
+                                $errors [] = "Quinta-feira $date $schedule não disponível";
                                 break;
                             case 6:
-                                $errors [] = "Sexta-feira $schedule não disponível";
+                                $errors [] = "Sexta-feira $date $schedule não disponível";
                                 break;
                             case 7:
-                                $errors [] = "Sábado $schedule não disponível";
+                                $errors [] = "Sábado $date $schedule não disponível";
                                 break;
                         }
                     }
@@ -188,13 +201,13 @@ class WorkSchedulesController extends Controller
         $building = $temp;
 
         $weekdays = [
-            'DOMINGO' => 1,
+            'DOMINGO'       => 1,
             'SEGUNDA-FEIRA' => 2,
-            'TERÇA-FEIRA' => 3,
-            'QUARTA-FEIRA' => 4,
-            'QUINTA-FEIRA' => 5,
-            'SEXTA-FEIRA' => 6,
-            'SÁBADO' => 7 
+            'TERÇA-FEIRA'   => 3,
+            'QUARTA-FEIRA'  => 4,
+            'QUINTA-FEIRA'  => 5,
+            'SEXTA-FEIRA'   => 6,
+            'SÁBADO'        => 7 
         ];
 
         return view('admin.work_schedules.new_from_employee', [
@@ -212,13 +225,14 @@ class WorkSchedulesController extends Controller
         $errors = [];
 
         if ($employee) {
-            $days = $request->input('weekdays');
-            $schedules = $request->input('schedules');
+            //$days        = $request->input('weekdays');
+            $dates       = $request->input('dates');
+            $schedules   = $request->input('schedules');
             $building_id = $request->input('building');
 
             // Salvando Horários dos dias da semana
             // TODO: Verificar disponibilidade do horário na semana [FEITO]
-            foreach ($days as $day) {
+            foreach ($dates as $date) {
                 foreach ($schedules as $schedule_id) {
                     $query = [
                         ['employee_id', '=', $id],
@@ -228,7 +242,7 @@ class WorkSchedulesController extends Controller
             
                     if ( !( count(WorkSchedule::where($query)->get()) ) ) {
                         $workingSchedule = new WorkSchedule();
-                        $workingSchedule->weekday = $day;
+                        $workingSchedule->weekday     = $day;
                         $workingSchedule->schedule_id = $schedule_id;
                         $workingSchedule->building_id = $building_id;
                         $workingSchedule->employee_id = $employee->id;

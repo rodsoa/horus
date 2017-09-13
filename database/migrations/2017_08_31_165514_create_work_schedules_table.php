@@ -19,6 +19,7 @@ class CreateWorkSchedulesTable extends Migration
             $table->integer('schedule_id');
             $table->integer('employee_id');
             $table->integer('weekday');
+            $table->date('date');
             $table->timestamps();
         });
     }
