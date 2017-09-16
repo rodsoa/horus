@@ -90,7 +90,7 @@ class UsersController extends Controller
         } else {
             $user->delete();
             return redirect()->action('Admin\UsersController@index')->with([
-                'status' => 'Usuario atualizado apagado sucesso!',
+                'status' => 'Usuario apagado sucesso!',
                 'type' => 'success'
             ]);
         }

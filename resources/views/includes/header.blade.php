@@ -12,7 +12,7 @@
             </li>
             @if( !count(Auth::user()->employee) )
                 <li class="nav-item" id="menu-item-employees" >
-                    <a class="nav-link"href="{{ action('Admin\EmployeesController@index') }}">Empregados</a>
+                    <a class="nav-link"href="{{ action('Admin\EmployeesController@index') }}">Agentes</a>
                 </li>
                 <li class="nav-item" id="menu-item-buildings">
                     <a class="nav-link" href="{{ action('Admin\BuildingsController@index') }}">Unidades</a>

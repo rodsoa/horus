@@ -58,13 +58,21 @@
                 item = item.split("/")[4];
 
                 switch ( item ) {
-                    case 'empregados':
+                    case 'usuarios':
+                        var oldClasses = document.getElementById('menu-item-users').className;
+                        document.getElementById('menu-item-users').className = oldClasses + ' active';
+                        break;
+                    case 'agentes':
                         var oldClasses = document.getElementById('menu-item-employees').className;
                         document.getElementById('menu-item-employees').className = oldClasses + ' active';
                         break;
                     case 'unidades':
                         var oldClasses = document.getElementById('menu-item-buildings').className;
                         document.getElementById('menu-item-buildings').className = oldClasses + ' active';
+                        break;
+                    case 'horarios':
+                        var oldClasses = document.getElementById('menu-item-schedules').className;
+                        document.getElementById('menu-item-schedules').className = oldClasses + ' active';
                         break;
                     case 'relatorios':
                         var oldClasses = document.getElementById('menu-item-reports').className;
