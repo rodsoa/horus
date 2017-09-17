@@ -8,41 +8,31 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item" id="menu-item-home">
-                <a class="nav-link" href="@if( Auth::user()->employee) {{ action('Employee\EmployeeController@index') }} @else {{ action('Admin\AdminController@index') }} @endif">Inicio</a>
+                <a class="nav-link" href="/">Inicio</a>
             </li>
-            @if( !count(Auth::user()->employee) )
-                <li class="nav-item" id="menu-item-employees" >
-                    <a class="nav-link"href="{{ action('Admin\EmployeesController@index') }}">Agentes</a>
-                </li>
-                <li class="nav-item" id="menu-item-buildings">
-                    <a class="nav-link" href="{{ action('Admin\BuildingsController@index') }}">Unidades</a>
-                </li>
+            <li class="nav-item" id="menu-item-employees" >
+                <a class="nav-link"href="{{ action('EmployeesController@index') }}">Agentes</a>
+            </li>
+            <li class="nav-item" id="menu-item-buildings">
+                <a class="nav-link" href="{{ action('BuildingsController@index') }}">Unidades</a>
+            </li>
+            @if ( Auth::user()->category == 'ADMIN')
                 <li class="nav-item" id="menu-item-users">
-                    <a class="nav-link" href="{{ action('Admin\UsersController@index') }}">Usuários</a>
-                </li>
-                <li class="nav-item" id="menu-item-schedules">
-                    <a class="nav-link" href="{{ action('Admin\SchedulesController@index') }}">Horários</a>
-                </li>
-                <li class="nav-item" id="menu-item-reports">
-                    <a class="nav-link" href="{{ action('Admin\ReportsController@index') }}">Relatórios</a>
-                </li>
-            @else
-                <li class="nav-item" id="menu-item-reports">
-                    <a class="nav-link" href="{{ action('Employee\ReportsController@index') }}">Relatórios</a>
+                    <a class="nav-link" href="{{ action('UsersController@index') }}">Usuários</a>
                 </li>
             @endif
+            <li class="nav-item" id="menu-item-schedules">
+                <a class="nav-link" href="{{ action('SchedulesController@index') }}">Horários</a>
+            </li>
+            <li class="nav-item" id="menu-item-reports">
+                <a class="nav-link" href="{{ action('ReportsController@index') }}">Relatórios</a>
+             </li>
         </ul>
         <ul class="navbar-nav">
             <li class="nav-item">
-                @if ( isset(Auth::user()->employee) )
-                    <a class="nav-link" href="{{ action('Employee\EmployeeController@profile') }}">
-                        <i class="fa fa-user-circle fa-fw">&nbsp;</i>Perfil
-                    </a>
-                @else
-                    <a class="nav-link" href="{{ action('Admin\UsersController@view', ['id' => Auth::user()->id]) }}">
-                        <i class="fa fa-user-circle fa-fw">&nbsp;</i>Perfil
-                    </a>
-                @endif
+                <a class="nav-link" href="{{ action('UsersController@view', ['id' => Auth::user()->id]) }}">
+                    <i class="fa fa-user-circle fa-fw">&nbsp;</i>Perfil
+                </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="logout" href="">

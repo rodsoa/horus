@@ -18,7 +18,7 @@ class RedirectIfNotAdmin
      */
     public function handle($request, Closure $next)
     {
-        if ( Auth::user()->employee ) return redirect('/');
+        if ( Auth::user()->category != 'ADMIN' ) return redirect('/');
         return $next($request);
     }
 }

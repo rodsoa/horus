@@ -24,10 +24,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if ( isset(Auth::user()->employee) ) {
-            return redirect('/agente');
-        } else {
-            return redirect('/admin');
-        }
+        return view('home');
     }
 }

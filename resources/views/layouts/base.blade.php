@@ -15,6 +15,9 @@
 
         <header class="container">
             @include("includes.header")
+            <form id="form-logout" class="hidden" action="{{ url('/logout') }}" method="POST">
+                {{ csrf_field() }}
+            </form>
         </header>
 
         <div class="container">
@@ -37,12 +40,9 @@
         <script>
             $(function () {
                 // Logout do sistema
-                $("#logout").click(function () {
-                    axios.post('/logout', {})
-                         .then(function () {
-                             alert('teste');
-                         });
-                    location.reload()
+                $("#logout").click(function (event) {
+                    event.preventDefault();
+                    $('#form-logout').submit();
                 });
                 
                 /**
@@ -55,7 +55,7 @@
                     item = urlAtual.split("?")[0];
                 } 
 
-                item = item.split("/")[4];
+                item = item.split("/")[3];
 
                 switch ( item ) {
                     case 'usuarios':
