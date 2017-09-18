@@ -154,6 +154,7 @@
             html +=  '<b>Horário:</b> '+ $.fullCalendar.formatDate(calEvent.start, "HH:mm");
             //html +=  ' - ' + $.fullCalendar.formatDate(calEvent.end, "HH:mm");
             console.log(calEvent.end);
+            $("#calendar-modal-title").html("");
             $("#calendar-modal-body").html(html);
             $('#calendar-modal').modal('show');
 
