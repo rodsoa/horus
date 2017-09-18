@@ -38,7 +38,6 @@
             <td><i>{{ $schedule->time_range }}</i></td>
             <td class="text-right">
                 <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                    <a role="button" class="btn btn-secondary" href="{{ action('SchedulesController@view', ['id' => $schedule->id]) }}"><i class="fa fa-eye"></i> ver</a>
                     <a role="button" class="btn btn-secondary" href="{{ action('SchedulesController@edit', ['id' => $schedule->id]) }}"><i class="fa fa-pencil"></i> editar</a>
                 </div>
                 <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">

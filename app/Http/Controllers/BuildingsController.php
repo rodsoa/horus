@@ -11,6 +11,7 @@ use Horus\Models\Building;
 use Horus\Models\Employee;
 use Horus\Models\Schedule;
 use Horus\Models\WorkSchedule;
+use Horus\Models\Report;
 
 class BuildingsController extends Controller
 {
@@ -26,19 +27,20 @@ class BuildingsController extends Controller
         }
 
         $buildings = Building::orderBy('id', 'desc')->paginate(7);
-        
+       
         return view('buildings.index', ['buildings' => $buildings]);
     }
 
     public function view($id) {
         
-        $building = Building::findOrFail($id);
+        $building  = Building::findOrFail($id);
         $employees = Employee::all(); // TODO: selecionar apenas os que tem escala para aquela unidade
         $schedules = Schedule::all();
 
-        $days = [1, 2, 3, 4, 5, 6, 7];
+        $days      = [1, 2, 3, 4, 5, 6, 7];
 
         $workschedules = WorkSchedule::where('building_id', $id)->get();
+        $reports       = Report::where('building_id', $building->id)->orderBy('id', 'desc')->limit(5)->get();
 
         // TODO 
         return view('buildings.view', [
@@ -47,6 +49,7 @@ class BuildingsController extends Controller
             'schedules' => $schedules,
             'workschedules' => $workschedules,
             'days' => $days,
+            'reports' => $reports
         ]);
     }
 

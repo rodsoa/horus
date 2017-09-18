@@ -14,11 +14,29 @@ class RestEmployeesController extends Controller
         $employee = Employee::where('registration_number', $registration_number)->get()->first();
         // TODO: ADICIONAR DATA NO WORKSCHEDULE
         $events = [];
-
+        $cont = 0;
         foreach ($employee->work_schedules as $key => $ws) {
-            $events[$key]['title'] = $ws->building->name ;
-            $events[$key]['start'] = $ws->date .' '. explode(" ", explode("-",$ws->schedule->time_range)[0])[0];
-            $events[$key]['end'] = $ws->date .' '. explode(" ", explode("-",$ws->schedule->time_range)[1])[1];
+            $events[$cont]['title'] = $ws->building->name ;
+            $events[$cont]['start'] = $ws->date .' '. explode(" ", explode("-",$ws->schedule->time_range)[0])[0];
+            $events[$cont]['end'] = $ws->date .' '. explode(" ", explode("-",$ws->schedule->time_range)[1])[1];
+            $cont++;
+        }
+
+        return $events;
+    }
+
+    public function getAllWorkSchedulesByDate($employee_id, $date) {
+        $employee = Employee::where('id', $employee_id)->get()->first();
+        // TODO: ADICIONAR DATA NO WORKSCHEDULE
+        $events = [];
+        $cont = 0;
+        foreach ($employee->work_schedules as $key => $ws) {
+            if ($ws->date == $date) {
+                $events[$cont]['title'] = $ws->building->name ;
+                $events[$cont]['start'] = $ws->date .' '. explode(" ", explode("-",$ws->schedule->time_range)[0])[0];
+                $events[$cont]['end'] = $ws->date .' '. explode(" ", explode("-",$ws->schedule->time_range)[1])[1];
+                $cont++;
+            } 
         }
 
         return $events;

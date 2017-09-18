@@ -21,6 +21,7 @@
   "dependencies": {
     "bootstrap": "4.0.0-beta",
     "clndr": "^1.4.7",
+    "dateformat": "^2.0.0",
     "font-awesome": "^4.7.0",
     "fullcalendar": "^3.5.1",
     "popper.js": "^1.12.3"

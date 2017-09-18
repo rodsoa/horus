@@ -52,11 +52,6 @@
         
         <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
             <div class="btn-group mr-2" role="group" aria-label="Second group">
-                <button type="button" class="btn btn-secondary">pdf</button>
-                <button type="button" class="btn btn-secondary">excel</button>
-            </div>
-
-            <div class="btn-group mr-2" role="group" aria-label="Second group">
                 @if( count($building->work_schedules) )
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -93,24 +88,35 @@
         <div id="building-calendar" style="margin-bottom: 20px;"></div>
 
         <div class="row">
-            <div class="col-sm-12 col-md-6 col-lg-6">
-                 <div class="card card-body">
-                    RELATORIOS DE SERVIÇO
-                </div>
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <table class="table table-condensed table-bordered table-hover table-responsive">
+                    <thead class="bg-custom-primary">
+                        <tr class="text-center">
+                            <th colspan="5">Ultimos relatórios</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($reports as $report)
+                            <tr>
+                                <td>
+                                     {{ $report->title }}
+                                </td>
+                                <td><i>coordenador</i>: {{ $report->user->name }}</td>
+                                <td><i>agente</i>: {{ $report->employee->name }}</td>
+                                <td class="text-center">{{ (\DateTime::createFromFormat('Y-m-d', $report->occurrence_date))->format('d-m-Y') }}</td>
+                                <td class="text-right">
+                                    <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                        <a role="button" class="btn btn-secondary" href="{{ action('ReportsController@view', ['id' => $report->id]) }}"><i class="fa fa-eye"></i></a>
+                                        <a role="button" class="btn btn-warning" href="{{ action('ReportsController@generatePDF', ['id' => $report->id]) }}"><i class="fa fa-file-pdf-o"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
 
                 <br />
             </div>
-            <div class="col-sm-12 col-md-6 col-lg-6">
-                 <div class="card card-body">
-                    INFOS COMPLEMENTARES
-                </div>
-
-                <br />
-            </div>
-        </div>
-
-        <div class="card card-body">
-            REGISTROS DE PROTOCOLOS DE ENTREGA/RECEBIMENTO DE CHAVES
         </div>
     </div>
 </div>

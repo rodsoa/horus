@@ -20,10 +20,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 // Employees | Agentes
 Route::namespace('Rest')->prefix('employees')->group(function () {
     Route::get('/{registration_number}/get-all-workschedules', 'RestEmployeesController@getAllWorkSchedules');
+    Route::get('/{employee_id}/{date}/get-all-workschedules', 'RestEmployeesController@getAllWorkSchedulesByDate');
 });
 
 // Buildings | Unidades
 Route::namespace('Rest')->prefix('buildings')->group(function () {
     Route::get('/{building_id}/get-all-workschedules', 'RestBuildingsController@getAllWorkSchedules');
     Route::get('/{building_id}/get-all-employees', 'RestBuildingsController@getAllEmployees');
+    Route::get('/{building_id}/{date}/get-all-workschedules', 'RestBuildingsController@getAllWorkSchedulesByDate');
 });

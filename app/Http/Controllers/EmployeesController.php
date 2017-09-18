@@ -13,6 +13,7 @@ use Horus\Models\EmployeeCategory;
 use Horus\Models\EmployeeVacation;
 use Horus\Models\Schedule;
 use Horus\Models\WorkSchedule;
+use Horus\Models\Report;
 
 class EmployeesController extends Controller
 {
@@ -36,6 +37,7 @@ class EmployeesController extends Controller
     public function view ( $registration_number ) {
         $employee = Employee::where('registration_number', $registration_number)->first();    
         $vacations = EmployeeVacation::where([['employee_id', "=", $employee->id]])->orderBy('id', 'desc')->limit(5)->get();
+        $reports = Report::where([['employee_id', "=", $employee->id]])->orderBy('id', 'desc')->limit(5)->get();
 
         //return $employee;
 
@@ -50,7 +52,8 @@ class EmployeesController extends Controller
             'schedules' => $schedules,
             'workschedules' => $workschedules,
             'days' => $days,
-            'vacations' => $vacations
+            'vacations' => $vacations,
+            'reports' => $reports
         ]);
     }
 

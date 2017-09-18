@@ -114,9 +114,29 @@
 
         <div class="row">
             <div class="col-sm-12 col-md-6 col-lg-6">
-                 <div class="card card-body">
-                    RELATORIOS DE SERVIÇO
-                </div>
+                <table class="table table-condensed table-bordered table-hover table-responsive">
+                    <thead class="bg-custom-primary">
+                        <tr class="text-center">
+                            <th colspan="3">Ultimos relatórios</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($reports as $report)
+                            <tr>
+                                <td>
+                                     {{ $report->title }}
+                                </td>
+                                <td class="text-center">{{ (\DateTime::createFromFormat('Y-m-d', $report->occurrence_date))->format('d-m-Y') }}</td>
+                                <td class="text-right">
+                                    <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                        <a role="button" class="btn btn-secondary" href="{{ action('ReportsController@view', ['id' => $report->id]) }}"><i class="fa fa-eye"></i></a>
+                                        <a role="button" class="btn btn-warning" href="{{ action('ReportsController@generatePDF', ['id' => $report->id]) }}"><i class="fa fa-file-pdf-o"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
 
                 <br />
             </div>
@@ -149,13 +169,62 @@
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="calendar-modal" tabindex="-1" role="dialog" aria-labelledby="calendar-modal-title" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="calendar-modal-title"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="calendar-modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
 @endsection
 
 @section('js')
 <script>
     $('#employee-calendar').fullCalendar({
         locale: 'pt-br',
-        events: '/api/employees/{{ $employee->registration_number }}/get-all-workschedules'
+        events: '/api/employees/{{ $employee->registration_number }}/get-all-workschedules',
+        eventClick: function(calEvent, jsEvent, view) {
+            var html = "<h5>"+ calEvent.title +"</h5>";
+            html +=  '<b>Horário:</b> '+ $.fullCalendar.formatDate(calEvent.start, "HH:mm");
+            //html +=  ' - ' + $.fullCalendar.formatDate(calEvent.end, "HH:mm");
+            console.log(calEvent.end);
+            $("#calendar-modal-body").html(html);
+            $('#calendar-modal').modal('show');
+
+        },
+        dayClick: function(date, allDay, jsEvent, view) { 
+            var dayDate = $.fullCalendar.formatDate( date, "Y-MM-DD");
+            
+            var html = "Escalas para " + $.fullCalendar.formatDate( date, "DD-MM-Y");
+
+            $("#calendar-modal-title").html(html);
+
+            axios.get('/api/employees/{{ $employee->id }}/'+dayDate+'/get-all-workschedules')
+                 .then(function (data) {
+                     var html = "";
+                     events = data.data
+                    console.log(events.length)
+                    for (var cont = 0; cont < events.length; cont++) {
+                        html += "<b>"+events[cont].title+":</b> "+events[cont].start +"<br/>";
+                    }
+                    $("#calendar-modal-body").html(html);
+                 })
+                 .catch();
+            $('#calendar-modal').modal('show');
+        }
     });
 </script>
 @endsection
