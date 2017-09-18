@@ -10,6 +10,7 @@ use Horus\Http\Controllers\Controller;
 
 use Horus\Models\Employee;
 use Horus\Models\EmployeeCategory;
+use Horus\Models\EmployeeVacation;
 use Horus\Models\Schedule;
 use Horus\Models\WorkSchedule;
 
@@ -33,7 +34,8 @@ class EmployeesController extends Controller
     }
 
     public function view ( $registration_number ) {
-        $employee = Employee::where('registration_number', $registration_number)->first();
+        $employee = Employee::where('registration_number', $registration_number)->first();    
+        $vacations = EmployeeVacation::where([['employee_id', "=", $employee->id]])->orderBy('id', 'desc')->limit(5)->get();
 
         //return $employee;
 
@@ -47,7 +49,8 @@ class EmployeesController extends Controller
             'employee' => $employee,
             'schedules' => $schedules,
             'workschedules' => $workschedules,
-            'days' => $days
+            'days' => $days,
+            'vacations' => $vacations
         ]);
     }
 
@@ -202,8 +205,17 @@ class EmployeesController extends Controller
             $employee->updated_at = (new \DateTime('NOW'))->format('Y-m-d h:i:s');
 
             if ( $employee->save() ){
+                if( !$employee->status )
+                    return redirect()->action('EmployeeVacationsController@newFromEmployee', ['registration_number' => $registration_number]);
+                
+                $vacation = EmployeeVacation::where([['employee_id', "=", $employee->id], ['status', '=', true]])->first();
+                if( $vacation ) {
+                    $vacation->status = false;
+                    $vacation->save();
+                }
+
                 return redirect()->action('EmployeesController@view', ['registration_number' => $registration_number])->with([
-                    'status' => 'Empregado atualizado com sucesso',
+                    'status' => 'Agente Ativo',
                     'type' => 'success'
                 ]);
             } else { 

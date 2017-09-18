@@ -1,57 +1,100 @@
 @extends('layouts.base')
 
 @section('content')
-        <center>
-            <h2>RELATORIO DE OCORRÊNCIA</h2>
-            <h5>Criado: {{ $report->created_at->format('d-m-y H:i') }} | Atualizado: {{ $report->updated_at->format('d-m-y H:i') }}</h5>
-        </center>
+<center>
+<h2>RELATORIO DE OCORRÊNCIA</h2>
+<h6>Criado: {{ $report->created_at->format('d-m-y H:i') }} | Atualizado: {{ $report->updated_at->format('d-m-y H:i') }}</h6>
+</center>
 
-        <p>
-            <hr />
-           <h5>Agente escalado: <i>{{ $report->employee->name }} - {{ $report->employee->registration_number }}</i> </h5>
-           <h5>Tel. Fixo: <i>{{ $report->employee->phone }}</i> </h5>
-           <h5>Tel. celular: <i>{{ $report->employee->cell_phone }}</i> </h5>
-           <h5>Email: <i>{{ $report->employee->email }}</i> </h5>
-           <hr />
-           <h5>Unidade: <i>{{ $report->building->name }}</i> </h5>
-           <h5>Endereço: <i>{{ $report->building->address }}</i> </h5>
-           <h5>Descrição: <i>{{ $report->building->description }}</i> </h5>
-           <hr />
-        </p>
+<hr />
+<style>
+    .report { 
+        display: block;
+        list-style-type: none;
+        margin-top: 1em;
+        margin-bottom: 1 em;
+        margin-left: 0;
+        margin-right: 0;
+        padding-left: 0;
+    }
 
-        <p>
-            <center><h2>Ocorrência</h2></center>
-            {!! $report->description !!}
-            <hr />
-        </p>
+    .img-portrait {
+        list-style-type: none;
+        margin-top: 1em;
+        margin-bottom: 1 em;
+        margin-left: 0;
+        margin-right: 0;
+        padding-left: 0;
+    }
 
-        <footer>
-            <center>
-               <p>
-                     __________________________________
-                    <br />
-                    <span>Autor</span>
-                    <br  />
-                    __________________________________
-                    <br />
-                    <span>Diretor</span>
-                    <br  />
-                    __________________________________
-                    <br />
-                    <span>Coordenador</span>
-                    <br />
-               </p>
+    .img-portrait li {
+        display: inline;
+        margin-right: 10px;
+    }
+</style>
+<ul class="report">
+<li><b>Coordenador:</b> {{ $report->user->name }}</li> 
+</ul>
 
-                <p>
-                   <span>Data de impressão: <i>{{ (new \DateTime('NOW'))->format('d-m-y H:i') }}</i> </span>
-                   <br/>
-                   <span>Sistema HORUS - SAMHOST</i> </span>
-                </p>
-            </center>
-            <p>
-            </p>
-        </footer>
+<ul class="report">
+<li><b>Agente escalado:</b> {{ $report->employee->name }} - {{ $report->employee->registration_number }} </li>
+<li><b>Tel. Fixo:</b> {{ $report->employee->phone }} </li>
+<li><b>Tel. celular:</b> {{ $report->employee->cell_phone }} </li>
+<li><b>Email:</b> {{ $report->employee->email }} </li>
+</ul>
 
-<a class="btn btn-danger" role="button" href="{{ action('Employee\ReportsController@index') }}">Cancelar</a>
-<a class="btn btn-primary" role="button" href="{{ action('Employee\ReportsController@print', ['id' => $report->id]) }}"><i class="fa fa-file-pdf-o fw">&nbsp;</i>Imprimir</a>
+<ul class="report">
+<li><b>Unidade:</b> {{ $report->building->name }} </li>
+<li><b>Endereço:</b> {{ $report->building->address }} </li>
+<li><b>Descrição:</b> {{ $report->building->description }} </li>
+</ul>
+
+<hr />
+
+<p>
+<center>
+    <h2>Ocorrência</h2>
+    <h6>Data da ocorrência: {{ (\DateTime::createFromFormat('Y-m-d', $report->occurrence_date))->format('d-m-Y') }}</h6>
+</center>
+{!! $report->description !!}
+
+<p>
+    <ul class="img-portrait">
+        @foreach($report->report_images as $img)
+            <li><img src="/upload/{{ $img->path }}" width="250px;"></li>
+        @endforeach
+    <ul>
+</p>
+<hr />
+</p>
+
+<footer>
+<center>
+   <p>
+         _________________________________________
+        <br />
+        <span>Autor</span>
+        <br  />
+        _________________________________________
+        <br />
+        <span>Diretor</span>
+        <br  />
+        _________________________________________
+        <br />
+        <span>Coordenador</span>
+        <br />
+   </p>
+
+    <p>
+       <span>Data de impressão: <i>{{ (new \DateTime('NOW'))->format('d-m-y H:i') }}</i> </span>
+       <br/>
+       <span>Sistema HORUS - SAMHOST</i> </span>
+    </p>
+</center>
+<p>
+</p>
+</footer>
+
+<a class="btn btn-danger" role="button" href="{{ action('ReportsController@index') }}">Cancelar</a>
+<a class="btn btn-primary" role="button" href="{{ action('ReportsController@generatePDF', ['id' => $report->id]) }}"><i class="fa fa-file-pdf-o fw">&nbsp;</i>Imprimir</a>
 @endsection

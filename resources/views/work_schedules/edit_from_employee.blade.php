@@ -17,7 +17,7 @@
             @foreach($weekdays as $day => $value)
             <div class="tab-pane fade" id="nav-{{ $value }}" role="tabpanel" aria-labelledby="nav-{{ $value }}-tab">
                 <div class="card custom card-body">     
-                    <form action="{{ action('WorkSchedulesController@updateFromEmployee', ['id' => $employee->id]) }}">
+                    <form action="{{ action('WorkSchedulesController@updateFromEmployee', ['id' => $employee->id]) }}" method="POST">
                         {{ csrf_field() }}
                         <input type="hidden" name="employee_id" value="{{ $employee->id }}" >
                         @foreach($employee->work_schedules as $workschedule)

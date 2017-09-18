@@ -16,9 +16,7 @@ class BuildingsTableSeeder extends Seeder
                 'name' => 'UNIDADE TESTE #'.$cont,
                 'address' => 'ENDEREÇO UNIDADE TESTE #'.$cont,
                 'description' => 'DESCRIÇÃO UNIDADE TESTE #'.$cont,
-                'status' => true,
-                'created_at' => (new \DateTime('NOW'))->format('Y-m-d h:i:s'),
-                'updated_at' => (new \DateTime('NOW'))->format('Y-m-d h:i:s')
+                'status' => true
             ]);
         }
     }

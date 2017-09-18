@@ -46,12 +46,4 @@ class RestBuildingsController extends Controller
 
         return $employees;
     }
-
-    public function getAllWorkSchedulesFromEmployee($registration_number) {
-        $employee = Employee::where('registration_number', $registration_number)->get()->first();
-
-        if ( count($employee->work_schedules) ) {
-
-        }
-    }
 }

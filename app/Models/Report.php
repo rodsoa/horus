@@ -11,15 +11,12 @@ class Report extends Model
         'description',
         'employee_id',
         'building_id',
-        'work_schedule_id'
+        'schedule_id',
+        'user_id'
     ];
 
     public function report_images() {
         return $this->hasMany('Horus\Models\ReportImage');
-    }
-
-    public function work_schedule() {
-        return $this->belongsTo('Horus\Models\WorkSchedule');
     }
 
     public function building() {
@@ -28,5 +25,13 @@ class Report extends Model
 
     public function employee() {
         return $this->belongsTo('Horus\Models\Employee');
+    }
+
+    public function schedule() {
+        return $this->belongsTo('Horus\Models\Schedule');
+    }
+
+    public function user() {
+        return $this->belongsTo('Horus\User');
     }
 }

@@ -47,9 +47,11 @@ Route::group(['middleware' => ['auth']], function () {
                     
             Route::delete('/{id}/deletar', 'EmployeeCategoriesController@delete');
         });
-        
+
         // ANOTHER ACTIONS
         Route::get('/{matricula}/status/alterar', 'EmployeesController@toggleStatus');
+        Route::get('/{matricula}/ferias', 'EmployeeVacationsController@newFromEmployee');
+        Route::post('/{matricula}/ferias/cadastrar', 'EmployeeVacationsController@addFromEmployee');
     });
         
     // Buildings
@@ -96,13 +98,13 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/unidade/{id}/adicionar', 'WorkSchedulesController@addFromBuilding');
                 
         Route::get('/unidade/{id}/editar', 'WorkSchedulesController@editFromBuilding');
-        Route::get('/unidade/{id}/atualizar', 'WorkSchedulesController@updateFromBuilding');
+        Route::post('/unidade/{id}/atualizar', 'WorkSchedulesController@updateFromBuilding');
         
         Route::get('/empregado/{id}/novo', 'WorkSchedulesController@newFromEmployee');
         Route::post('/empregado/{id}/adicionar', 'WorkSchedulesController@addFromEmployee');
                 
         Route::get('/empregado/{id}/editar', 'WorkSchedulesController@editFromEmployee');
-        Route::get('/empregado/{id}/atualizar', 'WorkSchedulesController@updateFromEmployee');
+        Route::post('/empregado/{id}/atualizar', 'WorkSchedulesController@updateFromEmployee');
     });
 
     // Reports
@@ -112,6 +114,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/cadastrar', 'ReportsController@add');
         Route::get('/{id}/gerar-pdf', 'ReportsController@generatePDF');
         Route::get('/{id}/exibir', 'ReportsController@view');
+        Route::get('/{id}/editar', 'ReportsController@edit');
+        Route::post('/{id}/atualizar', 'ReportsController@update');
         Route::delete('/{id}/deletar', 'ReportsController@delete');
     });
 

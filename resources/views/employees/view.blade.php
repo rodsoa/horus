@@ -2,17 +2,22 @@
 
 @section("content")
 
-<h3 class="card-title">Exibindo Empregado #{{ $employee->registration_number }}</h3>
+<h3 class="card-title">Exibindo Agente #{{ $employee->registration_number }}</h3>
+@if( !$employee->status )
+    <div class="alert alert-danger text-center" role="alert">
+        <strong>Agente Inativado ou em Período de Férias</strong>
+    </div>
+@endif
 
 <div class="row">
     <div class="col-sm-12 col-md-4 col-lg-4">
         <div class="card card-body">
             <figure class="figure">
                 <img src="/upload/{{ $employee->photo }}" class="figure-img img-fluid rounded" alt="A generic square placeholder image with rounded corners in a figure.">
-                <figcaption class="figure-caption text-center">*Imagem de perfil do empregado</figcaption>
+                <figcaption class="figure-caption text-center">*Imagem de perfil do agente</figcaption>
             </figure>
             <p class="card-text">
-                <table class="table table-sm table-hover">
+                <table class="table table-sm table-hover table-responsive">
                     <thead class="bg-custom-primary">
                         <tr class="text-center">
                             <th colspan="2">Informações</th>
@@ -43,7 +48,7 @@
                         </tr>
                         <tr>
                             <th scope="row">Função: </th>
-                            <td class="text-right">{{ $employee->name }}</td>
+                            <td class="text-right">{{ $employee->employee_category->name }}</td>
                         </tr>
                         <tr>
                             <th scope="row">Email: </th>
@@ -69,11 +74,7 @@
     <div class="col-sm-12 col-md-8 col-lg-8">
 
         <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-            <div class="btn-group mr-2" role="group" aria-label="Second group">
-                <button type="button" class="btn btn-secondary">pdf</button>
-                <button type="button" class="btn btn-secondary">excel</button>
-            </div>
-
+            @if( $employee->status )
             <div class="btn-group mr-2" role="group" aria-label="Second group">
                 @if( count($employee->work_schedules) )
                     <div class="dropdown">
@@ -91,6 +92,7 @@
                     </a>
                 @endif
             </div>
+            @endif
 
             <div class="btn-group" role="group" aria-label="Third group">
                 @if($employee->status)
@@ -119,16 +121,31 @@
                 <br />
             </div>
             <div class="col-sm-12 col-md-6 col-lg-6">
-                 <div class="card card-body">
-                    INFOS COMPLEMENTARES
-                </div>
+                <table class="table table-condensed table-bordered table-hover table-responsive">
+                    <thead class="bg-custom-primary">
+                        <tr class="text-center">
+                            <th colspan="3">Ultimos registros de férias</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($vacations as $vacation)
+                            <tr class="@if($vacation->status) bg-danger @else bg-warning @endif">
+                                <td>
+                                    @if ( $vacation->status )
+                                        FÉRIAS ATIVAS
+                                    @else
+                                        FÉRIAS INATIVAS
+                                    @endif
+                                </td>
+                                <td class="text-center">{{ (\DateTime::createFromFormat('Y-m-d', $vacation->beginning))->format('d-m-Y') }}</td>
+                                <td class="text-right">{{ (\DateTime::createFromFormat('Y-m-d', $vacation->end))->format('d-m-Y') }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
 
                 <br />
             </div>
-        </div>
-
-        <div class="card card-body">
-            REGISTROS DE PROTOCOLOS DE ENTREGA/RECEBIMENTO DE CHAVES
         </div>
     </div>
 </div>

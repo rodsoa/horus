@@ -9,32 +9,49 @@
 
     <div class="form-row">
         <div class="form-group col-sm-12 col-md-4 col-lg-3">
+            <label for="report-date">Data da Ocorrência</label>
+            <input type="text" class="form-control" id="report-date" name="occurrence_date" required>   
+            <div class="invalid-feedback">
+                Por favor insira a data da ocorrência.
+            </div>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-sm-12 col-md-4 col-lg-4">
             <label for="report-building">Unidade</label>
-            <select class="form-control" id="report-building" name="building_id">
+            <select class="form-control" id="report-building" name="building_id" required>
             <option> </option>
                 @foreach($buildings as $building)
                     <option value="{{ $building->id }}">{{ $building->name }}</option>
                 @endforeach
             </select>
+            <div class="invalid-feedback">
+                Por favor escolha a unidade.
+            </div>
         </div>
 
-        <div class="form-group col-sm-12 col-md-4 col-lg-3">
+        <div class="form-group col-sm-12 col-md-4 col-lg-4">
             <label for="report-employees">Agente</label>
-            <select class="form-control" id="report-employees" name="employee_category_id">        
+            <select class="form-control" id="report-employees" name="employee_id" required>        
                 <option value=""></option> 
             </select>
+            <div class="invalid-feedback">
+                Por favor escolha o agente.
+            </div>
         </div>
 
-        <div class="form-group col-sm-12 col-md-4 col-lg-3">
+        <div class="form-group col-sm-12 col-md-4 col-lg-4">
             <label for="reports-employee-schedules">Horário</label>
-            <select class="form-control" id="report-employee-schedules" name="schedule_id">            
-                <option value=""></option>              
+            <select class="form-control" id="report-employee-schedules" name="schedule_id" required>            
+                <option value=""></option>
+                @foreach ( $schedules as $schedule )
+                    <option value="{{ $schedule->id }}">{{ $schedule->time_range }}</option>
+                @endforeach              
             </select>
-        </div>
-
-        <div class="form-group col-sm-12 col-md-4 col-lg-3">
-            <label for="report-date">Data escalada</label>
-            <input type="text" class="form-control" id="report-date" name="date">
+            <div class="invalid-feedback">
+                Por favor escolha o horário.
+            </div>
         </div>
     </div>
     

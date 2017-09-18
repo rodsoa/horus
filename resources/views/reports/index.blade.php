@@ -56,14 +56,14 @@
             <td>{{ $report->updated_at->format('Y-m-d') }}</td>
             <td class="text-right">
                 <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                    <a role="button" class="btn btn-secondary" href="{{ action('Employee\ReportsController@view', ['id' => $report->id]) }}"><i class="fa fa-eye"></i> ver</a>
-                    <a role="button" class="btn btn-secondary" href="{{ action('Employee\ReportsController@edit', ['id' => $report->id]) }}"><i class="fa fa-pencil"></i> editar</a>
+                    <a role="button" class="btn btn-secondary" href="{{ action('ReportsController@view', ['id' => $report->id]) }}"><i class="fa fa-eye"></i> ver</a>
+                    <a role="button" class="btn btn-secondary" href="{{ action('ReportsController@edit', ['id' => $report->id]) }}"><i class="fa fa-pencil"></i> editar</a>
                 </div>
                 <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                    <a role="button" class="btn btn-warning" href="{{ action('Employee\ReportsController@print', ['id' => $report->id]) }}"><i class="fa fa-file-pdf-o"></i></a>
+                    <a role="button" class="btn btn-warning" href="{{ action('ReportsController@generatePDF', ['id' => $report->id]) }}"><i class="fa fa-file-pdf-o"></i></a>
                 </div>
                 <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                    <form method="POST" action="{{ action('Employee\ReportsController@delete', ['id' => $report->id]) }}">
+                    <form method="POST" action="{{ action('ReportsController@delete', ['id' => $report->id]) }}">
                         {{ csrf_field () }}
                         <input type="hidden" name="_method" value="DELETE">
                         <button id="delete-{{ $report->id }}" type="submit" class="btn btn-danger btn-sm">

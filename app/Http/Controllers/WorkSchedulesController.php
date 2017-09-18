@@ -3,9 +3,6 @@
 namespace Horus\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-
-use Horus\Http\Controllers\Controller;
 
 use Horus\Models\Building;
 use Horus\Models\Employee;
@@ -152,7 +149,13 @@ class WorkSchedulesController extends Controller
     public function editFromBuilding($id) {
         $building  = Building::findOrFail($id);
         $schedules = Schedule::all();
+
         $employees = Employee::all();
+        $temp = [];
+        foreach($employees as $employee)
+            if ($employee->status)  $temp[] = $employee;
+        $employees = $temp;
+        
         $weekdays  = [
             'DOMINGO' => 1,
             'SEGUNDA-FEIRA' => 2,

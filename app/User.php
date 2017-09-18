@@ -27,7 +27,7 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function employee() {
-        return $this->belongsTo('Horus\Models\Employee');
+    public function reports() {
+        return $this->hasMany('Horus\Models\Report');
     }
 }

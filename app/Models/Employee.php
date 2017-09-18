@@ -16,16 +16,16 @@ class Employee extends Model
         'address'
     ];
 
+    public function employee_vacations() {
+        return $this->hasMany('Horus\Models\EmployeeVacation');
+    }
+
     public function employee_category () {
         return $this->belongsTo('Horus\Models\EmployeeCategory');
     }
 
     public function work_schedules() {
         return $this->hasMany('Horus\Models\WorkSchedule');
-    }
-
-    public function user() {
-        return $this->hasOne('Horus\User');
     }
 
     public function protocols() {
