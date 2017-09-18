@@ -122,13 +122,62 @@
 </div>
 
 <br />
+
+<!-- Modal -->
+<div class="modal fade" id="calendar-modal" tabindex="-1" role="dialog" aria-labelledby="calendar-modal-title" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="calendar-modal-title"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="calendar-modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
 @endsection
 
 @section('js')
 <script>
     $('#building-calendar').fullCalendar({
         locale: 'pt-br',
-        events: '/api/buildings/{{ $building->id }}/get-all-workschedules'
+        events: '/api/buildings/{{ $building->id }}/get-all-workschedules',
+        eventClick: function(calEvent, jsEvent, view) {
+            var html = "<h5>"+ calEvent.title +"</h5>";
+            html +=  '<b>Horário:</b> '+ $.fullCalendar.formatDate(calEvent.start, "HH:mm");
+            //html +=  ' - ' + $.fullCalendar.formatDate(calEvent.end, "HH:mm");
+            console.log(calEvent.end);
+            $("#calendar-modal-body").html(html);
+            $('#calendar-modal').modal('show');
+
+        },
+        dayClick: function(date, allDay, jsEvent, view) { 
+            var dayDate = $.fullCalendar.formatDate( date, "Y-MM-DD");
+            
+            var html = "Escalas para " + $.fullCalendar.formatDate( date, "DD-MM-Y");
+
+            $("#calendar-modal-title").html(html);
+
+            axios.get('/api/buildings/{{ $building->id }}/'+dayDate+'/get-all-workschedules')
+                 .then(function (data) {
+                     var html = "";
+                     events = data.data
+                    console.log(events.length)
+                    for (var cont = 0; cont < events.length; cont++) {
+                        html += "<b>"+events[cont].title+":</b> "+events[cont].start +"<br/>";
+                    }
+                    $("#calendar-modal-body").html(html);
+                 })
+                 .catch();
+            $('#calendar-modal').modal('show');
+        }
     });
 </script>
 @endsection
