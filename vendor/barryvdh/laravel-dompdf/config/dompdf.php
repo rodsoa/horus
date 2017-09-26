@@ -57,7 +57,7 @@ return array(
          * The temporary directory is required to download remote images and when
          * using the PFDLib back end.
          */
-        "DOMPDF_TEMP_DIR" => storage_path('tmp/'),
+        "DOMPDF_TEMP_DIR" => base_path('public/tmp/'),
 
         /**
          * ==== IMPORTANT ====
