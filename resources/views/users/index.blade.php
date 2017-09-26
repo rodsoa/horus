@@ -54,10 +54,14 @@
             <td>{{ $user->name }}</td>
             <td><i>{{ $user->email }}</i></td>
             <td>
-                @if ($user->category == 'ADMIN') 
+                @if ($user->category == 'A') 
                     ADMINISTRADOR
-                @else 
+                @elseif ($user->category == 'C') 
                     COORDENADOR
+                @elseif ($user->category == 'P') 
+                    PLANTONISTA
+                @else
+                    AGENTE
                 @endif
             </td>
             <td class="text-right">

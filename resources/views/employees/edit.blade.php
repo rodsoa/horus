@@ -9,8 +9,11 @@
         <div class="form-group col-sm-12 col-md-3 col-lg-3">
             <label for="employee-status">Categoria</label>
             <select class="form-control" id="employee-status" name="status">
-                <option value="1" @if($employee->status) selected @endif>ATIVO</option>
-                <option value="0" @if(!$employee->status) selected @endif>INATIVO</option>
+                <option value="A" @if($employee->status === 'A') selected @endif>ATIVO</option>
+                <option value="I" @if($employee->status === 'I') selected @endif>INATIVO</option>
+                <option value="F" @if($employee->status === 'F') selected @endif>FOLGA</option>
+                <option value="At" @if($employee->status === 'At') selected @endif>ATESTADO</option>
+                <option value="Fe" @if($employee->status === 'Fe') selected @endif>FÉRIAS</option>
             </select>
         </div>
     </div>
@@ -32,7 +35,7 @@
         <div class="form-group col-sm-12 col-md-4 col-lg-4">
             <label for="photo">Foto</label>
             <label class="custom-file">
-                <input type="file" id="photo" class="custom-file-input form-control" name="photo" value="{{ $employee->photo }}">
+                <input type="file" id="photo" class="custom-file-input form-control" name="photo" value="{{ base_path('public/upload/') . $employee->photo }}">
                 <span id="photo-location" class="custom-file-control"></span>
             </label>
         </div>

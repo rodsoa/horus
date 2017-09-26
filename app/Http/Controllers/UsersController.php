@@ -83,10 +83,18 @@ class UsersController extends Controller
 
     public function delete($id) {       
         $user = User::findOrFail($id);
-        $user->delete();
-        return redirect()->action('UsersController@index')->with([
-                'status' => 'Usuário deletado sucesso!',
-                'type' => 'success'
-        ]);
+        
+        if( $user->employee ) {
+            return redirect()->action('UsersController@index')->with([
+                'status' => 'Usuário correspondente a um agente. Por favor, delete o agente antes.',
+                'type' => 'error'
+            ]);
+        }else{
+            $user->delete();
+            return redirect()->action('UsersController@index')->with([
+                    'status' => 'Usuário deletado sucesso!',
+                    'type' => 'success'
+            ]);
+        }
     }
 }

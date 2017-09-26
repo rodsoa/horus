@@ -63,9 +63,12 @@
             <td class="text-right">
                 <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                     <a role="button" class="btn btn-secondary" href="{{ action('BuildingsController@view', ['id' => $building->id ]) }}"><i class="fa fa-eye"></i> ver</a>
-                    <a role="button" class="btn btn-secondary" href="{{ action('BuildingsController@edit', ['id' => $building->id ]) }}"><i class="fa fa-pencil"></i> editar</a>
+                    @if( Auth::user()->category !== "P")
+                        <a role="button" class="btn btn-secondary" href="{{ action('BuildingsController@edit', ['id' => $building->id ]) }}"><i class="fa fa-pencil"></i> editar</a>
+                    @endif
                 </div>
                 
+                @if( Auth::user()->category !== "P")
                 <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                     <form method="POST" action="{{ action('BuildingsController@delete', ['id' => $building->id]) }}">
                         {{ csrf_field () }}
@@ -75,6 +78,7 @@
                         </button>
                     </form>
                 </div>
+                @endif
             </td>
         </tr>
         @endforeach

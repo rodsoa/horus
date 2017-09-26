@@ -16,7 +16,7 @@ class CreateEmployeesTable extends Migration
         Schema::create('employees', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('employee_category_id');
-            $table->boolean('status');
+            $table->enum('status', ['A', 'I', 'F', 'At', 'Fe']);
             $table->string('name');
             $table->string('registration_number');
             $table->string('photo')->nullable();

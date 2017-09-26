@@ -8,12 +8,22 @@
                 {{ csrf_field() }}
                 <div class="form-row">
                     <div class="form-group col-sm-12 col-md-3 col-lg-3">
+                        <label for="employee-vacations-category">Categoria</label>
+                        <select class="form-control" id="employee-vacations-category" name="category">
+                            <option value="Fe">FÉRIAS</option>
+                            <option value="At">ATESTADO</option>
+                            <option value="F">FOLGA</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-3 col-lg-3">
                         <label for="employee-vacation-beginning">Início</label>
                         <input type="text" class="form-control" id="employee-vacation-beginning" name="beginning" placeholder="Data de ínicio" required>
                         <div class="invalid-feedback">
                             Por favor esse campo não pode ficar em branco.
                         </div>
                     </div>
+
                     <div class="form-group col-sm-12 col-md-3 col-lg-3">
                         <label for="employee-vacation-end">Início</label>
                         <input type="text" class="form-control" id="employee-vacation-end" name="end" placeholder="Data de fim" required>

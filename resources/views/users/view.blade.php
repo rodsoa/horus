@@ -22,7 +22,17 @@
                         </tr>
                         <tr>
                             <th scope="row">Categoria: </th>
-                            <td class="text-right">{{ $user->category }}</td>
+                            <td class="text-right">
+                                @if ($user->category == 'A') 
+                                    ADMINISTRADOR
+                                @elseif ($user->category == 'C') 
+                                    COORDENADOR
+                                @elseif ($user->category == 'P') 
+                                    PLANTONISTA
+                                @else
+                                    AGENTE
+                                @endif
+                            </td>
                         </tr>
                         <tr>
                             <th scope="row">Email: </th>
@@ -30,8 +40,9 @@
                         </tr>
                     </tbody>
                 </table>
-
-                <a role="button" class="btn btn-info btn-block" href="{{ action('UsersController@edit', ['id' => $user->id]) }}">Atualizar usuário</a>
+                @if( Auth::user()->category !== 'Ag' )
+                    <a role="button" class="btn btn-info btn-block" href="{{ action('UsersController@edit', ['id' => $user->id]) }}">Atualizar usuário</a>
+                @endif
                 <a role="button" class="btn btn-secondary btn-block" href="{{ action('UsersController@index') }}">Voltar</a>
             </p>
         </div>

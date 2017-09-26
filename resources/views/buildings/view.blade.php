@@ -41,7 +41,9 @@
                     </tbody>
                 </table>
 
-                <a role="button" class="btn btn-block btn-info" href="{{ action('BuildingsController@edit', ['id' => $building->id ]) }}">Atualizar Unidade</a>
+                @if( Auth::user()->category !== "P")
+                    <a role="button" class="btn btn-block btn-info" href="{{ action('BuildingsController@edit', ['id' => $building->id ]) }}">Atualizar Unidade</a>
+                @endif
                 <a role="button" class="btn btn-block btn-secondary" href="{{ action('BuildingsController@index') }}">Retornar</a>
             </div>
         </div>
@@ -49,35 +51,42 @@
     </div>
 
     <div class="col-sm-12 col-md-8 col-lg-8">
-        
-        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-            <div class="btn-group mr-2" role="group" aria-label="Second group">
-                @if( count($building->work_schedules) )
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-table fa-fw"></i>Gerenciar escalas
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="{{ action('WorkSchedulesController@editFromBuilding', ['id' => $building->id]) }}"><i class="fa fa-pencil fa-fw"></i>editar escala</a>
-                            <a class="dropdown-item" href="{{ action('WorkSchedulesController@newFromBuilding', ['id' => $building->id]) }}"><i class="fa fa-plus fa-fw"></i>adicionar escala</a>
-                        </div>
-                    </div>
-                @else
-                    <a role="button" class="btn btn-secondary" href="{{ action('WorkSchedulesController@newFromBuilding', ['id' => $building->id]) }}">
-                        <i class="fa fa-table fa-fw">&nbsp;</i>escala
-                    </a>
-                @endif
-            </div>
+        @if( Auth::user()->category === "P")
+            <a role="button" class="btn btn-block btn-primary" href="{{ action('ReportsController@new') }}">
+                    <i class="fa fa-file fa-fw">&nbsp;</i>Criar relatório de ocorrência
+            </a>
+        @endif
 
-            <div class="btn-group" role="group" aria-label="Third group">
-                @if($building->status)
-                    <a role="button" class="btn btn-danger" href="{{ action('BuildingsController@toggleStatus', ['id' => $building->id]) }}">Inativar</a>
-                @else
-                    <a role="button" class="btn btn-success" href="{{ action('BuildingsController@toggleStatus', ['id' => $building->id]) }}">Ativar</a>
-                @endif
+        @if( Auth::user()->category !== "P")
+            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                <div class="btn-group mr-2" role="group" aria-label="Second group">
+                    @if( count($building->work_schedules) )
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-table fa-fw"></i>Gerenciar escalas
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="{{ action('WorkSchedulesController@editFromBuilding', ['id' => $building->id]) }}"><i class="fa fa-pencil fa-fw"></i>editar escala</a>
+                                <a class="dropdown-item" href="{{ action('WorkSchedulesController@newFromBuilding', ['id' => $building->id]) }}"><i class="fa fa-plus fa-fw"></i>adicionar escala</a>
+                            </div>
+                        </div>
+                    @else
+                        <a role="button" class="btn btn-secondary" href="{{ action('WorkSchedulesController@newFromBuilding', ['id' => $building->id]) }}">
+                            <i class="fa fa-table fa-fw">&nbsp;</i>escala
+                        </a>
+                    @endif
+                </div>
+
+                <div class="btn-group" role="group" aria-label="Third group">
+                    @if($building->status)
+                        <a role="button" class="btn btn-danger" href="{{ action('BuildingsController@toggleStatus', ['id' => $building->id]) }}">Inativar</a>
+                    @else
+                        <a role="button" class="btn btn-success" href="{{ action('BuildingsController@toggleStatus', ['id' => $building->id]) }}">Ativar</a>
+                    @endif
+                </div>
             </div>
-        </div>
-  
+        @endif
+
         <table class="table table-sm table-hover" style="margin-top: 15px;">
             <thead class="bg-custom-primary">
                 <tr class="text-center">

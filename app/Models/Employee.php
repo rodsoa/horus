@@ -9,6 +9,7 @@ class Employee extends Model
     protected $fillable = [
         'name',
         'employee_category_id',
+        'registration_number',
         'photo',
         'phone',
         'cell_phone',
@@ -20,7 +21,7 @@ class Employee extends Model
         return $this->hasMany('Horus\Models\EmployeeVacation');
     }
 
-    public function employee_category () {
+    public function employee_category() {
         return $this->belongsTo('Horus\Models\EmployeeCategory');
     }
 
@@ -32,11 +33,32 @@ class Employee extends Model
         return $this->hasMany('Horus\Models\Protocol');
     }
 
-    public function generateRegistrationNumber() {
-        if ( isset($this->registration_number) )
-            return $this->registraion_number;
+    public function user() {
+        return $this->hasOne('Horus\User');
+    }
 
-        $rgn = (new \DateTime('NOW'))->format('dmYHis') . $this->name[0] . $this->name[1];
-        return $rgn;
+    public function getActualWorkPlaces() {
+        $building_ids = [];
+
+        // obtendo lista de ids das unidades
+        foreach( $this->work_schedules as $ws ) {
+            $building_ids[] = $ws->building_id;
+        }
+
+        // removendo valores duplicados
+        $building_ids = array_unique( $building_ids );
+
+        $query = [];
+
+        // Pegando o nome das construções
+        $buildings = \Horus\Models\Building::find($building_ids);
+
+        if( count( $buildings ) ){
+            $names = [];
+            foreach( $buildings as $b ) $names[] = $b->name;
+            return $names;
+        } else {
+            return [];
+        }
     }
 }

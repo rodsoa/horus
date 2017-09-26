@@ -10,23 +10,34 @@
             <li class="nav-item" id="menu-item-home">
                 <a class="nav-link" href="/">Inicio</a>
             </li>
-            <li class="nav-item" id="menu-item-employees" >
-                <a class="nav-link"href="{{ action('EmployeesController@index') }}">Agentes</a>
-            </li>
-            <li class="nav-item" id="menu-item-buildings">
-                <a class="nav-link" href="{{ action('BuildingsController@index') }}">Unidades</a>
-            </li>
-            @if ( Auth::user()->category == 'ADMIN')
-                <li class="nav-item" id="menu-item-users">
-                    <a class="nav-link" href="{{ action('UsersController@index') }}">Usuários</a>
-                </li>
+            @if( Auth::user()->category != 'Ag')
+                @if ( Auth::user()->category === 'P')
+                    <li class="nav-item" id="menu-item-buildings">
+                        <a class="nav-link" href="{{ action('BuildingsController@index') }}">Unidades</a>
+                    </li>
+                    <li class="nav-item" id="menu-item-reports">
+                        <a class="nav-link" href="{{ action('ReportsController@index') }}">Relatórios</a>
+                    </li>
+                @else
+                    <li class="nav-item" id="menu-item-buildings">
+                        <a class="nav-link" href="{{ action('BuildingsController@index') }}">Unidades</a>
+                    </li>
+                    <li class="nav-item" id="menu-item-employees" >
+                        <a class="nav-link"href="{{ action('EmployeesController@index') }}">Agentes</a>
+                    </li>
+                    <li class="nav-item" id="menu-item-reports">
+                        <a class="nav-link" href="{{ action('ReportsController@index') }}">Relatórios</a>
+                    </li>  
+                    <li class="nav-item" id="menu-item-schedules">
+                        <a class="nav-link" href="{{ action('SchedulesController@index') }}">Horários</a>
+                    </li>          
+                    @if ( Auth::user()->category === 'A')
+                        <li class="nav-item" id="menu-item-users">
+                            <a class="nav-link" href="{{ action('UsersController@index') }}">Usuários</a>
+                        </li>
+                    @endif
+                @endif 
             @endif
-            <li class="nav-item" id="menu-item-schedules">
-                <a class="nav-link" href="{{ action('SchedulesController@index') }}">Horários</a>
-            </li>
-            <li class="nav-item" id="menu-item-reports">
-                <a class="nav-link" href="{{ action('ReportsController@index') }}">Relatórios</a>
-             </li>
         </ul>
         <ul class="navbar-nav">
             <li class="nav-item">

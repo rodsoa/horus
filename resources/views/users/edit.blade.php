@@ -16,8 +16,9 @@
         <div class="form-group col-sm-12 col-md-3 col-lg-3">
             <label for="user-category">Categoria</label>
             <select class="form-control" id="user-category" name="category" Usuário>
-                <option value="ADMIN" @if($user->category == 'ADMIN') selected @endif>ADMINISTRATOR</option>
-                <option value="COORD" @if($user->category == 'COORD') selected @endif>COORDENADOR</option>
+                <option value="A" @if($user->category == 'A') selected @endif>ADMINISTRATOR</option>
+                <option value="C" @if($user->category == 'C') selected @endif>COORDENADOR</option>
+                <option value="P" @if($user->category == 'P') selected @endif>PLANTONISTA</option>
             </select>
         </div>
 

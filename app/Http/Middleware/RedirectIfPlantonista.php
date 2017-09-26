@@ -3,11 +3,8 @@
 namespace Horus\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Contracts\Auth\Guard;
 
-
-class RedirectIfNotAdmin
+class RedirectIfPlantonista
 {
     /**
      * Handle an incoming request.
@@ -18,7 +15,7 @@ class RedirectIfNotAdmin
      */
     public function handle($request, Closure $next)
     {
-        if ( Auth::user()->category != 'A' ) return redirect('/');
+        if ( $request->user()->category == 'P' ) return redirect('/');
         return $next($request);
     }
 }

@@ -2,10 +2,18 @@
 
 @section("content")
 
-<h3 class="card-title">Exibindo Agente #{{ $employee->registration_number }}</h3>
-@if( !$employee->status )
+<h3 class="card-title">Exibindo Agente {{ $employee->name }} - #{{ $employee->registration_number }}</h3>
+@if( $employee->status === 'Fe' || $employee->status === 'I' )
     <div class="alert alert-danger text-center" role="alert">
         <strong>Agente Inativado ou em Período de Férias</strong>
+    </div>
+@elseif( $employee->status === 'F' )
+    <div class="alert alert-warning text-center" role="alert">
+        <strong>Agente em período de Folga</strong>
+    </div>
+@elseif( $employee->status === 'At' )
+    <div class="alert alert-danger text-center" role="alert">
+        <strong>Atestado Médico</strong>
     </div>
 @endif
 
@@ -65,43 +73,47 @@
                     </tbody>
                 </table>
 
-                <a role="button" class="btn btn-info btn-block" href="{{ action('EmployeesController@edit', ['registration_number' => $employee->registration_number]) }}">Atualizar Empregado</a>
-                <a role="button" class="btn btn-secondary btn-block" href="{{ action('EmployeesController@index') }}">Voltar</a>
+                @if( Auth::user()->category !== 'Ag' )
+                    <a role="button" class="btn btn-info btn-block" href="{{ action('EmployeesController@edit', ['registration_number' => $employee->registration_number]) }}">Atualizar Empregado</a>
+                    <a role="button" class="btn btn-secondary btn-block" href="{{ action('EmployeesController@index') }}">Voltar</a>
+                @endif
             </p>
         </div>
         <br />
     </div>
     <div class="col-sm-12 col-md-8 col-lg-8">
-
-        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-            @if( $employee->status )
-            <div class="btn-group mr-2" role="group" aria-label="Second group">
-                @if( count($employee->work_schedules) )
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-table fa-fw"></i>Gerenciar escalas
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="{{ action('WorkSchedulesController@editFromEmployee', ['id' => $employee->id]) }}"><i class="fa fa-pencil fa-fw"></i>editar escala</a>
-                            <a class="dropdown-item" href="{{ action('WorkSchedulesController@newFromEmployee', ['id' => $employee->id]) }}"><i class="fa fa-plus fa-fw"></i>adicionar escala</a>
-                        </div>
+        @if( Auth::user()->category !== 'Ag' )
+            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                @if( $employee->status === 'A' )
+                    <div class="btn-group mr-2" role="group" aria-label="Second group">
+                        @if( count($employee->work_schedules) )
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-table fa-fw"></i>Gerenciar escalas
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="{{ action('WorkSchedulesController@editFromEmployee', ['id' => $employee->id]) }}"><i class="fa fa-pencil fa-fw"></i>editar escala</a>
+                                    <a class="dropdown-item" href="{{ action('WorkSchedulesController@newFromEmployee', ['id' => $employee->id]) }}"><i class="fa fa-plus fa-fw"></i>adicionar escala</a>
+                                </div>
+                            </div>
+                        @else
+                            <a role="button" class="btn btn-secondary" href="{{ action('WorkSchedulesController@newFromEmployee', ['id' => $employee->id]) }}">
+                                <i class="fa fa-table fa-fw">&nbsp;</i>escala
+                            </a>
+                        @endif
                     </div>
-                @else
-                    <a role="button" class="btn btn-secondary" href="{{ action('WorkSchedulesController@newFromEmployee', ['id' => $employee->id]) }}">
-                        <i class="fa fa-table fa-fw">&nbsp;</i>escala
-                    </a>
                 @endif
-            </div>
-            @endif
 
-            <div class="btn-group" role="group" aria-label="Third group">
-                @if($employee->status)
-                    <a role="button" class="btn btn-danger" href="{{ action('EmployeesController@toggleStatus', ['registration_number' => $employee->registration_number]) }}">Inativar</a>
-                @else
-                    <a role="button" class="btn btn-success" href="{{ action('EmployeesController@toggleStatus', ['registration_number' => $employee->registration_number]) }}">Ativar</a>
-                @endif
+                <div class="btn-group" role="group" aria-label="Third group">
+                    <a role="button" class="btn btn-warning" href="{{ action('EmployeesController@changeStatus', ['registration_number' => $employee->registration_number]) }}">Alterar Status</a>
+                </div>
             </div>
-        </div>
+        @else
+            <a role="button" class="btn btn-secondary" href="/agentes/download/ficha-de-frequencia">
+                <i class="fa fa-download fa-fw">&nbsp;</i>ficha de frequência
+            </a>
+        @endif
+
 
         <table class="table table-sm table-hover" style="margin-top: 15px;">
             <thead class="bg-custom-primary">
@@ -149,12 +161,14 @@
                     </thead>
                     <tbody>
                         @foreach($vacations as $vacation)
-                            <tr class="@if($vacation->status) bg-danger @else bg-warning @endif">
+                            <tr class="@if($vacation->status) bg-danger @endif">
                                 <td>
-                                    @if ( $vacation->status )
-                                        FÉRIAS ATIVAS
+                                    @if ( $vacation->category === 'F' )
+                                        FOLGA
+                                    @elseif ( $vacation->category === 'At' )
+                                        ATESTADO
                                     @else
-                                        FÉRIAS INATIVAS
+                                        FÉRIAS
                                     @endif
                                 </td>
                                 <td class="text-center">{{ (\DateTime::createFromFormat('Y-m-d', $vacation->beginning))->format('d-m-Y') }}</td>

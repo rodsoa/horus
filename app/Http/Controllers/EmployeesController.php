@@ -35,6 +35,7 @@ class EmployeesController extends Controller
     }
 
     public function view ( $registration_number ) {
+
         $employee = Employee::where('registration_number', $registration_number)->first();    
         $vacations = EmployeeVacation::where([['employee_id', "=", $employee->id]])->orderBy('id', 'desc')->limit(5)->get();
         $reports = Report::where([['employee_id', "=", $employee->id]])->orderBy('id', 'desc')->limit(5)->get();
@@ -71,10 +72,7 @@ class EmployeesController extends Controller
 
         $employee->created_at = (new \DateTime('NOW'))->format('Y-m-d h:i:s');
         $employee->updated_at = (new \DateTime('NOW'))->format('Y-m-d h:i:s');
-        $employee->status = true;
-
-        // Getting registration number
-        $employee->registration_number = $employee->generateRegistrationNumber();
+        $employee->status = 'A';
 
         // Saving photo
         $path = null;
@@ -85,6 +83,17 @@ class EmployeesController extends Controller
 
 
         if ( $employee->save() ) {
+
+            // criando usuario correpondente
+            $user = new \Horus\User();
+            $user->name = $employee->name;
+            $user->email = $employee->email;
+            $user->password = bcrypt($employee->registration_number);
+            $user->category = 'Ag';
+            // associando empregado ao usuario
+            $user->employee_id = $employee->id;
+            $user->save();
+
             return redirect()->action('EmployeesController@index')->with([
                 'status' => 'Empregado criado com sucesso!',
                 'type' => 'success'
@@ -139,11 +148,6 @@ class EmployeesController extends Controller
                 $path = $request->photo->storeAs('images/employees', $employee->registration_number . '.' .$request->photo->extension(), 'upload');
                 $employee->photo = $path;
             }
-        } else {
-            return redirect()->action('EmployeesController@index')->with([
-                'status' => 'Imagem corrompida ou em formato inválido! Formatos aceitos: JPG, JPEG',
-                'type' => 'error'
-            ]);
         }
         
         // Salvando todos os valores passados da maneira gambiarra que o php fornece!
@@ -186,7 +190,8 @@ class EmployeesController extends Controller
         foreach($employee->work_schedules as $ws)
             $ws->delete(); 
 
-        // Apaga registro desse empregado
+        // Apaga registro desse empregado e seu respectivo usuário
+        $employee->user->delete();
         $employee->delete();
           
         return redirect()->action('EmployeesController@index')->with([
@@ -195,7 +200,11 @@ class EmployeesController extends Controller
         ]);
     }
 
-    public function toggleStatus( $registration_number ) {
+    public function download() {
+        return response()->download(storage_path('app/documents/') . 'ficha_frequencia.pdf');
+    }
+
+    public function changeStatus( $registration_number ) {
         // Verificando se existe
         $employee = Employee::where('registration_number', $registration_number)->first();
         if( !$employee ) {
@@ -204,29 +213,21 @@ class EmployeesController extends Controller
                 'type' => 'error'
             ]);
         } else {
-            $employee->status = ($employee->status) ? false : true;
-            $employee->updated_at = (new \DateTime('NOW'))->format('Y-m-d h:i:s');
-
-            if ( $employee->save() ){
-                if( !$employee->status )
-                    return redirect()->action('EmployeeVacationsController@newFromEmployee', ['registration_number' => $registration_number]);
+            if( $employee->status === 'A' )
+                return redirect()->action('EmployeeVacationsController@newFromEmployee', ['registration_number' => $registration_number]);
                 
-                $vacation = EmployeeVacation::where([['employee_id', "=", $employee->id], ['status', '=', true]])->first();
-                if( $vacation ) {
-                    $vacation->status = false;
-                    $vacation->save();
-                }
-
-                return redirect()->action('EmployeesController@view', ['registration_number' => $registration_number])->with([
-                    'status' => 'Agente Ativo',
-                    'type' => 'success'
-                ]);
-            } else { 
-                return redirect()->action('EmployeesController@view', ['registration_number' => $registration_number])->with([
-                    'status' => 'Ocorreu algum erro!',
-                    'type' => 'error'
-                ]);
+            $vacation = EmployeeVacation::where([['employee_id', "=", $employee->id], ['status', '=', true]])->first();
+            if( $vacation ) {
+                $vacation->status = false;
+                $vacation->employee->status = 'A';
+                $vacation->employee->save();
+                $vacation->save();
             }
+
+            return redirect()->action('EmployeesController@view', ['registration_number' => $registration_number])->with([
+                'status' => 'Agente Ativo',
+                'type' => 'success'
+            ]);
         }
     }
 }

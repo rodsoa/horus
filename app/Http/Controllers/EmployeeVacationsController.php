@@ -29,8 +29,11 @@ class EmployeeVacationsController extends Controller
             $ev->beginning = (\DateTime::createFromFormat('d/m/Y', $request->input('beginning')))->format('Y-m-d');
             $ev->end = (\DateTime::createFromFormat('d/m/Y', $request->input('end')))->format('Y-m-d');
             $ev->status = true;
+            $ev->category = $request->input('category');
             
             if ($ev->save()) {
+                $ev->employee->status = $ev->category;
+                $ev->employee->save();
                 return redirect()->action('EmployeesController@view', ['registration_number' => $registration_number])->with([
                     'status' => 'Agente posto em período de férias ou inativado com sucesso',
                     'type' => 'success'

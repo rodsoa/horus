@@ -30,4 +30,8 @@ class User extends Authenticatable
     public function reports() {
         return $this->hasMany('Horus\Models\Report');
     }
+
+    public function employee() {
+        return $this->belongsTo('Horus\Models\Employee');
+    }
 }

@@ -29,6 +29,10 @@ class HomeController extends Controller
      */
     public function index()
     {
+        if ( Auth::user()->category === 'Ag') {
+            return redirect()->action('EmployeesController@view', ['registration_number' => Auth::user()->employee->registration_number]);
+        }
+
         $a_employees = Employee::where('status', true)->get();
         $i_employees = Employee::where('status', false)->get();
         $users = User::all();

@@ -6,7 +6,15 @@
 <form id="needs-validation" action="{{ action('EmployeesController@add') }}" method="POST" enctype="multipart/form-data" novalidate>
     {{ csrf_field() }}
     <div class="form-row">
-        <div class="form-group col-sm-12 col-md-5 col-lg-5">
+        <div class="form-group col-sm-12 col-md-2 col-lg-2">
+            <label for="name">Matrícula</label>
+            <input type="text" class="form-control" id="registration-number-employee" name="registration_number" placeholder="Digite a matrícula" required>
+            <div class="invalid-feedback">
+                Por favor informe a matrícula do empregado.
+            </div>
+        </div>
+
+        <div class="form-group col-sm-12 col-md-4 col-lg-4">
             <label for="name">Nome do empregado</label>
             <input type="text" class="form-control" id="name-employee" name="name" placeholder="Entre com o nome do empregado" required>
             <div class="invalid-feedback">
@@ -23,7 +31,7 @@
             </select>
         </div>
 
-        <div class="form-group col-sm-12 col-md-4 col-lg-4">
+        <div class="form-group col-sm-12 col-md-3 col-lg-3">
             <label for="photo">Foto</label>
             <label class="custom-file">
                 <input type="file" id="photo" class="custom-file-input form-control" name="photo" required>

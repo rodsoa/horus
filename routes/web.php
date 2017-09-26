@@ -20,10 +20,11 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['middleware' => ['auth']], function () {
         // Employees
-    Route::prefix('agentes')->group( function ()  {
+    Route::prefix('agentes')->middleware('auth.plantonista')->group( function ()  {
         
         // CRUD ACTIONS
         Route::get('/', 'EmployeesController@index');
+        
         Route::get('/{matricula}/exibir', 'EmployeesController@view');
                 
         Route::get('/novo', 'EmployeesController@new');
@@ -33,6 +34,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/{matricula}/atualizar', 'EmployeesController@update');
             
         Route::delete('/{matricula}/deletar', 'EmployeesController@delete');
+        Route::get('/download/ficha-de-frequencia', 'EmployeesController@download');
         
         
         // Employee Categories
@@ -49,7 +51,7 @@ Route::group(['middleware' => ['auth']], function () {
         });
 
         // ANOTHER ACTIONS
-        Route::get('/{matricula}/status/alterar', 'EmployeesController@toggleStatus');
+        Route::get('/{matricula}/status/alterar', 'EmployeesController@changeStatus');
         Route::get('/{matricula}/ferias', 'EmployeeVacationsController@newFromEmployee');
         Route::post('/{matricula}/ferias/cadastrar', 'EmployeeVacationsController@addFromEmployee');
     });
@@ -59,21 +61,22 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/', 'BuildingsController@index');
         Route::get('/{id}/exibir', 'BuildingsController@view');
         
-        Route::get('/nova', 'BuildingsController@new');
-        Route::post('/adicionar', 'BuildingsController@add');
-        
-        Route::get('/{id}/editar', 'BuildingsController@edit');
-        Route::post('/{id}/atualizar', 'BuildingsController@update');
+        Route::group(['middleware' => 'auth.plantonista'],function () {
+            Route::get('/nova', 'BuildingsController@new');
+            Route::post('/adicionar', 'BuildingsController@add');
             
-        Route::delete('/{id}/deletar', 'BuildingsController@delete');
-        
-        // ANOTHER ACTIONS
-        Route::get('/{id}/status/alterar', 'BuildingsController@toggleStatus');
+            Route::get('/{id}/editar', 'BuildingsController@edit');
+            Route::post('/{id}/atualizar', 'BuildingsController@update');
                 
+            Route::delete('/{id}/deletar', 'BuildingsController@delete');
+            
+            // ANOTHER ACTIONS
+            Route::get('/{id}/status/alterar', 'BuildingsController@toggleStatus');
+        });             
     });
         
     // Schedules
-    Route::prefix('horarios')->group( function () {
+    Route::prefix('horarios')->middleware('auth.plantonista')->group( function () {
         Route::get('/', 'SchedulesController@index');
         
         Route::get('/{id}/exibir', 'SchedulesController@view');
@@ -89,7 +92,7 @@ Route::group(['middleware' => ['auth']], function () {
     });
         
     // Work Schedules
-    Route::prefix('escalas')->group( function () {
+    Route::prefix('escalas')->middleware('auth.plantonista')->group( function () {
         Route::get('/adicionar','WorkSchedulesController@new');
         
         Route::delete('/{id}/deletar', 'WorkSchedulesController@delete');
@@ -123,8 +126,6 @@ Route::group(['middleware' => ['auth']], function () {
     // ONLY ADMIN ACCESS
     Route::prefix('usuarios')->middleware('auth.admin')->group( function () {
         Route::get('/', 'UsersController@index');
-        
-        Route::get('/{id}/exibir', 'UsersController@view');
                 
         Route::get('/novo', 'UsersController@new');
         Route::post('/adicionar', 'UsersController@add');
@@ -134,4 +135,6 @@ Route::group(['middleware' => ['auth']], function () {
                     
         Route::delete('/{id}/deletar', 'UsersController@delete');
     });
+
+    Route::get('/usuarios/{id}/exibir', 'UsersController@view');
 });

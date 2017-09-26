@@ -293,7 +293,7 @@ class Options
     {
         $this->setChroot(realpath(__DIR__ . "/../"));
         $this->setRootDir($this->getChroot());
-        $this->setTempDir("/home/horus.samhost.info/public/temp");
+        $this->setTempDir(sys_get_temp_dir());
         $this->setFontDir($this->chroot . DIRECTORY_SEPARATOR . "lib" . DIRECTORY_SEPARATOR . "fonts");
         $this->setFontCache($this->getFontDir());
         $this->setLogOutputFile($this->getTempDir() . DIRECTORY_SEPARATOR . "log.htm");

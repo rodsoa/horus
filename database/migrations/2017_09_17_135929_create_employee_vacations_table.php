@@ -18,6 +18,7 @@ class CreateEmployeeVacationsTable extends Migration
             $table->integer('employee_id');
             $table->date('beginning');
             $table->date('end');
+            $table->enum('category', ['F', 'At', 'Fe']);
             $table->boolean('status');
             $table->timestamps();
         });

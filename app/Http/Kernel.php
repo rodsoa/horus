@@ -43,6 +43,7 @@ class Kernel extends HttpKernel
         
         'auth.admin' => [\Horus\Http\Middleware\RedirectIfNotAdmin::class],
         'auth.employee' => [\Horus\Http\Middleware\RedirectIfNotEmployee::class],
+        'auth.plantonista' => [\Horus\Http\Middleware\RedirectIfPlantonista::class]
     ];
 
     /**

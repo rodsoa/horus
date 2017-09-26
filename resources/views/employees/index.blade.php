@@ -17,7 +17,7 @@
 <div class="row">
     <div class="col-sm-12 col-md-6 col-lg-6">
         <a role="button" class="btn btn-primary" href="{{ action('EmployeesController@new') }}">
-            <i class="fa fa-plus-circle fa-fw"></i>Novo empregado
+            <i class="fa fa-plus-circle fa-fw"></i>Novo agente
         </a>
 
          <a role="button" class="btn btn-secondary" href="{{ action('EmployeeCategoriesController@index') }}">
@@ -57,17 +57,27 @@
         @foreach( $employees as $employee )
         <tr>
             <td>
-                @if( $employee->status )
-                    <i class="fa fa-check-circle-o" style="color: green;"></i>
+                <strong>
+                @if( $employee->status === 'A' )
+                    <i style="color: #27AE60">ATIVO</i>
+                @elseif( $employee->status === 'I' )
+                    <i style="color: #CF000F">INATIVO</i>
+                @elseif( $employee->status === 'F' )
+                    <i style="color: #65878F">FOLGA</i>
+                @elseif( $employee->status === 'At' )
+                    <i style="color: #6E5D4B">ATESTADO</i>
+                @else
+                    <i style="color: #F7BC05">FÉRIAS</i>
                 @endif
-
-                @if( !$employee->status )
-                    <i class="fa fa-times-circle" style="color: red;"></i>
-                @endif
+                </strong>
             </td>
             <td>{{ $employee->name }}</td>
             <td><i>{{ $employee->registration_number }}</i></td>
-            <td> ALGUM LOCAL </td>
+            <td>
+                @foreach( $employee->getActualWorkPlaces() as $name )
+                    {{ $name }}<br/> 
+                @endforeach
+            </td>
             <td class="text-right">
                 <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                     <a role="button" class="btn btn-secondary" href="{{ action('EmployeesController@view', ['registration_number' => $employee->registration_number]) }}"><i class="fa fa-eye"></i> ver</a>

@@ -16,8 +16,9 @@
         <div class="form-group col-sm-12 col-md-3 col-lg-3">
             <label for="user-category">Categoria</label>
             <select class="form-control" id="user-category" name="category" required>
-                <option value="ADMIN">ADMINISTRATOR</option>
-                <option value="COORD">COORDENADOR</option>
+                <option value="A">ADMINISTRATOR</option>
+                <option value="C">COORDENADOR</option>
+                <option value="P">PLANTONISTA</option>
             </select>
         </div>
         
