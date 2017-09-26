@@ -20,7 +20,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['middleware' => ['auth']], function () {
         // Employees
-    Route::prefix('agentes')->middleware('auth.plantonista')->group( function ()  {
+    Route::prefix('agentes')->group( function ()  {
         
         // CRUD ACTIONS
         Route::get('/', 'EmployeesController@index');

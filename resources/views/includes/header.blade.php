@@ -15,6 +15,9 @@
                     <li class="nav-item" id="menu-item-buildings">
                         <a class="nav-link" href="{{ action('BuildingsController@index') }}">Unidades</a>
                     </li>
+                    <li class="nav-item" id="menu-item-employees" >
+                        <a class="nav-link"href="{{ action('EmployeesController@index') }}">Agentes</a>
+                    </li>
                     <li class="nav-item" id="menu-item-reports">
                         <a class="nav-link" href="{{ action('ReportsController@index') }}">Relatórios</a>
                     </li>
