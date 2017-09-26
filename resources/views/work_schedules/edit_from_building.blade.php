@@ -62,24 +62,22 @@
         </div>
     </div>
 </div>
+
+<form id="delete-form" method="POST">
+    {{ csrf_field() }}
+    {{ method_field('DELETE') }}
+    <input type="hidden" name="building_id" value="{{ $building->id }}">
+</form>
 @endsection
 
 @section('js')
 <script>
     function deleteWorkSchedule ( id ) {
-        var url = '/admin/escalas' + '/' + id + '/deletar';
-
         if( confirm("Tem certeza em realizar essa ação ?") ) {
             // TODO: Fazer callback mais atraente para essa requisição
-            axios.delete(url)
-             .then( function (data) {
-                 alert('Registro apagado com sucesso.');
-             })
-             .catch( function (error) {
-                 alert('Ocorreu algum erro. Repita a operação.');
-             });
-
-            location.reload();
+            var url = '/escalas' + '/' + id + '/deletar';
+            $('#delete-form').attr('action', url);
+            $('#delete-form').submit();
         }
     }
 </script>

@@ -61,4 +61,17 @@ class Employee extends Model
             return [];
         }
     }
+
+    public function getHoursWorked() {
+        $month = (new \DateTime('now'))->format('m');
+        $total = 0;
+        foreach($this->work_schedules as $ws)
+            if ( ((\DateTime::createFromFormat('Y-m-d', $ws->date))->format('m') === (new \DateTime('now'))->format('m'))){
+                // Verificando ano corrente!
+                $data = explode("-", $ws->date);
+                if ( ($data[0] === (new \DateTime('now'))->format('Y')) && ($data[1] === $month) )
+                    $total += $ws->schedule->hours;
+            }
+        return $total;
+    }
 }

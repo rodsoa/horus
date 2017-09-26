@@ -73,7 +73,7 @@ Route::group(['middleware' => ['auth']], function () {
             // ANOTHER ACTIONS
             Route::get('/{id}/status/alterar', 'BuildingsController@toggleStatus');
             // ANOTHER ACTIONS
-            Route::get('/{id}/download/escala-mensal', 'BuildingsController@generatePDF');
+            Route::get('/{id}/{month}/download/escala-mensal', 'BuildingsController@generatePDF');
         });             
     });
         

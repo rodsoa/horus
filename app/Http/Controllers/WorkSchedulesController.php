@@ -21,9 +21,15 @@ class WorkSchedulesController extends Controller
         return $request->all();
     }
 
-    public function delete($work_schedule_id) {
+    public function delete(Request $request, $work_schedule_id) {
         $work_schedule = WorkSchedule::findOrFail($work_schedule_id);
         $work_schedule->delete();
+
+        if ( $request->input('employee_id') ) {
+            return redirect()->action('WorkSchedulesController@editFromEmployee', ['id' => $request->input('employee_id')]);
+        } else {
+            return redirect()->action('WorkSchedulesController@editFromBuilding', ['id' => $request->input('building_id')]);
+        }
     }
 
     public function newFromBuilding ($id) {

@@ -43,18 +43,23 @@
             <tbody>
                 @foreach( $employees as $key => $emp )
                 <tr>
-                    <td class="tg-baqh">{{ $emp->name }}</td>
-                    @for($cont = 0; $cont < 31; $cont++)
-                        <td class="tg-baqh">
-                            @foreach($ws[$emp->id] as $emp_ws)
-                                @if( (\DateTime::createFromFormat('Y-m-d', $emp_ws->date))->format('d') == $cont+1)
-                                    {{ $emp_ws->schedule->letter }}
-                                @endif
-                            @endforeach
-                        </td>
-                    @endfor
-                    <td class="tg-baqh">{{ $total_hours[$key] }}</td>
-                    <td class="tg-baqh">{{ count($ws[$emp->id]) }}</td>
+                    @if ( count($ws) )
+                        <td class="tg-baqh">{{ $emp->name }}</td>
+                        @for($cont = 0; $cont < 31; $cont++)
+                            <td class="tg-baqh">
+                                @foreach($ws[$emp->id] as $emp_ws)
+                                    @if( (\DateTime::createFromFormat('Y-m-d', $emp_ws->date))->format('d') == $cont+1)
+                                        {{ $emp_ws->schedule->letter }}
+                                    @endif
+                                @endforeach
+                            </td>
+                        @endfor
+                        <td class="tg-baqh">{{ $total_hours[$key] }}</td>
+                        <td class="tg-baqh">{{ count($ws[$emp->id]) }}</td>
+                    @else
+                        <td class="tg-baqh" colspan=34> <center>SEM REGISTROS PARA O MÊS </center></td>
+                        
+                    @endif
                 </tr>
                 @endforeach
             </tbody>

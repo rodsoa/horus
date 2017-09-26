@@ -47,6 +47,10 @@
                             </td>
                         </tr>
                         <tr>
+                            <th scope="row">Horas</th>
+                            <td class="text-right">{{ $employee->getHoursWorked() }} horas trabalhadas</td>
+                        </tr>
+                        <tr>
                             <th scope="row">Nome: </th>
                             <td class="text-right">{{ $employee->name }}</td>
                         </tr>
@@ -113,7 +117,6 @@
                 <i class="fa fa-download fa-fw">&nbsp;</i>ficha de frequência
             </a>
         @endif
-
 
         <table class="table table-sm table-hover" style="margin-top: 15px;">
             <thead class="bg-custom-primary">

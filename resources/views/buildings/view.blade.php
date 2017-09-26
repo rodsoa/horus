@@ -65,18 +65,18 @@
                                 <i class="fa fa-fw fa-download"></i>download
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="{{ action('BuildingsController@generatePDF', ['id' => $building->id]) }}"></i>JANEIRO</a>
-                                <a class="dropdown-item" href="{{ action('BuildingsController@generatePDF', ['id' => $building->id]) }}">FEVEREIRO</a>
-                                <a class="dropdown-item" href="{{ action('BuildingsController@generatePDF', ['id' => $building->id]) }}"></i>MARÇO</a>
-                                <a class="dropdown-item" href="{{ action('BuildingsController@generatePDF', ['id' => $building->id]) }}">ABRIL</a>
-                                <a class="dropdown-item" href="{{ action('BuildingsController@generatePDF', ['id' => $building->id]) }}"></i>MAIO</a>
-                                <a class="dropdown-item" href="{{ action('BuildingsController@generatePDF', ['id' => $building->id]) }}">JUNHO</a>
-                                <a class="dropdown-item" href="{{ action('BuildingsController@generatePDF', ['id' => $building->id]) }}">JULHO</a>
-                                <a class="dropdown-item" href="{{ action('BuildingsController@generatePDF', ['id' => $building->id]) }}"></i>AGOSTO</a>
-                                <a class="dropdown-item" href="{{ action('BuildingsController@generatePDF', ['id' => $building->id]) }}">SETEMBRO</a>
-                                <a class="dropdown-item" href="{{ action('BuildingsController@generatePDF', ['id' => $building->id]) }}"></i>OUTUBRO</a>
-                                <a class="dropdown-item" href="{{ action('BuildingsController@generatePDF', ['id' => $building->id]) }}">NOVEMBRO</a>
-                                <a class="dropdown-item" href="{{ action('BuildingsController@generatePDF', ['id' => $building->id]) }}"></i>DEZEMBRO</a>
+                                <a class="dropdown-item" href="{{ action('BuildingsController@generatePDF', ['id' => $building->id, 'month' => '01']) }}"></i>JANEIRO</a>
+                                <a class="dropdown-item" href="{{ action('BuildingsController@generatePDF', ['id' => $building->id, 'month' => '02']) }}">FEVEREIRO</a>
+                                <a class="dropdown-item" href="{{ action('BuildingsController@generatePDF', ['id' => $building->id, 'month' => '03']) }}"></i>MARÇO</a>
+                                <a class="dropdown-item" href="{{ action('BuildingsController@generatePDF', ['id' => $building->id, 'month' => '04']) }}">ABRIL</a>
+                                <a class="dropdown-item" href="{{ action('BuildingsController@generatePDF', ['id' => $building->id, 'month' => '05']) }}"></i>MAIO</a>
+                                <a class="dropdown-item" href="{{ action('BuildingsController@generatePDF', ['id' => $building->id, 'month' => '06']) }}">JUNHO</a>
+                                <a class="dropdown-item" href="{{ action('BuildingsController@generatePDF', ['id' => $building->id, 'month' => '07']) }}">JULHO</a>
+                                <a class="dropdown-item" href="{{ action('BuildingsController@generatePDF', ['id' => $building->id, 'month' => '08']) }}"></i>AGOSTO</a>
+                                <a class="dropdown-item" href="{{ action('BuildingsController@generatePDF', ['id' => $building->id, 'month' => '09']) }}">SETEMBRO</a>
+                                <a class="dropdown-item" href="{{ action('BuildingsController@generatePDF', ['id' => $building->id, 'month' => '10']) }}"></i>OUTUBRO</a>
+                                <a class="dropdown-item" href="{{ action('BuildingsController@generatePDF', ['id' => $building->id, 'month' => '11']) }}">NOVEMBRO</a>
+                                <a class="dropdown-item" href="{{ action('BuildingsController@generatePDF', ['id' => $building->id, 'month' => '12']) }}"></i>DEZEMBRO</a>
                             </div>
                         </div>
                 </div>

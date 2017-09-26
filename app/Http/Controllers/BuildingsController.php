@@ -150,7 +150,7 @@ class BuildingsController extends Controller
     }
 
     /* Função para gerar PDF e disponibilizá-lo para download */
-    public function generatePDF($building_id) {
+    public function generatePDF($building_id, $month) {
         $building = Building::findOrFail($building_id);
         $schedules = Schedule::all();
 
@@ -167,8 +167,12 @@ class BuildingsController extends Controller
 
         foreach( $employees as $employee ) {
             foreach($employee->work_schedules as $ws)
-                if ( ($ws->building_id === $building->id ) && ((\DateTime::createFromFormat('Y-m-d', $ws->date))->format('m') === (new \DateTime('now'))->format('m')))
-                    $ws_employees[$employee->id][] = $ws;
+                if ( ($ws->building_id === $building->id ) && ((\DateTime::createFromFormat('Y-m-d', $ws->date))->format('m') === (new \DateTime('now'))->format('m'))){
+                    // Verificando ano corrente!
+                    $data = explode("-", $ws->date);
+                    if ( ($data[0] === (new \DateTime('now'))->format('Y')) && ($data[1] === $month) )
+                        $ws_employees[$employee->id][] = $ws;
+                }
         }
 
         foreach( $ws_employees as $emp ) {
