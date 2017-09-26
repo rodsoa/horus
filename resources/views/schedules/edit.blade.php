@@ -7,9 +7,9 @@
             <form id="needs-validation" action="{{ action('SchedulesController@update', ['id' => $schedule->id]) }}" method="POST" novalidate>
                 {{ csrf_field() }}
                 <div class="form-row">
-                    <div class="form-group col-sm-12 col-md-2 col-lg-">
-                        <label for="schedule-letter">Letra de identifição</label>
-                        <input class="form-control" id="schedule-letter" name="letter" placeholder="Letra do alfabeto capitalizada" value="{{ $schedule->letter }}">
+                    <div class="form-group col-sm-12 col-md-1 col-lg-1">
+                        <label for="schedule-letter">ID</label>
+                        <input class="form-control" id="schedule-letter" name="letter" placeholder="Letra" value="{{ $schedule->letter }}">
                         <div class="invalid-feedback">
                             Por favor esse campo não pode ficar em branco.
                         </div>
@@ -17,7 +17,15 @@
 
                     <div class="form-group col-sm-12 col-md-3 col-lg-3">
                         <label for="schedule-time-range">Faixa de Horário</label>
-                        <input class="form-control" id="schedule-time-range" name="time_range" placeholder="Digite a faixa de horário ex: 01:00 - 12:50" value="{{ $schedule->time_range }}"required>
+                        <input class="form-control" id="schedule-time-range" name="time_range" placeholder="01:00 - 12:50" value="{{ $schedule->time_range}}">
+                        <div class="invalid-feedback">
+                            Por favor esse campo não pode ficar em branco.
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 col-md-1 col-lg-1">
+                        <label for="schedule-hours">Qtd. Horas</label>
+                        <input type="number" class="form-control" id="schedule-hours" name="hours" placeholder="Horas" value="{{ $schedule->hours }}">
                         <div class="invalid-feedback">
                             Por favor esse campo não pode ficar em branco.
                         </div>

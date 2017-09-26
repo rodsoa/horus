@@ -1,10 +1,9 @@
-@extends('layouts.base')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-12">
-            <form id="needs-validation" action="{{ action('SchedulesController@add') }}" method="POST" novalidate>
-                {{ csrf_field() }}
+            <form id="needs-validation" action="<?php echo e(action('SchedulesController@add')); ?>" method="POST" novalidate>
+                <?php echo e(csrf_field()); ?>
+
                 <div class="form-row">
                     <div class="form-group col-sm-12 col-md-1 col-lg-1">
                         <label for="schedule-letter">ID</label>
@@ -31,14 +30,14 @@
                     </div>
                 </div>
 
-                <a class="btn btn-danger" role="button" href="{{ action('SchedulesController@index') }}">Cancelar</a>
+                <a class="btn btn-danger" role="button" href="<?php echo e(action('SchedulesController@index')); ?>">Cancelar</a>
                 <button type="submit" class="btn btn-success">Cadastrar</button>    
             </form>
         </div>
     </div>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('js')
+<?php $__env->startSection('js'); ?>
 <script>
     (function() {
         "use strict";
@@ -54,4 +53,5 @@
         }, false);
     }());
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
