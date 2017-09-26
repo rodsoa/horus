@@ -8,7 +8,8 @@ class Schedule extends Model
 {
     protected $fillable = [
         'letter',
-        'time_range'
+        'time_range',
+        'hours'
     ];
 
     public function work_schedules () {

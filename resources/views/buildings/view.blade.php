@@ -59,6 +59,27 @@
 
         @if( Auth::user()->category !== "P")
             <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                <div class="btn-group mr-2" role="group" aria-label="outro group">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-fw fa-download"></i>download
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="{{ action('BuildingsController@generatePDF', ['id' => $building->id]) }}"></i>JANEIRO</a>
+                                <a class="dropdown-item" href="{{ action('BuildingsController@generatePDF', ['id' => $building->id]) }}">FEVEREIRO</a>
+                                <a class="dropdown-item" href="{{ action('BuildingsController@generatePDF', ['id' => $building->id]) }}"></i>MARÇO</a>
+                                <a class="dropdown-item" href="{{ action('BuildingsController@generatePDF', ['id' => $building->id]) }}">ABRIL</a>
+                                <a class="dropdown-item" href="{{ action('BuildingsController@generatePDF', ['id' => $building->id]) }}"></i>MAIO</a>
+                                <a class="dropdown-item" href="{{ action('BuildingsController@generatePDF', ['id' => $building->id]) }}">JUNHO</a>
+                                <a class="dropdown-item" href="{{ action('BuildingsController@generatePDF', ['id' => $building->id]) }}">JULHO</a>
+                                <a class="dropdown-item" href="{{ action('BuildingsController@generatePDF', ['id' => $building->id]) }}"></i>AGOSTO</a>
+                                <a class="dropdown-item" href="{{ action('BuildingsController@generatePDF', ['id' => $building->id]) }}">SETEMBRO</a>
+                                <a class="dropdown-item" href="{{ action('BuildingsController@generatePDF', ['id' => $building->id]) }}"></i>OUTUBRO</a>
+                                <a class="dropdown-item" href="{{ action('BuildingsController@generatePDF', ['id' => $building->id]) }}">NOVEMBRO</a>
+                                <a class="dropdown-item" href="{{ action('BuildingsController@generatePDF', ['id' => $building->id]) }}"></i>DEZEMBRO</a>
+                            </div>
+                        </div>
+                </div>
                 <div class="btn-group mr-2" role="group" aria-label="Second group">
                     @if( count($building->work_schedules) )
                         <div class="dropdown">

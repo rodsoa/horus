@@ -48,6 +48,7 @@ class SchedulesController extends Controller
         $schedule = Schedule::findOrFail($id);
 
         $schedule->time_range = $request->input('time_range');
+        $schedule->hours = $request->input('hours');
         $schedule->letter = $request->input('letter');
 
         if ( $schedule->save() ) {

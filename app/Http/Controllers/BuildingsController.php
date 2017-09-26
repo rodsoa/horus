@@ -13,6 +13,8 @@ use Horus\Models\Schedule;
 use Horus\Models\WorkSchedule;
 use Horus\Models\Report;
 
+use PDF;
+
 class BuildingsController extends Controller
 {
    
@@ -145,5 +147,46 @@ class BuildingsController extends Controller
                 ]);
             }
         }
+    }
+
+    /* Função para gerar PDF e disponibilizá-lo para download */
+    public function generatePDF($building_id) {
+        $building = Building::findOrFail($building_id);
+        $schedules = Schedule::all();
+
+        $employee_ids = [];
+        foreach( $building->work_schedules as $ws ) {
+            $employee_ids[] = $ws->employee_id;
+        }
+
+        $employee_ids = array_unique( $employee_ids );
+
+        $employees = Employee::find( $employee_ids );
+        $ws_employees = [];
+        $total_hours = [];
+
+        foreach( $employees as $employee ) {
+            foreach($employee->work_schedules as $ws)
+                if ( ($ws->building_id === $building->id ) && ((\DateTime::createFromFormat('Y-m-d', $ws->date))->format('m') === (new \DateTime('now'))->format('m')))
+                    $ws_employees[$employee->id][] = $ws;
+        }
+
+        foreach( $ws_employees as $emp ) {
+            $total = 0;
+            foreach($emp as $h) {
+                $total += $h->schedule->hours;
+            }
+            $total_hours[] = $total;
+        }          
+
+        //dd($total_hours);
+        $pdf = PDF::loadView('buildings.pdf.workschedules_table', [
+            'building' => $building,
+            'employees' => $employees,
+            'schedules' => $schedules,
+            'ws' => $ws_employees,
+            'total_hours' => $total_hours
+        ])->setPaper('a4', 'landscape');
+        return $pdf->download('escala-mensal.pdf');
     }
 }

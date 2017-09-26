@@ -21,6 +21,7 @@ class SchedulesTableSeeder extends Seeder
             DB::table('schedules')->insert([
                 'time_range' => $schedule,
                 'letter' => $letter,
+                'hours' => 8
             ]);
         }
     }
