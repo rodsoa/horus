@@ -74,4 +74,16 @@ class Employee extends Model
             }
         return $total;
     }
+
+    /**
+     * False: há o mesmo valor para outro registro
+     * True: não há valores registrados
+     */
+    public function checkRegistrationNumber() {
+        if( count(Employee::where('registration_number', $this->registration_number)->get()) ){
+            return false;
+        } else {
+            return true;
+        }
+    }
 }

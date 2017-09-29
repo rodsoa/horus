@@ -33,8 +33,8 @@ class HomeController extends Controller
             return redirect()->action('EmployeesController@view', ['registration_number' => Auth::user()->employee->registration_number]);
         }
 
-        $a_employees = Employee::where('status', true)->get();
-        $i_employees = Employee::where('status', false)->get();
+        $a_employees = Employee::where('status', 'A')->get();
+        $i_employees = Employee::where('status','!=', 'A')->get();
         $users = User::all();
         $reports = Report::all();
         $buildings = Building::all();

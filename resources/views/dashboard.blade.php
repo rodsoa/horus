@@ -16,7 +16,7 @@
                 </div>
             </div>
         </div>
-        <a role="button" class="btn btn-block btn-primary" style="margin-top: 10px; margin-bottom: 10px;" href="/agentes">visualiar</a>
+        <a role="button" class="btn btn-block btn-primary" style="margin-top: 10px; margin-bottom: 10px;" href="/agentes">visualizarr</a>
     </div>
     <div class="col-sm-12 col-md-3 col-lg-3">
         <div class="card">
@@ -25,7 +25,7 @@
                 <h6>{{ $buildings }}</h6>
             </div>
         </div>
-        <a role="button" class="btn btn-block btn-primary" style="margin-top: 10px; margin-bottom: 10px;" href="/unidades">visualiar</a>
+        <a role="button" class="btn btn-block btn-primary" style="margin-top: 10px; margin-bottom: 10px;" href="/unidades">visualizarr</a>
     </div>
     <div class="col-sm-12 col-md-3 col-lg-3">
         <div class="card">
@@ -34,7 +34,7 @@
                 <h6>{{ $users }}</h6>
             </div>
         </div>
-        <a role="button" class="btn btn-block btn-primary" style="margin-top: 10px; margin-bottom: 10px;" href="/usuarios">visualiar</a>
+        <a role="button" class="btn btn-block btn-primary" style="margin-top: 10px; margin-bottom: 10px;" href="/usuarios">visualizarr</a>
     </div>
     <div class="col-sm-12 col-md-3 col-lg-3">
         <div class="card">
@@ -43,7 +43,7 @@
                 <h6>{{ $reports }}</h6>
             </div>
         </div>
-        <a role="button" class="btn btn-block btn-primary" style="margin-top: 10px; margin-bottom: 10px;" href="/relatorios">visualiar</a>
+        <a role="button" class="btn btn-block btn-primary" style="margin-top: 10px; margin-bottom: 10px;" href="/relatorios">visualizarr</a>
     </div>
 </div>
 @endsection

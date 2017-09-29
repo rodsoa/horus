@@ -66,9 +66,16 @@ class EmployeesController extends Controller
         ]);
     }
 
-    public function add (Request $request) {
-        
+    public function add (Request $request) {   
         $employee = new Employee( $request->all() );
+
+        // evita duplicidade de numero de matricula
+        if( !$employee->checkRegistrationNumber() )
+            return redirect()->action('EmployeesController@index')->with([
+                'status' => 'Ocorreu algum erro! Matrícula já atribuida.',
+                'type' => 'error'
+            ]);
+
 
         $employee->created_at = (new \DateTime('NOW'))->format('Y-m-d h:i:s');
         $employee->updated_at = (new \DateTime('NOW'))->format('Y-m-d h:i:s');

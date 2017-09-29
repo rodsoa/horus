@@ -36,12 +36,19 @@
                             <th scope="row">Status: </th>
                             <td class="text-right">
                                 <strong>
-                                    @if( $employee->status )
+                                    @if( $employee->status === 'A' )
                                         <i class="fa fa-check-circle-o" style="color: green;"></i> ATIVO
-                                    @endif
-
-                                    @if( !$employee->status )
-                                        <i class="fa fa-times-circle-o" style="color: red;"></i> INATIVO|FÉRIAS
+                                    @else
+                                        <i class="fa fa-times-circle-o" style="color: red;"></i>
+                                        @if( $employee->status === 'F')
+                                            FOLGA
+                                        @elseif( $employee->status === 'Fe')
+                                            FÉRIAS
+                                        @elseif( $employee->status === 'At')
+                                            ATESTADO
+                                        @else
+                                            INATIVO
+                                        @endif
                                     @endif
                                 </strong>
                             </td>
