@@ -32,7 +32,7 @@
         </div>
 
         <div class="form-group col-sm-12 col-md-3 col-lg-3">
-            <label for="photo">Foto <small><i>*jpg/jpeg</i><small></label>
+            <label for="photo">Foto <small><i>*jpg/jpeg</i></small></label>
             <label class="custom-file">
                 <input type="file" id="photo" class="custom-file-input form-control" name="photo" required>
                 <span id="photo-location" class="custom-file-control"></span>
