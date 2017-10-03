@@ -167,7 +167,7 @@ class EmployeesController extends Controller
         
         // Salvando todos os valores passados da maneira gambiarra que o php fornece!
         foreach($request->all() as $key => $value) {
-            if ($key == '_token' || $key == 'photo') continue; 
+            if ($key == '_token' || $key == 'photo' || $key == 'cell_phones') continue; 
             $employee->$key = $value;
         }
 
