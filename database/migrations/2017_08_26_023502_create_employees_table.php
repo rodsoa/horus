@@ -21,7 +21,6 @@ class CreateEmployeesTable extends Migration
             $table->string('registration_number');
             $table->string('photo')->nullable();
             $table->string('phone');
-            $table->string('cell_phone');
             $table->string('email');
             $table->string('address');
             $table->timestamps();

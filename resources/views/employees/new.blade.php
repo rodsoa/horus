@@ -44,28 +44,35 @@
     </div>
 
     <div class="form-row">
-        <div class="form-group col-sm-12 col-md-5 col-lg-5">
+        <div class="form-group col-sm-12 col-md-6 col-lg-6">
             <label for="employee-address">Endereço</label>
             <input type="text" class="form-control" id="employee-address" name="address" placeholder="rua numero bairro" required>
             <div class="invalid-feedback">
                 Por favor informe endereço do empregado.
             </div>
         </div>
-        <div class="form-group col-sm-12 col-md-3 col-lg-3">
+        <div class="form-group col-sm-12 col-md-6 col-lg-6">
             <label for="employee-email">Endereço de email</label>
             <input type="email" class="form-control" id="employee-email" name="email" aria-describedby="employee-email-help" placeholder="empregado@email.com">
             <small id="employee-email-help" class="form-text text-muted">Nunca compartilhe essas informações com ninguém</small>
         </div>
-        <div class="form-group col-sm-12 col-md-2 col-lg-2">
+    </div>
+    <div class="form-row">
+        <div class="form-group col-sm-12 col-md-3 col-lg-3">
             <label for="employee-phone">Telefone Residencial</label>
             <input type="text" class="form-control" id="employee-phone" name="phone" placeholder="(xx) xxxxx-xxxx" data-mask="(00) 00000-0000" required>
             <div class="invalid-feedback">
                 Por favor informe número de telefone fixo do empregado.
             </div>
         </div>
-        <div class="form-group col-sm-12 col-md-2 col-lg-2">
-            <label for="employee-cellphone">Telefone Celular</label>
-            <input type="text" class="form-control" id="employee-cellphone" name="cell_phone" placeholder="(xx) xxxxx-xxxx" data-mask="(00) 00000-0000" required>
+    </div>
+
+    <button class="btn btn-primary btn-sm add_field_button" style="margin-bottom: 12px;"><i class="fa fa-plus fa-fw"></i>Novo número</button>
+
+    <div class="form-row input_fields_wrap">
+        <div class="form-group col-sm-12 col-md-3 col-lg-3">
+            <label>Telefone Celular</label>
+            <input type="text" class="form-control" id="employee-cellphone" name="cell_phones[]" placeholder="(xx) xxxxx-xxxx" data-mask="(00) 00000-0000" required>
             <div class="invalid-feedback">
                 Por favor informe número de celular do empregado.
             </div>
@@ -77,7 +84,33 @@
 @endsection
 
 @section('js')
-<script src="/js/jquery.mask.min.js"></script>
+<script>
+  var max_fields = 4; //maximum input boxes allowed
+  var wrapper = $(".input_fields_wrap"); //Fields wrapper
+  var add_button = $(".add_field_button"); //Add button ID
+
+  var x = 1; //initlal text box count
+  $(add_button).click(function(e) { //on add input button click
+    e.preventDefault();
+    var length = wrapper.find("input:text").length;
+
+    if (x < max_fields) { //max input box allowed
+      x++; //text box increment
+
+      var html  = '<div class="form-group col-sm-12 col-md-3 col-lg-3"><label>Telefone celular '+x+'</label>';
+          html += '<input type="text" class="form-control" id="employee-cellphone-'+x+'" name="cell_phones[]" placeholder="(xx) xxxxx-xxxx" data-mask="(00) 00000-0000" required>';
+          html += '<div class="invalid-feedback">Por favor informe número de celular do empregado.</div></div>';
+          
+      $(wrapper).append(html); //add input box
+    }
+  });
+
+  $(wrapper).on("click", ".remove_field", function(e) { //user click on remove text
+    e.preventDefault();
+    $(this).parent('div').remove();
+    x--;
+  })
+</script>
 <script>
     (function() {
         "use strict";
@@ -93,4 +126,5 @@
         }, false);
     }());
 </script>
+<script src="/js/jquery.mask.min.js"></script>
 @endsection

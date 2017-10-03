@@ -12,7 +12,6 @@ class Employee extends Model
         'registration_number',
         'photo',
         'phone',
-        'cell_phone',
         'email',
         'address'
     ];
@@ -35,6 +34,10 @@ class Employee extends Model
 
     public function user() {
         return $this->hasOne('Horus\User');
+    }
+
+    public function cell_phones() {
+        return $this->hasMany('Horus\Models\CellPhone');
     }
 
     public function getActualWorkPlaces() {

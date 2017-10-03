@@ -77,10 +77,12 @@
                             <th scope="row">Tel. Fixo: </th>
                             <td class="text-right">{{ $employee->phone }}</td>
                         </tr>
+                        @foreach( $employee->cell_phones as $count => $phone )
                         <tr>
-                            <th scope="row">Celular: </th>
-                            <td class="text-right">{{ $employee->cell_phone }}</td>
+                            <th scope="row">Celular {{ ++$count }}: </th>
+                            <td class="text-right">{{ $phone->number }}</td>
                         </tr>
+                        @endforeach
                     </tbody>
                 </table>
 

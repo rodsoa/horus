@@ -42,7 +42,9 @@
         <ul>
             <li><b>Agente escalado:</b> {{ $report->employee->name }} - {{ $report->employee->registration_number }} </li>
             <li><b>Tel. Fixo:</b> {{ $report->employee->phone }} </li>
-            <li><b>Tel. celular:</b> {{ $report->employee->cell_phone }} </li>
+            @foreach( $report->employee->cell_phones as $count => $phone)
+                <li><b>Tel. celular {{ $count + 1 }}:</b> {{ $phone->number }} </li>
+            @endforeach
             <li><b>Email:</b> {{ $report->employee->email }} </li>
         </ul>
 

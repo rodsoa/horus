@@ -91,6 +91,14 @@ class EmployeesController extends Controller
 
         if ( $employee->save() ) {
 
+            // Telefones
+            foreach( $request->input('cell_phones') as $number ) {
+                $phone = new \Horus\Models\CellPhone();
+                $phone->number = $number;
+                $phone->employee_id = $employee->id;
+                $phone->save();
+            }
+
             // criando usuario correpondente
             $user = new \Horus\User();
             $user->name = $employee->name;
@@ -167,6 +175,13 @@ class EmployeesController extends Controller
         $employee->updated_at = (new \DateTime('NOW'))->format('Y-m-d h:i:s');
 
         if ( $employee->save() ){
+
+            // Telefones
+            foreach( $request->input('cell_phones') as $key => $value ) {
+                ($employee->cell_phones)[$key]->number = $value;
+                ($employee->cell_phones)[$key]->save();
+            }
+
             return redirect()->action('EmployeesController@index')->with([
                 'status' => 'Empregado atualizado com sucesso',
                 'type' => 'success'
@@ -199,6 +214,7 @@ class EmployeesController extends Controller
 
         // Apaga registro desse empregado e seu respectivo usuário
         $employee->user->delete();
+        \Horus\Models\CellPhone::where('employee_id', $employee)->delete();
         $employee->delete();
           
         return redirect()->action('EmployeesController@index')->with([

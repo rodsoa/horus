@@ -55,10 +55,12 @@
             <label for="employee-phone">Telefone Residencial</label>
             <input type="text" class="form-control" id="employee-phone" name="phone" placeholder="(xx) xxxxx-xxxx" data-mask="(00) 00000-0000" value="{{ $employee->phone }}" >
         </div>
+        @foreach( $employee->cell_phones as $count => $phone)
         <div class="form-group col-sm-12 col-md-2 col-lg-2">
-            <label for="employee-cellphone">Telefone Celular</label>
-            <input type="text" class="form-control" id="employee-cellphone" name="cell_phone" placeholder="(xx) xxxxx-xxxx" data-mask="(00) 00000-0000" value="{{ $employee->cell_phone }}" >
+            <label>Telefone Celular {{ $count + 1  }}</label>
+            <input type="text" class="form-control" id="employee-cellphone-{{ $employee->id }}" name="cell_phones[]" placeholder="(xx) xxxxx-xxxx" data-mask="(00) 00000-0000" value="{{ $phone->number }}" >
         </div>
+        @endforeach
     </div>
     <a class="btn btn-danger" role="button" href="{{ action('EmployeesController@index') }}">Cancelar</a>
     <button type="submit" class="btn btn-success">Editar Informações</button>
