@@ -13,18 +13,8 @@ class UsersController extends Controller
 {
     
     public function index (Request $request) {
-        // Realizando filtro
-        if ($request->input('search')) {
-            $users= User::where('name', 'like','%'.$request->input('search').'%')
-                                   ->orWhere('email', 'like','%'.$request->input('search').'%')
-                                   ->orWhere('category', 'like', '%'.$request->input('search').'%')
-                                   ->orderBy('id', 'desc')->paginate(7);
-            
-            if ( count($users) )                       
-                return view('users.index', [ 'users' => $users ]);
-        }
         
-        $users = User::orderBy('id', 'desc')->paginate(7);
+        $users = User::orderBy('id', 'desc')->get();
 
         return view('users.index', [ 'users' => $users ]);
     }

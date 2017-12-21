@@ -15,36 +15,21 @@
 @endif
 
 <div class="row">
-    <div class="col-sm-12 col-md-6 col-lg-6">    
+    <div class="col-sm-12 col-md-12 col-lg-12">
         <a role="button" class="btn btn-primary" href="{{ action('BuildingsController@new') }}">
             <i class="fa fa-plus-circle fa-fw"></i> Nova unidade
         </a>
-    </div>
-    
-    <div class="col-sm-12 col-md-6 col-lg-6">
-        <form>
-            <div class="input-group">
-                <span class="input-group-btn">
-                    <button class="btn btn-secondary" type="button">
-                        <i class="fa fa-cog fa-fw"></i>
-                    </button>
-                </span>
-                <input type="text" class="form-control" placeholder="Search for..." aria-label="Search for..." name="search">
-                <span class="input-group-btn">
-                    <button class="btn btn-secondary" type="submit">Pesquisar</button>
-                </span>
-            </div>
-        </form>
     </div>
 </div>
 
 <br />
 
-<table class="table table-sm table-hover table-responsive">
+<table id="buildings-table" class="table table-sm table-hover table-responsive">
     <thead>
         <tr>
             <th>Status</th>
-            <th colspan="2">Nome</th>
+            <th>Nome</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -84,36 +69,20 @@
         @endforeach
     </tbody>
 </table>
+@endsection
 
-<nav aria-label="...">
-    <ul class="pagination pagination-sm justify-content-center">      
-        @if( $buildings->currentPage() > 1)
-            <li class="page-item">
-                <a class="page-link" href="{{ action('BuildingsController@index') }}?page={{ $buildings->currentPage() - 1 }}">Anterior</a>
-            </li>
-        @else
-            <li class="page-item disabled">
-                <span class="page-link">Anterior</span>
-            </li>
-        @endif
-
-        @for( $cont = 0; $cont < $buildings->lastPage(); $cont++ )
-            @if( $buildings->currentPage() == $cont + 1)
-                <li class="page-item active"><a class="page-link" href="">{{ $cont + 1 }}</a></li>
-            @else
-                <li class="page-item"><a class="page-link" href="{{ action('BuildingsController@index') }}?page={{ $cont + 1 }}">{{ $cont + 1 }}</a></li>
-            @endif
-        @endfor
-
-        @if( $buildings->currentPage() < $buildings->lastPage() )
-            <li class="page-item">
-                <a class="page-link" href="{{ action('BuildingsController@index') }}?page={{ $buildings->currentPage() + 1 }}">Próximo</a>
-            </li>
-        @else
-            <li class="page-item disabled">
-                <span class="page-link">Próximo</span>
-            </li>
-        @endif
-    </ul>
-</nav>
+@section('js')
+    <script>
+        $('#buildings-table').DataTable({
+            'language': {
+                'url': '//cdn.datatables.net/plug-ins/1.10.16/i18n/Portuguese-Brasil.json'
+            },
+            'paging'      : true,
+            'lengthChange': false,
+            'searching'   : true,
+            'ordering'    : true,
+            'info'        : true,
+            'autoWidth'   : true
+        });
+    </script>
 @endsection

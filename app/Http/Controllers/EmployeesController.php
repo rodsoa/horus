@@ -19,17 +19,8 @@ class EmployeesController extends Controller
 {
     
     public function index (Request $request) {
-        // Realizando filtro
-        if ($request->input('search')) {
-            $employees = Employee::where('name', 'like','%'.$request->input('search').'%')
-                                   ->orWhere('registration_number', 'like','%'.$request->input('search').'%')
-                                   ->orderBy('id', 'desc')->paginate(7);
-            
-            if ( count($employees) )                       
-                return view('employees.index', [ 'employees' => $employees ]);
-        }
         
-        $employees = Employee::orderBy('id', 'desc')->paginate(7);
+        $employees = Employee::orderBy('id', 'desc')->get();
 
         return view('employees.index', [ 'employees' => $employees ]);
     }

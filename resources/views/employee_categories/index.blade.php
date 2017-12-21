@@ -24,11 +24,12 @@
     
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-12">
-            <table class="table table-sm table-hover table-responsive">
+            <table id="employee-categories-table" class="table table-sm table-hover table-responsive">
                 <thead>
                     <tr>
                         <th>Status</th>
-                        <th colspan="2">Nome</th>
+                        <th>Nome</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -64,4 +65,20 @@
             </table>
         </div>
     </div>
+@endsection
+
+@section('js')
+    <script>
+        $('#employee-categories-table').DataTable({
+            'language': {
+                'url': '//cdn.datatables.net/plug-ins/1.10.16/i18n/Portuguese-Brasil.json'
+            },
+            'paging'      : true,
+            'lengthChange': false,
+            'searching'   : true,
+            'ordering'    : true,
+            'info'        : true,
+            'autoWidth'   : true
+        });
+    </script>
 @endsection

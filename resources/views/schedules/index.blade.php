@@ -24,11 +24,12 @@
 
 <br />
 
-<table class="table table-sm table-hover table-responsive">
+<table id="schedules-table" class="table table-sm table-hover table-responsive">
     <thead>
         <tr>
             <th>Letra</th>
-            <th colspan="2">Horário</th>
+            <th>Horário</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -54,36 +55,20 @@
         @endforeach
     </tbody>
 </table>
+@endsection
 
-<nav aria-label="...">
-    <ul class="pagination pagination-sm justify-content-center">      
-        @if( $schedules->currentPage() > 1)
-            <li class="page-item">
-                <a class="page-link" href="{{ action('SchedulesController@index') }}?page={{ $schedules->currentPage() - 1 }}">Anterior</a>
-            </li>
-        @else
-            <li class="page-item disabled">
-                <span class="page-link">Anterior</span>
-            </li>
-        @endif
-
-        @for( $cont = 0; $cont < $schedules->lastPage(); $cont++ )
-            @if( $schedules->currentPage() == $cont + 1)
-                <li class="page-item active"><a class="page-link" href="">{{ $cont + 1 }}</a></li>
-            @else
-                <li class="page-item"><a class="page-link" href="{{ action('SchedulesController@index') }}?page={{ $cont + 1 }}">{{ $cont + 1 }}</a></li>
-            @endif
-        @endfor
-
-        @if( $schedules->currentPage() < $schedules->lastPage() )
-            <li class="page-item">
-                <a class="page-link" href="{{ action('SchedulesController@index') }}?page={{ $schedules->currentPage() + 1 }}">Próximo</a>
-            </li>
-        @else
-            <li class="page-item disabled">
-                <span class="page-link">Próximo</span>
-            </li>
-        @endif
-    </ul>
-</nav>
+@section('js')
+    <script>
+        $('#schedules-table').DataTable({
+            'language': {
+                'url': '//cdn.datatables.net/plug-ins/1.10.16/i18n/Portuguese-Brasil.json'
+            },
+            'paging'      : true,
+            'lengthChange': false,
+            'searching'   : true,
+            'ordering'    : true,
+            'info'        : true,
+            'autoWidth'   : true
+        });
+    </script>
 @endsection

@@ -21,12 +21,7 @@ class ReportsController extends Controller
 {
     public function index(Request $request) {
 
-        $reports   = Report::orderBy('id', 'desc')->paginate(7);
-
-        if ($request->input('search')) {
-            $reports = Report::where('title', 'like','%'.$request->input('search').'%')
-                                   ->orderBy('id', 'desc')->paginate(7);
-        }
+        $reports   = Report::orderBy('id', 'desc')->get();
         
         return view('reports.index', [
             'reports'   => $reports,

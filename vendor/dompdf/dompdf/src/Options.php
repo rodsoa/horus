@@ -84,7 +84,7 @@ class Options
      * The default paper size.
      *
      * North America standard is "letter"; other countries generally "a4"
-     * @see Dompdf\Adapter\CPDF::PAPER_SIZES for valid sizes
+     * @see \Dompdf\Adapter\CPDF::PAPER_SIZES for valid sizes
      *
      * @var string
      */
@@ -296,7 +296,7 @@ class Options
         $this->setTempDir(sys_get_temp_dir());
         $this->setFontDir($this->chroot . DIRECTORY_SEPARATOR . "lib" . DIRECTORY_SEPARATOR . "fonts");
         $this->setFontCache($this->getFontDir());
-        $this->setLogOutputFile(storage_path('tmp/'). "log.htm");
+        $this->setLogOutputFile($this->getTempDir() . DIRECTORY_SEPARATOR . "log.htm");
 
         if (null !== $attributes) {
             $this->set($attributes);
