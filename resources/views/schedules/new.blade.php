@@ -16,7 +16,7 @@
 
                     <div class="form-group col-sm-12 col-md-3 col-lg-3">
                         <label for="schedule-time-range">Faixa de Horário</label>
-                        <input class="form-control" id="schedule-time-range" name="time_range" placeholder="01:00 - 12:50" required>
+                        <input class="form-control" id="schedule-time-range" name="time_range" placeholder="01:00 x 12:50" required>
                         <div class="invalid-feedback">
                             Por favor esse campo não pode ficar em branco.
                         </div>
