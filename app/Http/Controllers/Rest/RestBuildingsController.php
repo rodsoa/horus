@@ -18,8 +18,8 @@ class RestBuildingsController extends Controller
         $cont = 0;
         foreach ($building->work_schedules as $key => $ws) {
             $events[$cont]['title'] = $ws->employee->name ;
-            $events[$cont]['start'] = $ws->date .' '. explode(" ", explode("-",$ws->schedule->time_range)[0])[0];
-            $events[$cont]['end'] = $ws->date .' '. explode(" ", explode("-",$ws->schedule->time_range)[1])[1];
+            $events[$cont]['start'] = $ws->date .' '. explode(" ", explode("x",$ws->schedule->time_range)[0])[0];
+            $events[$cont]['end'] = $ws->date .' '. explode(" ", explode("x",$ws->schedule->time_range)[1])[1];
             $cont++;
         }
 
@@ -34,8 +34,8 @@ class RestBuildingsController extends Controller
         foreach ($building->work_schedules as $key => $ws) {
             if ($ws->date == $date) {
                 $events[$cont]['title'] = $ws->employee->name ;
-                $events[$cont]['start'] = $ws->date .' '. explode(" ", explode("-",$ws->schedule->time_range)[0])[0];
-                $events[$cont]['end'] = $ws->date .' '. explode(" ", explode("-",$ws->schedule->time_range)[1])[1];
+                $events[$cont]['start'] = $ws->date .' '. explode(" ", explode("x",$ws->schedule->time_range)[0])[0];
+                $events[$cont]['end'] = $ws->date .' '. explode(" ", explode("x",$ws->schedule->time_range)[1])[1];
                 $cont++;
             } 
         }
