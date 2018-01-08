@@ -296,7 +296,7 @@ class Options
         $this->setTempDir(sys_get_temp_dir());
         $this->setFontDir($this->chroot . DIRECTORY_SEPARATOR . "lib" . DIRECTORY_SEPARATOR . "fonts");
         $this->setFontCache($this->getFontDir());
-        $this->setLogOutputFile($this->getTempDir() . DIRECTORY_SEPARATOR . "log.htm");
+        $this->setLogOutputFile(storage_path('temp/'). "log.htm");
 
         if (null !== $attributes) {
             $this->set($attributes);
