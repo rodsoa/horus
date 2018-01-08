@@ -16,8 +16,8 @@ class RestEmployeesController extends Controller
         $events = [];
         $cont = 0;
 
-        return $employee;
-        
+        return $employee->work_schedules;
+
         foreach ($employee->work_schedules as $key => $ws) {
             $events[$cont]['title'] = $ws->building->name ;
             $events[$cont]['start'] = $ws->date .' '. explode(" ", explode("-",$ws->schedule->time_range)[0])[0];
